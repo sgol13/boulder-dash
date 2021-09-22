@@ -19,9 +19,13 @@ add_definitions(-DBD2_LEVEL_RESOURCES_DIR="${LEVEL_RESOURCES_DIR}")
 set(sources
 src/main.cpp
 
-# namespace game
+# game components
+src/game_components/Engine.cpp
+src/game_components/Video.cpp
+src/game_components/Game.cpp
+src/game_components/Input.cpp
 
-# namespace map_elements
+# map elements
 
 # namespace menu
 

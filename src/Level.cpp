@@ -88,10 +88,10 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
     // interpret rows as a map
     for (const auto &row : rows) {
 
-        tiles_.push_back(std::vector<map_elements::Type>());
+        tiles_.push_back(std::vector<MapElementType>());
 
         for (const auto &c : row) {
-            tiles_.back().push_back(map_elements::Type(c - '0'));
+            tiles_.back().push_back(MapElementType(c - '0'));
         }
     }
 

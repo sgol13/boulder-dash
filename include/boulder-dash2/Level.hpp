@@ -26,7 +26,7 @@ class Level {
 
     std::string name_;
 
-    std::vector<std::vector<map_elements::Type>> tiles_;
+    std::vector<std::vector<MapElementType>> tiles_;
 };
 
 } // namespace bd2

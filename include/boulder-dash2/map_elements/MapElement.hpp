@@ -3,9 +3,9 @@
 
 #include "boulder-dash2/defs.hpp"
 
-namespace map_elements {
+namespace bd2 {
 
-enum class Type : int {
+enum class MapElementType : int {
     Empty = 0,
     Wall = 1,
     Exit = 2,
@@ -19,6 +19,6 @@ enum class Type : int {
 
 class MapElement : public sf::Sprite {};
 
-} // namespace map_elements
+} // namespace bd2
 
 #endif
