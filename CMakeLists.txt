@@ -2,9 +2,18 @@ cmake_minimum_required(VERSION 3.10.2)
 
 project(boulder-dash2)
 
+#set c++ standard (C++14 is required to built the project)
+set (CMAKE_CXX_STANDARD 14)
 
-# relative path to resources directory
-add_definitions(-DABC="../res/")
+# relative paths to resources directory
+set(RESOURCES_DIR "../res/")
+set(GRAPHIC_RESOURCES_DIR "${RESOURCES_DIR}textures/")
+set(FONT_RESOURCES_DIR "${RESOURCES_DIR}font/")
+set(LEVEL_RESOURCES_DIR "${RESOURCES_DIR}levels/")
+
+add_definitions(-DBD2_GRAPHIC_RESOURCES_DIR="${GRAPHIC_RESOURCES_DIR}")
+add_definitions(-DBD2_FONT_RESOURCES_DIR="${FONT_RESOURCES_DIR}")
+add_definitions(-DBD2_LEVEL_RESOURCES_DIR="${LEVEL_RESOURCES_DIR}")
 
 # list of source files
 set(sources
@@ -16,7 +25,9 @@ src/main.cpp
 
 # namespace menu
 
-# other classes
+# other files
+src/defs.cpp
+src/Level.cpp
 )
 
 add_executable(game ${sources})

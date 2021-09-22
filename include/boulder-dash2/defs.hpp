@@ -4,7 +4,9 @@
 // =============================================================================
 // LIBRARIES
 // standard library headers
+#include <fstream>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <stdexcept>
 #include <unordered_map>
@@ -17,23 +19,29 @@
 
 // =============================================================================
 // RESOURCES
-// path to resources directory (if not set by cmake)
-#ifndef BD2_RESOURCES_DIR
-#define BD2_RESOURCES_DIR "res/"
+// paths to resources directories (if not set by cmake)
+
+#ifndef BD2_GRAPHIC_RESOURCES_DIR
+#define BD2_GRAPHIC_RESOURCES_DIR "res/textures/"
 #endif
 
-/* Lists of indispensable resources (game does not load if one of them is
-missing). Every list should be ended with nullptr. */
-const char *GRAPHIC_RESOURCES_LIST[] = {"boulder.png", "ground.png", "exit.png",
-                                        "wall.png"};
+#ifndef BD2_FONT_RESOURCES_DIR
+#define BD2_FONT_RESOURCES_DIR "res/fonts/"
+#endif
 
-const char *AUDIO_RESOURCES_LIST[] = {};
+#ifndef BD2_LEVEL_RESOURCES_DIR
+#define BD2_LEVEL_RESOURCES_DIR "res/levels/"
+#endif
 
-const char *FONT_RESOURCES_LIST[] = {"font.ttf"};
+/* Lists of indispensable resources (game does not load if one of them is missing) */
+extern const char *GRAPHIC_RESOURCES_LIST[];
+extern const char *FONT_RESOURCES_LIST[];
+extern const char *LEVEL_RESOURCES_LIST[];
 
-constexpr int GRAPHIC_RESOURCES_NUM = sizeof GRAPHIC_RESOURCES_LIST / sizeof(char *);
-constexpr int AUDIO_RESOURCES_NUM = sizeof AUDIO_RESOURCES_LIST / sizeof(char *);
-constexpr int FONT_RESOURCES_NUM = sizeof FONT_RESOURCES_LIST / sizeof(char *);
+// automatically calculate reosources lists' sizes
+extern const int GRAPHIC_RESOURCES_NUM;
+extern const int FONT_RESOURCES_NUM;
+extern const int LEVEL_RESOURCES_NUM;
 
 // =============================================================================
 // DURATION SETTINGS

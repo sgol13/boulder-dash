@@ -9,14 +9,18 @@ template <class T> class ResourceHandler {
   public:
     /* Loads all resources from a given list. Returns true if all resource were
     correctly loaded, false otherwise. */
-    bool loadResources(const char *resources_list[], int n_resources);
+    bool loadResources(const std::vector<std::string> &resources_list,
+                       const std::string &resources_dir);
+
+    bool loadResources(const char *resources_list[], int n_resources,
+                       const std::string &resources_dir);
 
     /* Returns the list of resources that were not loaded correctly */
-    std::vector<std::string> getMissingResources();
+    std::vector<std::string> getMissingResources() const;
 
     /* Returns a pointer to the resource of a given name. Returns nullptr if no
         resource with this name was loaded */
-    std::shared_ptr<T> getResource(const std::string resource_name);
+    std::shared_ptr<const T> getResource(const std::string resource_name) const;
 
   private:
     std::unordered_map<std::string, T> resources_;
@@ -26,22 +30,23 @@ template <class T> class ResourceHandler {
 
 } // namespace bd2
 
-//==============================================================================
+//=========================================================================
 
 template <class T>
-bool bd2::ResourceHandler<T>::loadResources(const char *resources_list[],
-                                            int n_resources) {
+bool bd2::ResourceHandler<T>::loadResources(
+    const std::vector<std::string> &resources_list,
+    const std::string &resources_dir) {
 
     bool correct_loading = true;
 
     T resource;
-    for (int i = 0; i < n_resources; i++) {
+    for (auto &resource_name : resources_list) {
 
-        if (resource.loadFromFile(resources_list[i])) {
-            resources_[resources_list[i]] = resource;
+        if (resource.loadFromFile(resources_dir + resource_name)) {
+            resources_[resource_name] = resource;
         } else {
             correct_loading = false;
-            missing_resources_.push_back(resources_list[i]);
+            missing_resources_.push_back(resource_name);
         }
     }
 
@@ -49,20 +54,34 @@ bool bd2::ResourceHandler<T>::loadResources(const char *resources_list[],
 }
 
 template <class T>
-std::vector<std::string> bd2::ResourceHandler<T>::getMissingResources() {
+bool bd2::ResourceHandler<T>::loadResources(const char *resources_list[],
+                                            int n_resources,
+                                            const std::string &resources_dir) {
+
+    // create std::vector of resources names and run another function overload
+    std::vector<std::string> resources_vector;
+    for (int i = 0; i < n_resources; i++) {
+        resources_vector.push_back(resources_list[i]);
+    }
+
+    return loadResources(resources_vector, resources_dir);
+}
+
+template <class T>
+std::vector<std::string> bd2::ResourceHandler<T>::getMissingResources() const {
     return missing_resources_;
 }
 
 template <class T>
-std::shared_ptr<T>
-bd2::ResourceHandler<T>::getResource(const std::string resource_name) {
+std::shared_ptr<const T>
+bd2::ResourceHandler<T>::getResource(const std::string resource_name) const {
 
     auto it = resources_.find(resource_name);
     if (it == resources_.end()) {
         return std::shared_ptr<T>(nullptr);
     }
 
-    return std::shared_ptr<T>(&it->second);
+    return std::shared_ptr<const T>(&it->second);
 }
 
 #endif
