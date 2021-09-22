@@ -44,6 +44,19 @@ extern const int FONT_RESOURCES_NUM;
 extern const int LEVEL_RESOURCES_NUM;
 
 // =============================================================================
+// WINDOW SETTINGS
+constexpr char WINDOW_NAME[] = "Boulder Dash 2";
+
+// initial ratio: window dimensions / screen dimensions
+constexpr float INI_WINDOW_SCREEN_RATIO_X = 0.5;
+constexpr float INI_WINDOW_SCREEN_RATIO_Y = 0.7;
+
+// initial window position on the screen
+constexpr int INI_WINDOW_POS_X = 0;
+constexpr int INI_WINDOW_POS_Y = 0;
+
+
+// =============================================================================
 // DURATION SETTINGS
 
 #endif

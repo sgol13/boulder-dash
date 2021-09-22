@@ -8,7 +8,7 @@ set (CMAKE_CXX_STANDARD 14)
 # relative paths to resources directory
 set(RESOURCES_DIR "../res/")
 set(GRAPHIC_RESOURCES_DIR "${RESOURCES_DIR}textures/")
-set(FONT_RESOURCES_DIR "${RESOURCES_DIR}font/")
+set(FONT_RESOURCES_DIR "${RESOURCES_DIR}fonts/")
 set(LEVEL_RESOURCES_DIR "${RESOURCES_DIR}levels/")
 
 add_definitions(-DBD2_GRAPHIC_RESOURCES_DIR="${GRAPHIC_RESOURCES_DIR}")
