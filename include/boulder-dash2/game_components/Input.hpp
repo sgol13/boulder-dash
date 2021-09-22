@@ -12,7 +12,18 @@ class Input : virtual public Engine {
     Input(sf::RenderWindow &_window);
 
   protected:
+    /* Processes all input things - to be called once a turn */
+    void processInput();
+
   private:
+    /* Processes window events */
+    void handleEvents();
+
+    /* Processes KeyPressed event */
+    void handleKeyPressed(const sf::Event::KeyEvent &key);
+
+    /* Processes game control - arrows */
+    void handleControl();
 };
 
 } // namespace bd2

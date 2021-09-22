@@ -1,6 +1,7 @@
 #include "boulder-dash2/Level.hpp"
 #include "boulder-dash2/ResourceHandler.hpp"
 #include "boulder-dash2/defs.hpp"
+#include "boulder-dash2/game_components/Game.hpp"
 
 using namespace std;
 
@@ -31,10 +32,8 @@ int main() {
     window.setPosition(sf::Vector2i(INI_WINDOW_POS_X, INI_WINDOW_POS_Y));
     window.setVerticalSyncEnabled(true);
 
-    while (window.isOpen()) {
-        window.clear(sf::Color::Black);
-        window.display();
-    }
+    bd2::Game game(window, textures_handler);
+    game.play(levels_handler.getResource("level1"));
 
     return 0;
 }

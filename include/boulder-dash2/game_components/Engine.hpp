@@ -14,6 +14,8 @@ class Engine {
   protected:
     sf::RenderWindow &window_;
 
+    bool pause_;
+    bool exit_;
 
   private:
 };

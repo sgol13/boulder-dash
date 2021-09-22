@@ -15,7 +15,7 @@ class Game : private Video, private Input {
          const ResourceHandler<sf::Texture> &_textures_handler);
 
     /* Main game function. Returns the score or -1 if the game was stopped. */
-    int play(const Level &level);
+    int play(const std::shared_ptr<const Level> level);
 
   private:
 };

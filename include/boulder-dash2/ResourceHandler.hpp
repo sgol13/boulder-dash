@@ -23,7 +23,7 @@ template <class T> class ResourceHandler {
     std::shared_ptr<const T> getResource(const std::string resource_name) const;
 
   private:
-    std::unordered_map<std::string, T> resources_;
+    std::unordered_map<std::string, std::shared_ptr<const T>> resources_;
 
     std::vector<std::string> missing_resources_;
 };
@@ -43,7 +43,7 @@ bool bd2::ResourceHandler<T>::loadResources(
     for (auto &resource_name : resources_list) {
 
         if (resource.loadFromFile(resources_dir + resource_name)) {
-            resources_[resource_name] = resource;
+            resources_[resource_name] = std::make_shared<T>(resource);
         } else {
             correct_loading = false;
             missing_resources_.push_back(resource_name);
@@ -81,7 +81,7 @@ bd2::ResourceHandler<T>::getResource(const std::string resource_name) const {
         return std::shared_ptr<T>(nullptr);
     }
 
-    return std::shared_ptr<const T>(&it->second);
+    return it->second;
 }
 
 #endif

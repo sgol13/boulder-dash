@@ -14,6 +14,9 @@ class Video : virtual public Engine {
           const ResourceHandler<sf::Texture> &_textures_handler);
 
   protected:
+    /* Processes all video operations - to be called once a turn */
+    void processVideo();
+
   private:
     const ResourceHandler<sf::Texture> &textures_handler_;
 };
