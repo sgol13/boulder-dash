@@ -8,6 +8,7 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <set>
 #include <stdexcept>
 #include <unordered_map>
 #include <vector>

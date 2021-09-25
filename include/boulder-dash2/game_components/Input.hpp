@@ -13,7 +13,7 @@ class Input : virtual public Engine {
 
   protected:
     /* Processes all input things - to be called once a turn */
-    void processInput();
+    void processInputOperations();
 
   private:
     /* Processes window events */

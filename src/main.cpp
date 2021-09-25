@@ -3,8 +3,6 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/game_components/Game.hpp"
 
-using namespace std;
-
 int main() {
 
     //=========================================================================

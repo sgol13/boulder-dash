@@ -5,6 +5,26 @@
 
 namespace bd2 {
 
+/* Labels for resources (all types) which are used in a game */
+enum class ResourceNames {
+
+    // static textures
+    BOULDER_STATIC_TEXTURE,
+    EXIT_STATIC_TEXTURE,
+    GROUND_STATIC_TEXTURE,
+    WALL_STATIC_TEXTURE,
+
+    // animations
+
+    // fonts
+    PIXEL_FONT
+};
+
+/* constexpr std::map<const ResourceNames, const std::string> resource_filenames = {
+    {ResourceNames::BOULDER_STATIC_TEXTURE, "boulder.png"},
+    {ResourceNames::EXIT_STATIC_TEXTURE, "exit.png"},
+    {ResourceNames::GROUND_STATIC_TEXTURE, "ground.png"}}; */
+
 template <class T> class ResourceHandler {
   public:
     /* Loads all resources from a given list. Returns true if all resource were

@@ -1,7 +1,6 @@
 #ifndef BD2_VIDEO_HPP
 #define BD2_VIDEO_HPP
 
-#include "boulder-dash2/ResourceHandler.hpp"
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/game_components/Engine.hpp"
 
@@ -15,10 +14,9 @@ class Video : virtual public Engine {
 
   protected:
     /* Processes all video operations - to be called once a turn */
-    void processVideo();
+    void processVideoOperations();
 
   private:
-    const ResourceHandler<sf::Texture> &textures_handler_;
 };
 
 } // namespace bd2

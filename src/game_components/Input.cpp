@@ -2,12 +2,10 @@
 
 bd2::Input::Input(sf::RenderWindow &_window) : Engine(_window) {}
 
-void bd2::Input::processInput() {
+void bd2::Input::processInputOperations() {
 
     handleEvents();
-
-    if (!pause_)
-        handleControl();
+    handleControl();
 }
 
 void bd2::Input::handleEvents() {
@@ -20,14 +18,6 @@ void bd2::Input::handleEvents() {
         case sf::Event::Closed: // exit the game
             exit_ = true;
             window_.close();
-            break;
-
-        case sf::Event::LostFocus: // pause the game
-            pause_ = true;
-            break;
-
-        case sf::Event::GainedFocus: // unpause the game
-            pause_ = false;
             break;
 
         case sf::Event::KeyPressed:
@@ -43,10 +33,6 @@ void bd2::Input::handleEvents() {
 void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
 
     switch (key.code) {
-    case sf::Keyboard::Space: // pause / unpause the game
-        pause_ = !pause_;
-        break;
-
     case sf::Keyboard::C: // exit the game
         exit_ = true;
         break;

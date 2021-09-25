@@ -26,8 +26,9 @@ src/game_components/Game.cpp
 src/game_components/Input.cpp
 
 # map elements
-
-# namespace menu
+src/map_elements/MapElement.cpp
+src/map_elements/Moveable.cpp
+src/map_elements/Animatable.cpp
 
 # other files
 src/defs.cpp
