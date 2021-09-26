@@ -2,7 +2,6 @@
 #define BD2_ENGINE_HPP
 
 #include "boulder-dash2/Level.hpp"
-#include "boulder-dash2/ResourceHandler.hpp"
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
 
@@ -11,21 +10,26 @@ namespace bd2 {
 class Engine {
   public:
     /* Constructor */
-    Engine(sf::RenderWindow &_window,
-           const ResourceHandler<sf::Texture> &_textures_handler);
+    Engine(sf::RenderWindow &_window);
 
   protected:
-    /* Processes all game engine operations */
+    /* Processes all game engine operations - to be called once a turn*/
     void processEngineOperations();
 
     /* Creates an initial state of the map on the basis of level object */
     void initialiseLevel(const std::shared_ptr<const Level> level);
 
-
+    // reference for a window
     sf::RenderWindow &window_;
+
+    // flag indicating if the game is going to be exited
     bool exit_;
 
-    std::set<std::weak_ptr<MapElement>, MapElement::Compare> drawable_objects_;
+    /** The list of newly created map elements. It cointains only the elements
+     * which were created in a current turn so that other components
+     * (Video, Input, Audio) could perform some operations on new elements
+     * e.g. initialise them. */
+    std::vector<std::shared_ptr<MapElement>> new_map_elements_;
 
   private:
     /* Creates a new map element of given type on [pos_i, pos_j] position */
@@ -35,11 +39,6 @@ class Engine {
     std::vector<std::vector<std::shared_ptr<MapElement>>> map_;
     int rows_num_;
     int columns_num_;
-
-    // objects' sets
-
-    // resource handlers
-    const ResourceHandler<sf::Texture> &textures_handler_;
 };
 
 } // namespace bd2

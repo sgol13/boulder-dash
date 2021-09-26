@@ -1,11 +1,10 @@
 #include "boulder-dash2/Level.hpp"
 #include "boulder-dash2/ResourceHandler.hpp"
 #include "boulder-dash2/defs.hpp"
-//#include "boulder-dash2/game_components/Game.hpp"
+#include "boulder-dash2/game_components/Game.hpp"
 #include "boulder-dash2/resources.hpp"
 
 int main() {
-
 
     //===========================================================================
     // LOADING RESOURCES
@@ -27,21 +26,23 @@ int main() {
                                  bd2::resources::level_files_num,
                                  BD2_LEVEL_RESOURCES_DIR);
 
-    auto s = textures_handler.getResource(bd2::resources::Textures::BOULDER);
-
     //=========================================================================
     // CREATING WINDOW
+    //=========================================================================
 
-    /*     auto video_mode = sf::VideoMode::getDesktopMode();
-        video_mode.width *= INI_WINDOW_SCREEN_RATIO_X;
-        video_mode.height *= INI_WINDOW_SCREEN_RATIO_Y;
+    auto video_mode = sf::VideoMode::getDesktopMode();
+    video_mode.width = static_cast<unsigned int>(
+        static_cast<float>(video_mode.width) * INI_WINDOW_SCREEN_RATIO_X);
 
-        sf::RenderWindow window(video_mode, WINDOW_NAME);
-        window.setPosition(sf::Vector2i(INI_WINDOW_POS_X, INI_WINDOW_POS_Y));
-        window.setVerticalSyncEnabled(true);
+    video_mode.height = static_cast<unsigned int>(
+        static_cast<float>(video_mode.height) * INI_WINDOW_SCREEN_RATIO_Y);
 
-        bd2::Game game(window, textures_handler); */
-    // game.play(levels_handler.getResource("level1"));
+    sf::RenderWindow window(video_mode, WINDOW_NAME);
+    window.setPosition(sf::Vector2i(INI_WINDOW_POS_X, INI_WINDOW_POS_Y));
+    window.setVerticalSyncEnabled(true);
+
+    bd2::Game game(window, textures_handler, fonts_handler);
+    game.play(levels_handler[bd2::resources::Levels::TEST_LEVEL]);
 
     return 0;
 }

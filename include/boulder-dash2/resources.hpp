@@ -77,10 +77,7 @@ constexpr int level_files_num =
 //=============================================================================
 
 // not specialised template
-template <class T> struct __FilenamesStruct {
-    static constexpr const std::pair<Textures, const char *> *files_ = texture_files;
-    static constexpr int files_num_ = texture_files_num;
-};
+template <class T> struct __FilenamesStruct {};
 
 // template specialised for Textures
 template <> struct __FilenamesStruct<Textures> {
@@ -89,7 +86,7 @@ template <> struct __FilenamesStruct<Textures> {
 };
 
 // template specialised for Fonts
-/* template <> struct __FilenamesStruct<Fonts> {
+template <> struct __FilenamesStruct<Fonts> {
     static constexpr const std::pair<Fonts, const char *> *files_ = font_files;
     static constexpr int files_num_ = font_files_num;
 };
@@ -98,7 +95,7 @@ template <> struct __FilenamesStruct<Textures> {
 template <> struct __FilenamesStruct<Levels> {
     static constexpr const std::pair<Levels, const char *> *files_ = level_files;
     static constexpr int files_num_ = level_files_num;
-}; */
+};
 
 
 /** Returns the filename which is assigned to the resource label given as a parameter.

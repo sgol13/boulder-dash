@@ -1,7 +1,9 @@
 #ifndef BD2_MAP_ELEMENTS_HPP
 #define BD2_MAP_ELEMENTS_HPP
 
+#include "boulder-dash2/ResourceHandler.hpp"
 #include "boulder-dash2/defs.hpp"
+#include "boulder-dash2/resources.hpp"
 
 namespace bd2 {
 
@@ -21,7 +23,7 @@ class MapElement : public sf::Sprite {
     };
 
     /* Functional object - used to compare MapElement objects to form proper layers.
-      Puts expired pointers in the beginning */
+      Puts expired pointers in the end */
     class Compare {
       public:
         bool operator()(const std::weak_ptr<MapElement> el1,
@@ -32,14 +34,17 @@ class MapElement : public sf::Sprite {
         static const std::vector<Type> type_layers;
     };
 
-    /* Constructor - passes the real type of the element */
+    /* Constructor - as an argument takes the real type of the element */
     MapElement(Type _type);
+
+    /* Loads needed textures from the ResourceHandler given as a pararameter */
+    virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler);
 
     /* Const member indicating the type of the map element */
     const Type type_;
 
   private:
-    std::shared_ptr<sf::Texture> static_texture_;
+    std::shared_ptr<const sf::Texture> static_texture_;
 };
 
 } // namespace bd2

@@ -35,3 +35,27 @@ const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers =
     bd2::MapElement::Type::Firefly,   // 7
     bd2::MapElement::Type::Boulder,   // 4
 };
+
+bd2::MapElement::MapElement(Type _type) : type_(_type) {}
+
+void bd2::MapElement::loadTextures(
+    const ResourceHandler<sf::Texture> &textures_handler) {
+
+    // load a static texture depending on the type of the map element
+    switch (type_) {
+    case Type::Wall:
+        static_texture_ = textures_handler[resources::Textures::WALL];
+        break;
+
+    case Type::Exit:
+        static_texture_ = textures_handler[resources::Textures::EXIT];
+        break;
+
+    case Type::Ground:
+        static_texture_ = textures_handler[resources::Textures::GROUND];
+        break;
+
+    default:
+        break;
+    }
+}

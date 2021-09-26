@@ -12,7 +12,8 @@ class Game : private Video, private Input {
   public:
     /* Constructor */
     Game(sf::RenderWindow &_window,
-         const ResourceHandler<sf::Texture> &_textures_handler);
+         const ResourceHandler<sf::Texture> &_textures_handler,
+         const ResourceHandler<sf::Font> &_fonts_handler);
 
     /* Main game function. Returns the score or -1 if the game was stopped. */
     int play(const std::shared_ptr<const Level> level);

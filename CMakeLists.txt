@@ -6,7 +6,7 @@ project(boulder-dash2)
 set (CMAKE_CXX_STANDARD 14)
 
 #set g++ compilation flags
-set(CMAKE_CXX_FLAGS "-Wall -Wconversion -Wextra -Wshadow")
+set(CMAKE_CXX_FLAGS "-Wall -Wconversion -Wextra -Wshadow -Werror")
 
 # relative paths to resources directory
 set(RESOURCES_DIR "../res/")
@@ -23,15 +23,15 @@ set(sources
 src/main.cpp
 
 # game components
-#src/game_components/Engine.cpp
-#src/game_components/Video.cpp
-#src/game_components/Game.cpp
-#src/game_components/Input.cpp
+src/game_components/Engine.cpp
+src/game_components/Video.cpp
+src/game_components/Game.cpp
+src/game_components/Input.cpp
 
 # map elements
-#src/map_elements/MapElement.cpp
-#src/map_elements/Moveable.cpp
-#src/map_elements/Animatable.cpp
+src/map_elements/MapElement.cpp
+src/map_elements/Moveable.cpp
+src/map_elements/Animatable.cpp
 
 # other files
 src/Level.cpp
