@@ -5,6 +5,9 @@ project(boulder-dash2)
 #set c++ standard (C++14 is required to built the project)
 set (CMAKE_CXX_STANDARD 14)
 
+#set g++ compilation flags
+set(CMAKE_CXX_FLAGS "-Wall -Wconversion -Wextra -Wshadow")
+
 # relative paths to resources directory
 set(RESOURCES_DIR "../res/")
 set(GRAPHIC_RESOURCES_DIR "${RESOURCES_DIR}textures/")

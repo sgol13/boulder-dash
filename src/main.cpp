@@ -1,4 +1,4 @@
-//#include "boulder-dash2/Level.hpp"
+#include "boulder-dash2/Level.hpp"
 #include "boulder-dash2/ResourceHandler.hpp"
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/resources.hpp"
@@ -6,23 +6,25 @@
 
 int main() {
 
-    //=========================================================================
+    //===========================================================================
     // LOADING RESOURCES
+    //===========================================================================
 
-    constexpr const char *s =
-        bd2::resources::getFilename(bd2::resources::Textures::BOULDER);
-    std::cout << s << "\n";
+    bd2::ResourceHandler<sf::Texture> textures_handler;
+    bd2::ResourceHandler<sf::Font> fonts_handler;
+    bd2::ResourceHandler<bd2::Level> levels_handler;
 
-    /*     bd2::ResourceHandler<sf::Texture> textures_handler;
-        bd2::ResourceHandler<sf::Font> fonts_handler;
-        bd2::ResourceHandler<bd2::Level> levels_handler;
+    textures_handler.loadResources(bd2::resources::texture_files,
+                                   bd2::resources::texture_files_num,
+                                   BD2_GRAPHIC_RESOURCES_DIR);
 
-        textures_handler.loadResources(GRAPHIC_RESOURCES_LIST, GRAPHIC_RESOURCES_NUM,
-                                       BD2_GRAPHIC_RESOURCES_DIR);
-        fonts_handler.loadResources(FONT_RESOURCES_LIST, FONT_RESOURCES_NUM,
-                                    BD2_FONT_RESOURCES_DIR);
-        levels_handler.loadResources(LEVEL_RESOURCES_LIST, LEVEL_RESOURCES_NUM,
-                                     BD2_LEVEL_RESOURCES_DIR); */
+    fonts_handler.loadResources(bd2::resources::font_files,
+                                bd2::resources::font_files_num,
+                                BD2_FONT_RESOURCES_DIR);
+
+    levels_handler.loadResources(bd2::resources::level_files,
+                                 bd2::resources::level_files_num,
+                                 BD2_LEVEL_RESOURCES_DIR);
 
     //=========================================================================
     // CREATING WINDOW

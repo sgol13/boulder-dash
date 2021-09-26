@@ -10,16 +10,16 @@ void bd2::Engine::processEngineOperations() {}
 void bd2::Engine::initialiseLevel(const std::shared_ptr<const Level> level) {
 
     // set map dimensions
-    n_rows_ = level->getNumRows();
-    n_columns_ = level->getNumRows();
+    rows_num_ = level->getNumRows();
+    columns_num_ = level->getNumRows();
 
-    map_.resize(n_rows_, std::vector<std::shared_ptr<MapElement>>(n_columns_));
+    map_.resize(rows_num_, std::vector<std::shared_ptr<MapElement>>(columns_num_));
 
     // create initial map elements
     auto level_map = level->getMap();
 
-    for (int i = 0; i < n_rows_; i++) {
-        for (int j = 0; j < n_columns_; j++) {
+    for (int i = 0; i < rows_num_; i++) {
+        for (int j = 0; j < columns_num_; j++) {
             addMapElement(level_map[i][j], i, j);
         }
     }

@@ -15,7 +15,9 @@
 namespace bd2 {
 namespace resources {
 
+//=============================================================================
 // TEXTURES
+//=============================================================================
 enum class Textures {
 
     // static textures
@@ -36,11 +38,30 @@ constexpr std::pair<Textures, const char *> texture_files[] = {
     {Textures::GROUND, "ground.png"},
 };
 
+constexpr int texture_files_num =
+    sizeof(texture_files) / sizeof(std::pair<Textures, const char *>);
+
+//=============================================================================
 // FONTS
+//=============================================================================
 enum class Fonts { PIXEL_FONT };
 
 constexpr std::pair<Fonts, const char *> font_files[] = {
     {Fonts::PIXEL_FONT, "font.ttf"}};
+
+constexpr int font_files_num =
+    sizeof(font_files) / sizeof(std::pair<Fonts, const char *>);
+
+//=============================================================================
+// LEVELS
+//=============================================================================
+enum class Levels { TEST_LEVEL };
+
+constexpr std::pair<Levels, const char *> level_files[] = {
+    {Levels::TEST_LEVEL, "level1"}};
+
+constexpr int level_files_num =
+    sizeof(level_files) / sizeof(std::pair<Levels, const char *>);
 
 //=============================================================================
 // getFilename() function
@@ -48,9 +69,9 @@ constexpr std::pair<Fonts, const char *> font_files[] = {
 /** getFilename() template function needs to recognise the type of a resource
  * label 'name', passed as a parameter, and search for a resource filename
  * in a proper list (containing resources of the same type as 'name').
- * Multi-specialised template class __FilenamesStruct is created to get this effect.
- * Thanks to template specialisation, it always contains a pointer to the proper
- * resource list. */
+ * Multi-specialised template class __FilenamesStruct is created to get this
+ * effect. Thanks to template specialisation, it always contains a pointer to the
+ * proper resource list. */
 //=============================================================================
 
 // not specialised template
@@ -59,8 +80,7 @@ template <class T> struct __FilenamesStruct {};
 // template specialised for Textures
 template <> struct __FilenamesStruct<Textures> {
     static constexpr const std::pair<Textures, const char *> *files_ = texture_files;
-    static constexpr int files_num_ =
-        sizeof(texture_files) / sizeof(std::pair<Textures, const char *>);
+    static constexpr int files_num_ = texture_files_num;
 };
 
 // template specialised for Fonts

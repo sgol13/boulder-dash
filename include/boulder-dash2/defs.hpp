@@ -20,7 +20,7 @@
 
 // =============================================================================
 // RESOURCES
-// paths to resources directories (if not set by cmake)
+// paths to resource directories (default if not set by cmake)
 
 #ifndef BD2_GRAPHIC_RESOURCES_DIR
 #define BD2_GRAPHIC_RESOURCES_DIR "res/textures/"
@@ -39,8 +39,8 @@
 constexpr char WINDOW_NAME[] = "Boulder Dash 2";
 
 // initial ratio: window dimensions / screen dimensions
-constexpr float INI_WINDOW_SCREEN_RATIO_X = 0.5;
-constexpr float INI_WINDOW_SCREEN_RATIO_Y = 0.7;
+constexpr float INI_WINDOW_SCREEN_RATIO_X = 0.5f;
+constexpr float INI_WINDOW_SCREEN_RATIO_Y = 0.7f;
 
 // initial window position on the screen
 constexpr int INI_WINDOW_POS_X = 0;

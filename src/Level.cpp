@@ -19,14 +19,14 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
         std::vector<std::string> rows;
 
         getline(file, row);
-        n_columns_ = row.size();
+        columns_num_ = static_cast<int>(row.size());
 
-        while (row.size() == n_columns_ && row.front() != ';') {
+        while (static_cast<int>(row.size()) == columns_num_ && row.front() != ';') {
             rows.push_back(row);
             getline(file, row);
         }
 
-        n_rows_ = rows.size();
+        rows_num_ = static_cast<int>(rows.size());
 
         // interpret level map and check if it's correct
         if (!interpretMap(rows))
@@ -53,9 +53,9 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
     return correct;
 }
 
-int bd2::Level::getNumRows() const { return n_rows_; }
+int bd2::Level::getNumRows() const { return rows_num_; }
 
-int bd2::Level::getNumColumns() const { return n_columns_; }
+int bd2::Level::getNumColumns() const { return columns_num_; }
 
 std::string bd2::Level::getName() const { return name_; }
 
@@ -78,8 +78,6 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
             if (c < '0' || c > '8')
                 return false;
 
-
-
     // check if the map is surrounded by walls (or an exit tile)
     for (const auto &row : rows) {
 
@@ -90,10 +88,11 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
             return false;
     }
 
-    if (rows.front().size() != n_columns_ || rows.back().size() != n_columns_)
+    if (static_cast<int>(rows.front().size()) != columns_num_ ||
+        static_cast<int>(rows.back().size()) != columns_num_)
         return false;
 
-    for (int i = 0; i < n_columns_; i++) {
+    for (int i = 0; i < columns_num_; i++) {
 
         if (!isBorderTile(rows.front()[i]) || !isBorderTile(rows.back()[i]))
             return false;

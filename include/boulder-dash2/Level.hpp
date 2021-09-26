@@ -37,8 +37,8 @@ class Level {
     /* Checks if a given char is a border tile = is a wall or an exit */
     bool isBorderTile(char c);
 
-    int n_rows_;
-    int n_columns_;
+    int rows_num_;
+    int columns_num_;
     int time_limit_;
     int required_diamonds_;
 

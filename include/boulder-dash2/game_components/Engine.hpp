@@ -33,8 +33,8 @@ class Engine {
 
     // map
     std::vector<std::vector<std::shared_ptr<MapElement>>> map_;
-    int n_rows_;
-    int n_columns_;
+    int rows_num_;
+    int columns_num_;
 
     // objects' sets
 
