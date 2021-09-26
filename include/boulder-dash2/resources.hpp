@@ -9,7 +9,9 @@
 /** Each resource type has its own enum class that contains labels for
  * all the resources of this type. Moreover, for each resource type, there is
  * an array that stores pairs of resource labels and names of the files
- * in which they are saved. */
+ * in which they are saved.
+ * All resources which appear on the lists are indispensable. The game will not
+ * start if one of them is missing or cannot be loaded correctly. */
 //=============================================================================
 
 namespace bd2 {
@@ -75,7 +77,10 @@ constexpr int level_files_num =
 //=============================================================================
 
 // not specialised template
-template <class T> struct __FilenamesStruct {};
+template <class T> struct __FilenamesStruct {
+    static constexpr const std::pair<Textures, const char *> *files_ = texture_files;
+    static constexpr int files_num_ = texture_files_num;
+};
 
 // template specialised for Textures
 template <> struct __FilenamesStruct<Textures> {
@@ -84,11 +89,16 @@ template <> struct __FilenamesStruct<Textures> {
 };
 
 // template specialised for Fonts
-template <> struct __FilenamesStruct<Fonts> {
+/* template <> struct __FilenamesStruct<Fonts> {
     static constexpr const std::pair<Fonts, const char *> *files_ = font_files;
-    static constexpr int files_num_ =
-        sizeof(texture_files) / sizeof(std::pair<Fonts, const char *>);
+    static constexpr int files_num_ = font_files_num;
 };
+
+// template specialised for Levels
+template <> struct __FilenamesStruct<Levels> {
+    static constexpr const std::pair<Levels, const char *> *files_ = level_files;
+    static constexpr int files_num_ = level_files_num;
+}; */
 
 
 /** Returns the filename which is assigned to the resource label given as a parameter.
@@ -97,6 +107,7 @@ template <> struct __FilenamesStruct<Fonts> {
 template <class T> constexpr const char *getFilename(T name) {
 
     for (int i = 0; i < __FilenamesStruct<T>::files_num_; i++) {
+
         if (name == __FilenamesStruct<T>::files_[i].first) {
             return __FilenamesStruct<T>::files_[i].second;
         }

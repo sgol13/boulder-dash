@@ -1,10 +1,11 @@
 #include "boulder-dash2/Level.hpp"
 #include "boulder-dash2/ResourceHandler.hpp"
 #include "boulder-dash2/defs.hpp"
-#include "boulder-dash2/resources.hpp"
 //#include "boulder-dash2/game_components/Game.hpp"
+#include "boulder-dash2/resources.hpp"
 
 int main() {
+
 
     //===========================================================================
     // LOADING RESOURCES
@@ -26,6 +27,8 @@ int main() {
                                  bd2::resources::level_files_num,
                                  BD2_LEVEL_RESOURCES_DIR);
 
+    auto s = textures_handler.getResource(bd2::resources::Textures::BOULDER);
+
     //=========================================================================
     // CREATING WINDOW
 
@@ -37,8 +40,8 @@ int main() {
         window.setPosition(sf::Vector2i(INI_WINDOW_POS_X, INI_WINDOW_POS_Y));
         window.setVerticalSyncEnabled(true);
 
-        bd2::Game game(window, textures_handler);
-        game.play(levels_handler.getResource("level1")); */
+        bd2::Game game(window, textures_handler); */
+    // game.play(levels_handler.getResource("level1"));
 
     return 0;
 }
