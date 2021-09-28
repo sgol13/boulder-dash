@@ -13,11 +13,11 @@ class Engine {
     Engine(sf::RenderWindow &_window);
 
   protected:
+    /* Creates an initial state of the map on the basis of level object */
+    void initialiseEngine(const std::shared_ptr<const Level> level);
+
     /* Processes all game engine operations - to be called once a turn*/
     void processEngineOperations();
-
-    /* Creates an initial state of the map on the basis of level object */
-    void initialiseLevel(const std::shared_ptr<const Level> level);
 
     // reference for a window
     sf::RenderWindow &window_;
@@ -29,11 +29,11 @@ class Engine {
      * which were created in a current turn so that other components
      * (Video, Input, Audio) could perform some operations on new elements
      * e.g. initialise them. */
-    std::vector<std::shared_ptr<MapElement>> new_map_elements_;
+    std::vector<std::shared_ptr<MapElement>> new_objects_;
 
   private:
-    /* Creates a new map element of given type on [pos_i, pos_j] position */
-    void addMapElement(MapElement::Type type, int pos_i, int pos_j);
+    /* Creates a new map element of given type on [row, column] position */
+    void addMapElement(MapElement::Type type, int row, int column);
 
     // map
     std::vector<std::vector<std::shared_ptr<MapElement>>> map_;

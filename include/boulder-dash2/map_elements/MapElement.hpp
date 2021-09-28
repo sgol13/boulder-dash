@@ -34,17 +34,30 @@ class MapElement : public sf::Sprite {
         static const std::vector<Type> type_layers;
     };
 
-    /* Constructor - as an argument takes the real type of the element */
-    MapElement(Type _type);
+    /** Constructor - as an argument takes the real type of the element
+     * and ist initial position (row and column) */
+    MapElement(Type _type, int _row, int _column);
 
-    /* Loads needed textures from the ResourceHandler given as a pararameter */
-    virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler);
+    /** Loads needed textures from the ResourceHandler given as a pararameter.
+     * The second parameter describes the expected size of the sprite tile after
+     * scaling.*/
+    virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
+                              int tile_size);
+
+    /* Functions returning the current position on the map */
+    int getRow();
+
+    int getColumn();
 
     /* Const member indicating the type of the map element */
     const Type type_;
 
   private:
     std::shared_ptr<const sf::Texture> static_texture_;
+
+    // current position on the map
+    int row_;
+    int column_;
 };
 
 } // namespace bd2

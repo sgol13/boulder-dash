@@ -8,17 +8,16 @@ bd2::Game::Game(sf::RenderWindow &_window,
 
 int bd2::Game::play(const std::shared_ptr<const Level> level) {
 
-    initialiseLevel(level);
+    initialiseEngine(level);
+    initialiseVideo();
 
     // game loop
     while (!exit_) {
 
         processInputOperations();
         processVideoOperations();
-
         processEngineOperations();
     }
-
 
     return 0;
 }

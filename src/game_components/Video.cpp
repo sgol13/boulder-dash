@@ -6,13 +6,28 @@ bd2::Video::Video(sf::RenderWindow &_window,
     : Engine(_window), textures_handler_(_textures_handler),
       fonts_handler_(_fonts_handler) {}
 
+void bd2::Video::initialiseVideo() {
+
+    tile_size_ = sf::VideoMode::getDesktopMode().height / VERTICAL_TILES_NUM;
+    upper_bar_size_ = tile_size_;
+}
+
 void bd2::Video::processVideoOperations() {
 
     window_.clear(sf::Color::Black);
 
-    for (auto &element : new_map_elements_) {
+    // initialise map elements which were created during the current turn
+    for (auto &object : new_objects_) {
 
-        element->loadTextures(textures_handler_);
+        object->loadTextures(textures_handler_, tile_size_);
+        object->setPosition(tilePosition(object->getRow(), object->getColumn()));
+        drawable_objects_.insert(object);
+    }
+
+    // draw all map elements
+    for (auto &object : drawable_objects_) {
+
+        window_.draw(*object);
     }
 
 
@@ -24,4 +39,12 @@ void bd2::Video::processVideoOperations() {
 
 
     window_.display();
+}
+
+sf::Vector2f bd2::Video::tilePosition(int row, int column) {
+
+    float x = static_cast<float>(column * tile_size_);
+    float y = static_cast<float>(upper_bar_size_ + row * tile_size_);
+
+    return sf::Vector2f(x, y);
 }
