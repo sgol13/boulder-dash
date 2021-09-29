@@ -1,6 +1,7 @@
 #ifndef BD2_LEVEL_HPP
 #define BD2_LEVEL_HPP
 
+#include "boulder-dash2/MapCoordinates.hpp"
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
 
@@ -11,11 +12,9 @@ class Level {
     /* Loads a level from a given file. Returns true if loaded correctly */
     bool loadFromFile(const std::string &filename);
 
-    /* Returns the number of rows */
-    int getNumRows() const;
-
-    /* Returns the number of columns */
-    int getNumColumns() const;
+    /** Returns the std::pair indicating sizes of the level map:
+     * {number of rows, number of columns}*/
+    MapCoordinates getMapSize() const;
 
     /* Returns the level's name */
     std::string getName() const;
@@ -37,14 +36,13 @@ class Level {
     /* Checks if a given char is a border tile = is a wall or an exit */
     bool isBorderTile(char c);
 
-    int rows_num_;
-    int columns_num_;
-    int time_limit_;
-    int required_diamonds_;
-
     std::string name_;
 
     std::vector<std::vector<MapElement::Type>> map_;
+    MapCoordinates map_size_;
+
+    unsigned int time_limit_;
+    unsigned int required_diamonds_;
 };
 
 } // namespace bd2

@@ -2,8 +2,10 @@
 #define BD2_ENGINE_HPP
 
 #include "boulder-dash2/Level.hpp"
+#include "boulder-dash2/MapCoordinates.hpp"
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
+#include "boulder-dash2/map_elements/Player.hpp"
 
 namespace bd2 {
 
@@ -31,14 +33,21 @@ class Engine {
      * e.g. initialise them. */
     std::vector<std::shared_ptr<MapElement>> new_objects_;
 
+    /* Main game clock - measures common time in game */
+    sf::Clock clock_;
+
   private:
     /* Creates a new map element of given type on [row, column] position */
-    void addMapElement(MapElement::Type type, int row, int column);
+    void addMapElement(MapElement::Type type, MapCoordinates position);
 
     // map
     std::vector<std::vector<std::shared_ptr<MapElement>>> map_;
-    int rows_num_;
-    int columns_num_;
+
+    // sizes of the current level: {number of rows, number of columns}
+    MapCoordinates map_size_;
+
+    // pointer to the player object
+    std::shared_ptr<Player> player_;
 };
 
 } // namespace bd2

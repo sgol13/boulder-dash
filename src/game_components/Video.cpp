@@ -20,8 +20,15 @@ void bd2::Video::processVideoOperations() {
     for (auto &object : new_objects_) {
 
         object->loadTextures(textures_handler_, tile_size_);
-        object->setPosition(tilePosition(object->getRow(), object->getColumn()));
+        object->setPosition(tilePosition(object->getMapPosition()));
+
+        /* Add to proper object lists */
         drawable_objects_.insert(object);
+
+        /*         auto moveable_ptr = std::dynamic_pointer_cast<Moveable>(object);
+                if (moveable_ptr != nullptr) {
+                    moveable_objects_.insert(moveable_ptr);
+                } */
     }
 
     // draw all map elements
@@ -41,10 +48,10 @@ void bd2::Video::processVideoOperations() {
     window_.display();
 }
 
-sf::Vector2f bd2::Video::tilePosition(int row, int column) {
+sf::Vector2f bd2::Video::tilePosition(MapCoordinates position) {
 
-    float x = static_cast<float>(column * tile_size_);
-    float y = static_cast<float>(upper_bar_size_ + row * tile_size_);
+    float x = static_cast<float>(position.c * tile_size_);
+    float y = static_cast<float>(upper_bar_size_ + position.r * tile_size_);
 
     return sf::Vector2f(x, y);
 }

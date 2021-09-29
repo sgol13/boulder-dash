@@ -3,6 +3,8 @@
 
 //==============================================================================
 // LIBRARIES
+// =============================================================================
+
 // standard library headers
 #include <fstream>
 #include <iostream>
@@ -11,6 +13,7 @@
 #include <set>
 #include <stdexcept>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 // SFML headers
@@ -21,6 +24,7 @@
 // =============================================================================
 // RESOURCES
 // paths to resource directories (default if not set by cmake)
+// =============================================================================
 
 #ifndef BD2_GRAPHIC_RESOURCES_DIR
 #define BD2_GRAPHIC_RESOURCES_DIR "res/textures/"
@@ -36,6 +40,8 @@
 
 // =============================================================================
 // WINDOW SETTINGS
+// =============================================================================
+
 constexpr char WINDOW_NAME[] = "Boulder Dash 2";
 
 // initial ratio: window dimensions / screen dimensions
@@ -51,5 +57,6 @@ constexpr int VERTICAL_TILES_NUM = 20;
 
 // =============================================================================
 // DURATION SETTINGS
+// =============================================================================
 
 #endif

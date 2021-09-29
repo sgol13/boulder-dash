@@ -36,8 +36,8 @@ const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers =
     bd2::MapElement::Type::Boulder,   // 4
 };
 
-bd2::MapElement::MapElement(Type _type, int _row, int _column)
-    : type_(_type), row_(_row), column_(_column) {}
+bd2::MapElement::MapElement(Type _type, MapCoordinates _position)
+    : type_(_type), position_(_position) {}
 
 void bd2::MapElement::loadTextures(
     const ResourceHandler<sf::Texture> &textures_handler, int tile_size) {
@@ -73,6 +73,6 @@ void bd2::MapElement::loadTextures(
     setScale(sf::Vector2f(scale_x, scale_y));
 }
 
-int bd2::MapElement::getRow() { return row_; }
+bd2::MapCoordinates bd2::MapElement::getMapPosition() const { return position_; }
 
-int bd2::MapElement::getColumn() { return column_; }
+bool bd2::MapElement::isMoveable() const { return false; }

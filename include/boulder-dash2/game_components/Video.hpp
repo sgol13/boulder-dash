@@ -4,6 +4,8 @@
 #include "boulder-dash2/ResourceHandler.hpp"
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/game_components/Engine.hpp"
+#include "boulder-dash2/map_elements/MapElement.hpp"
+#include "boulder-dash2/map_elements/Moveable.hpp"
 
 namespace bd2 {
 
@@ -23,19 +25,20 @@ class Video : virtual public Engine {
 
   private:
     /** Calculate tile's position (in pixels) on the screen on the basis
-     * of its position on the map (row and column) */
-    sf::Vector2f tilePosition(int row, int column);
+     * of its position on the map {row, column} */
+    sf::Vector2f tilePosition(MapCoordinates position);
 
     const ResourceHandler<sf::Texture> &textures_handler_;
     const ResourceHandler<sf::Font> &fonts_handler_;
 
-    // square tile size in pixels (depenting on the screen resolution)
-    int tile_size_;
+    // square tile size in pixels (depending on the screen resolution)
+    unsigned int tile_size_;
 
     // size of the upper interface bar (score and time) in pixels
-    int upper_bar_size_;
+    unsigned int upper_bar_size_;
 
     std::set<std::shared_ptr<MapElement>> drawable_objects_;
+    std::set<std::shared_ptr<Moveable>> moveable_objects_;
 };
 
 } // namespace bd2
