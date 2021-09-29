@@ -1,7 +1,7 @@
 #include "boulder-dash2/map_elements/MapElement.hpp"
 
-bool bd2::MapElement::Compare::operator()(const std::weak_ptr<MapElement> el1,
-                                          const std::weak_ptr<MapElement> el2) {
+bool bd2::MapElement::Compare::operator()(const std::weak_ptr<MapElement> &el1,
+                                          const std::weak_ptr<MapElement> &el2) {
 
     auto p1 = el1.lock();
     auto p2 = el2.lock();
@@ -20,7 +20,23 @@ bool bd2::MapElement::Compare::operator()(const std::weak_ptr<MapElement> el1,
     auto it1 = std::find(type_layers.begin(), type_layers.end(), p1->type_);
     auto it2 = std::find(type_layers.begin(), type_layers.end(), p2->type_);
 
-    return it1 < it2;
+    if (it1 < it2)
+        return true;
+
+    if (it1 > it2)
+        return true;
+
+    auto coord1 = p1->getMapPosition();
+    auto coord2 = p2->getMapPosition();
+
+    if (coord1 < coord2)
+        return true;
+
+    if (coord1 > coord2)
+        return false;
+
+    // compare raw pointers
+    return p1.get() < p2.get();
 }
 
 const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers = {
@@ -40,7 +56,7 @@ bd2::MapElement::MapElement(Type _type, MapCoordinates _position)
     : type_(_type), position_(_position) {}
 
 void bd2::MapElement::loadTextures(
-    const ResourceHandler<sf::Texture> &textures_handler, int tile_size) {
+    const ResourceHandler<sf::Texture> &textures_handler, unsigned int tile_size) {
 
     // load a static texture depending on the type of the map element
     switch (type_) {
@@ -57,13 +73,18 @@ void bd2::MapElement::loadTextures(
         break;
 
     default:
-        break;
+        return;
+    }
+
+    // if no texture can be loaded
+    if (static_texture_ == nullptr) {
+        return;
     }
 
     // set a static texture
     setTexture(*static_texture_);
 
-    /* scale the texture to get proper dimensions of a tile */
+    // scale the texture to get proper dimensions of a tile */
     float texture_x = static_cast<float>(static_texture_->getSize().x);
     float texture_y = static_cast<float>(static_texture_->getSize().y);
 

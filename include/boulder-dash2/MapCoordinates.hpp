@@ -16,41 +16,42 @@ class MapCoordinates {
     // ==========================================================================
     // CONSTRUCTORS
     // ==========================================================================
-    MapCoordinates() : r(0), c(0) {}
+    MapCoordinates();
 
-    MapCoordinates(int _r, int _c) : r(_r), c(_c) {}
+    MapCoordinates(int _r, int _c);
 
-    MapCoordinates(const MapCoordinates &p) : r(p.r), c(p.c) {}
+    MapCoordinates(const MapCoordinates &p);
 
     // ==========================================================================
     // OPERATORS
     // ==========================================================================
-    MapCoordinates operator+(const MapCoordinates &p) const {
-        return MapCoordinates(r + p.r, c + p.c);
-    }
+    MapCoordinates operator+(const MapCoordinates &p) const;
 
-    MapCoordinates operator-(const MapCoordinates &p) const {
-        return MapCoordinates(r - p.r, c - p.c);
-    }
+    MapCoordinates operator-(const MapCoordinates &p) const;
 
-    MapCoordinates &operator+=(const MapCoordinates &p) {
-        r += p.r;
-        c += p.c;
-        return *this;
-    }
+    MapCoordinates &operator+=(const MapCoordinates &p);
 
-    MapCoordinates &operator-=(const MapCoordinates &p) {
-        r -= p.r;
-        c -= p.c;
-        return *this;
-    }
+    MapCoordinates &operator-=(const MapCoordinates &p);
+
+    MapCoordinates &operator=(const MapCoordinates &p);
+
+    // ==========================================================================
+    // COMPARE OPERATORS - compare elements lexicographically
+    // ==========================================================================
+    bool operator<(const MapCoordinates &p) const;
+
+    bool operator==(const MapCoordinates &p) const;
+
+    bool operator>(const MapCoordinates &p) const;
+
+    bool operator<=(const MapCoordinates &p) const;
+
+    bool operator>=(const MapCoordinates &p) const;
 
     // ==========================================================================
     // OSTREAM OPERATOR
     // ==========================================================================
-    friend std::ostream &operator<<(std::ostream &s, const bd2::MapCoordinates &p) {
-        return s << "(" << p.r << ", " << p.c << ")";
-    }
+    friend std::ostream &operator<<(std::ostream &s, const bd2::MapCoordinates &p);
 
     // ==========================================================================
     // COORDINATES - row and column number
@@ -58,6 +59,9 @@ class MapCoordinates {
     int r;
     int c;
 };
+
+// ==============================================================================
+std::ostream &operator<<(std::ostream &s, const bd2::MapCoordinates &p);
 
 } // namespace bd2
 

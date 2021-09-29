@@ -8,9 +8,8 @@ namespace bd2 {
 
 class Moveable : virtual public MapElement {
   public:
-    /** Constructor - as an argument takes the real type of the element
-     * and ist initial position (row and column) */
-    Moveable(Type _type, MapCoordinates _position);
+    // inherit constructors of MapElement
+    using MapElement::MapElement;
 
     virtual bool isMoveable() const override;
 

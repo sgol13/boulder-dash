@@ -17,26 +17,29 @@ void bd2::Video::processVideoOperations() {
     window_.clear(sf::Color::Black);
 
     // initialise map elements which were created during the current turn
-    for (auto &object : new_objects_) {
+    for (auto &weak_object : new_objects_) {
 
-        object->loadTextures(textures_handler_, tile_size_);
-        object->setPosition(tilePosition(object->getMapPosition()));
+        if (auto object = weak_object.lock()) {
 
-        /* Add to proper object lists */
-        drawable_objects_.insert(object);
+            object->loadTextures(textures_handler_, tile_size_);
+            object->setPosition(tilePosition(object->getMapPosition()));
 
-        /*         auto moveable_ptr = std::dynamic_pointer_cast<Moveable>(object);
-                if (moveable_ptr != nullptr) {
-                    moveable_objects_.insert(moveable_ptr);
-                } */
+            /* Add to proper object lists */
+            drawable_objects_.insert(object);
+
+            if (auto moveable_ptr = std::dynamic_pointer_cast<Moveable>(object)) {
+                moveable_objects_.insert(moveable_ptr);
+            }
+        }
     }
 
     // draw all map elements
     for (auto &object : drawable_objects_) {
 
-        window_.draw(*object);
-    }
+        window_.draw(*object.lock());
 
+        // std::cout << object.lock()->getMapPosition() << "\n";
+    }
 
     /* Remove all non-existing drawable objects.
         They are alwas in the beginning of the set */
@@ -52,6 +55,6 @@ sf::Vector2f bd2::Video::tilePosition(MapCoordinates position) {
 
     float x = static_cast<float>(position.c * tile_size_);
     float y = static_cast<float>(upper_bar_size_ + position.r * tile_size_);
-
+    // std::cout << x << " " << y << std::endl;
     return sf::Vector2f(x, y);
 }

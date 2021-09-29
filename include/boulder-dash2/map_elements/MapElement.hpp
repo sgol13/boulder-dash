@@ -32,8 +32,8 @@ class MapElement : public sf::Sprite {
     //==========================================================================
     class Compare {
       public:
-        bool operator()(const std::weak_ptr<MapElement> el1,
-                        const std::weak_ptr<MapElement> el2);
+        bool operator()(const std::weak_ptr<MapElement> &el1,
+                        const std::weak_ptr<MapElement> &el2);
 
       private:
         /* Sets an order in which objects should be put (to preserve proper layers)*/
@@ -49,7 +49,7 @@ class MapElement : public sf::Sprite {
      * The second parameter describes the expected size of the sprite tile after
      * scaling.*/
     virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
-                              int tile_size);
+                              unsigned int tile_size);
 
     /* returns the current position on the map {row, column} */
     MapCoordinates getMapPosition() const;
@@ -60,7 +60,7 @@ class MapElement : public sf::Sprite {
     /* Const member indicating the type of the map element */
     const Type type_;
 
-  private:
+  protected:
     std::shared_ptr<const sf::Texture> static_texture_;
 
     // current position on the map

@@ -31,7 +31,7 @@ class Engine {
      * which were created in a current turn so that other components
      * (Video, Input, Audio) could perform some operations on new elements
      * e.g. initialise them. */
-    std::vector<std::shared_ptr<MapElement>> new_objects_;
+    std::vector<std::weak_ptr<MapElement>> new_objects_;
 
     /* Main game clock - measures common time in game */
     sf::Clock clock_;

@@ -28,51 +28,51 @@ void bd2::Engine::processEngineOperations() {
 
 void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) {
 
-    /* if a tile is empty - do nothing (map_[row][column]
-    is defaultly set to nullptr) */
-    if (MapElement::Type::Empty == type)
-        return;
-
     // allocate a new element
-    std::shared_ptr<MapElement> new_element;
-    //=       std::make_shared<MapElement>(type, row, column);
+    std::shared_ptr<MapElement> new_element = nullptr;
 
-    /*     if (type == MapElement::Type::Wall || type == MapElement::Type::Exit ||
-            type == MapElement::Type::Ground) { // 1
-        } */
     switch (type) {
-    case MapElement::Type::Wall:     // 1
-    case MapElement::Type::Exit:     // 2
-    case MapElement::Type::Ground: { // 3
+    case MapElement::Type::Empty: // 0 - EMPTY
+        break;
+
+    case MapElement::Type::Wall:     // 1 - WALL
+    case MapElement::Type::Exit:     // 2 - EXIT
+    case MapElement::Type::Ground: { // 3 - GROUND
 
         new_element = std::make_shared<MapElement>(type, position);
 
     } break;
-    case MapElement::Type::Boulder: { // 4
+    case MapElement::Type::Boulder: { // 4 - BOULDER
+
     } break;
 
-    case MapElement::Type::Diamond: { // 5
+    case MapElement::Type::Diamond: { // 5 - DIAMOND
     } break;
 
-    case MapElement::Type::Butterfly: { // 6
+    case MapElement::Type::Butterfly: { // 6 - BUTTERFLY
     } break;
 
-    case MapElement::Type::Firefly: { // 7
+    case MapElement::Type::Firefly: { // 7 - FIREFLY
     } break;
 
-    case MapElement::Type::Player: { // 8
+    case MapElement::Type::Player: { // 8 - PLAYER
+
+        std::shared_ptr<Player> new_player = std::make_shared<Player>(type, position);
+        new_element = std::dynamic_pointer_cast<MapElement>(new_player);
+
     } break;
 
-    case MapElement::Type::Explosion: { // 9
+    case MapElement::Type::Explosion: { // 9 - EXPLOSION
     } break;
-
-    default:
-        break;
     }
 
-    // put a pointer to a new element onto the map
-    map_[position.r][position.c] = new_element;
+    // if new element was allocated
+    if (new_element) {
 
-    // add a new element to the list of elements created during the current turn
-    new_objects_.push_back(new_element);
+        // put a pointer to a new element onto the map
+        map_[position.r][position.c] = new_element;
+
+        // add a new element to the list of elements created during the current turn
+        new_objects_.push_back(new_element);
+    }
 }
