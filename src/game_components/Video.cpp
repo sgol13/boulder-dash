@@ -14,8 +14,6 @@ void bd2::Video::initialiseVideo() {
 
 void bd2::Video::processVideoOperations() {
 
-    window_.clear(sf::Color::Black);
-
     // initialise map elements which were created during the current turn
     for (auto &weak_object : new_objects_) {
 
@@ -23,30 +21,34 @@ void bd2::Video::processVideoOperations() {
 
             object->loadTextures(textures_handler_, tile_size_);
             object->setPosition(tilePosition(object->getMapPosition()));
-
-            /* Add to proper object lists */
-            drawable_objects_.insert(object);
-
-            if (auto moveable_ptr = std::dynamic_pointer_cast<Moveable>(object)) {
-                moveable_objects_.insert(moveable_ptr);
-            }
         }
     }
 
+    for (auto &weak_object : simulated_objects_) {
+
+        if (auto object = std::dynamic_pointer_cast<Moveable>(weak_object.lock())) {
+
+            auto relative_move_offset = object->getMoveOffset();
+            auto absolute_move_offset =
+                relative_move_offset * static_cast<float>(tile_size_);
+            auto no_offset_position = tilePosition(object->getMapPosition());
+
+            auto move_offset_position = absolute_move_offset + no_offset_position;
+
+            object->setPosition(move_offset_position);
+        }
+    }
+
+    // DRAWING
+    window_.clear(sf::Color::Black);
+
     // draw all map elements
-    for (auto &object : drawable_objects_) {
+    for (auto &object : simulated_objects_) {
 
         window_.draw(*object.lock());
 
         // std::cout << object.lock()->getMapPosition() << "\n";
     }
-
-    /* Remove all non-existing drawable objects.
-        They are alwas in the beginning of the set */
-    /* while (!drawable_objects_.empty() && drawable_objects_.begin()->expired())
-        drawable_objects_.erase(drawable_objects_.begin());
- */
-
 
     window_.display();
 }

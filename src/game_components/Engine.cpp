@@ -14,9 +14,16 @@ bd2::Engine::DoubleTile::DoubleTile(const std::shared_ptr<MapElement> &_ptr0,
     : ptr0_(_ptr0), ptr1_(_ptr1) {}
 
 std::shared_ptr<bd2::MapElement> &
-bd2::Engine::DoubleTile::operator=(const std::shared_ptr<MapElement> &_ptr0) {
-    ptr0_ = _ptr0;
-    return *this;
+bd2::Engine::DoubleTile::operator=(const std::shared_ptr<MapElement> &ptr) {
+
+    add(ptr);
+
+    if (ptr0_ == ptr)
+        return ptr0_;
+    else if (ptr1_ == ptr)
+        return ptr1_;
+
+    return const_cast<std::shared_ptr<MapElement> &>(empty_ptr);
 }
 
 std::shared_ptr<bd2::MapElement> &bd2::Engine::DoubleTile::operator[](int n) {
@@ -101,18 +108,43 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
 void bd2::Engine::processEngineOperations() {
 
+    // clear the list of newly created map elements from the previous turn
+    new_objects_.clear();
+
+    // delete pointers to non-existing objects - they are in the beginning of the set,
+    // thanks to the special compare operator (bd2::MapElement::Compare())
+    while (!simulated_objects_.empty() && simulated_objects_.begin()->expired()) {
+        simulated_objects_.erase(simulated_objects_.begin());
+    }
+
+    // call simulation() for every simulated object
+    // this allows each object to execute its internal operations
     auto elapsed_time = clock_.restart();
 
     for (auto &weak_object : simulated_objects_) {
-
         if (auto object = weak_object.lock()) {
 
             object->simulate(elapsed_time);
+
+            // if an object is Moveable
+            if (auto moveable_object = std::dynamic_pointer_cast<Moveable>(object)) {
+
+                switch (moveable_object->getMoveState()) {
+
+                case Moveable::State::PLANNED_MOVE:
+                    startObjectMove(moveable_object);
+                    break;
+
+                case Moveable::State::ENDED_MOVE:
+                    finishObjectMove(moveable_object);
+                    break;
+
+                default:
+                    break;
+                }
+            }
         }
     }
-
-    // clear newly created map elements from the previous turn
-    new_objects_.clear();
 }
 
 void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) {
@@ -167,5 +199,36 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
 
         // add a new element to the list of elements created during the current turn
         new_objects_.push_back(new_element);
+    }
+}
+
+void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object) {
+
+
+    // get the move that an object is planning to do
+    auto planned_move = object->getPlannedMove();
+
+    if (planned_move) {
+
+        auto position = object->getMapPosition();
+        auto target_position = position + planned_move;
+
+        map_[target_position.r][target_position.c] = object;
+
+        object->startMove();
+    }
+}
+
+void bd2::Engine::finishObjectMove(const std::shared_ptr<Moveable> &object) {
+
+    auto planned_move = object->getPlannedMove();
+
+    if (planned_move) {
+
+        auto position = object->getMapPosition();
+
+        map_[position.r][position.c].remove(object);
+
+        object->finishMove();
     }
 }

@@ -51,6 +51,8 @@ class MapCoordinates {
         return *this;
     }
 
+    constexpr MapCoordinates operator-() { return MapCoordinates(-r, -c); }
+
     // ==========================================================================
     // COMPARE OPERATORS - compare elements lexicographically
     // ==========================================================================
@@ -68,10 +70,11 @@ class MapCoordinates {
         return false;
     }
 
-
     constexpr bool operator==(const MapCoordinates &p) const {
         return r == p.r && c == p.c;
     }
+
+    constexpr bool operator!=(const MapCoordinates &p) const { return !(*this == p); }
 
     constexpr bool operator>(const MapCoordinates &p) const { return p < *this; }
 
@@ -82,6 +85,8 @@ class MapCoordinates {
     constexpr bool operator>=(const MapCoordinates &p) const {
         return *this > p || *this == p;
     }
+
+    constexpr operator bool() const { return r != 0 || c != 0; }
 
     // ==========================================================================
     // OSTREAM OPERATOR

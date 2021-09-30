@@ -36,9 +36,6 @@ class Video : virtual public Engine {
 
     // size of the upper interface bar (score and time) in pixels
     unsigned int upper_bar_size_;
-
-    std::set<std::weak_ptr<MapElement>, MapElement::Compare> drawable_objects_;
-    std::set<std::weak_ptr<Moveable>, MapElement::Compare> moveable_objects_;
 };
 
 } // namespace bd2

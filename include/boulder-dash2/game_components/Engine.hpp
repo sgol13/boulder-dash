@@ -24,7 +24,7 @@ class Engine {
                    const std::shared_ptr<MapElement> &_ptr1);
 
         std::shared_ptr<MapElement> &
-        operator=(const std::shared_ptr<MapElement> &_ptr0);
+        operator=(const std::shared_ptr<MapElement> &ptr);
 
         std::shared_ptr<MapElement> &operator[](int n);
 
@@ -75,14 +75,18 @@ class Engine {
     // pointer to the player object
     std::shared_ptr<Player> player_;
 
+    std::set<std::weak_ptr<MapElement>, MapElement::Compare> simulated_objects_;
+
   private:
     /* Creates a new map element of given type on [row, column] position */
     void addMapElement(MapElement::Type type, MapCoordinates position);
 
+    void startObjectMove(const std::shared_ptr<Moveable> &object);
+
+    void finishObjectMove(const std::shared_ptr<Moveable> &object);
+
     // map
     std::vector<std::vector<DoubleTile>> map_;
-
-    std::set<std::weak_ptr<MapElement>, MapElement::Compare> simulated_objects_;
 
     // sizes of the current level: {number of rows, number of columns}
     MapCoordinates map_size_;

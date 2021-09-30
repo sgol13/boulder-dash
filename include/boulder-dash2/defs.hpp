@@ -57,7 +57,9 @@ constexpr int VERTICAL_TILES_NUM = 20;
 
 // =============================================================================
 // DURATION SETTINGS
+// Values given in milliseconds indicate the time that the half of the
+// object's move lasts.
 // =============================================================================
-const sf::Time MOVE_DURATION = sf::milliseconds(65);
+const sf::Time PLAYER_MOVE_DURATION = sf::milliseconds(120);
 
 #endif

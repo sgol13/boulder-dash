@@ -57,9 +57,6 @@ class MapElement : public sf::Sprite {
     /* returns the current position on the map {row, column} */
     MapCoordinates getMapPosition() const;
 
-    /* Virtual functions reterning information about type category */
-    virtual bool isMoveable() const;
-
     /* Const member indicating the type of the map element */
     const Type type_;
 
