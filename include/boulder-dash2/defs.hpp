@@ -58,5 +58,6 @@ constexpr int VERTICAL_TILES_NUM = 20;
 // =============================================================================
 // DURATION SETTINGS
 // =============================================================================
+const sf::Time MOVE_DURATION = sf::milliseconds(65);
 
 #endif

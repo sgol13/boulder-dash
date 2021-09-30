@@ -33,7 +33,7 @@ class Engine {
      * e.g. initialise them. */
     std::vector<std::weak_ptr<MapElement>> new_objects_;
 
-    /* Main game clock - measures common time in game */
+    /* Main game clock - measures time elapsed between turns */
     sf::Clock clock_;
 
   private:
@@ -42,6 +42,8 @@ class Engine {
 
     // map
     std::vector<std::vector<std::shared_ptr<MapElement>>> map_;
+
+    std::set<std::weak_ptr<MapElement>, MapElement::Compare> simulated_objects_;
 
     // sizes of the current level: {number of rows, number of columns}
     MapCoordinates map_size_;

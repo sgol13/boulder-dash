@@ -96,6 +96,14 @@ class MapCoordinates {
     int c;
 };
 
+// ==============================================================================
+// Typical move directions
+
+constexpr MapCoordinates DIR_UP = {-1, 0};
+constexpr MapCoordinates DIR_RIGHT = {0, 1};
+constexpr MapCoordinates DIR_DOWN = {1, 0};
+constexpr MapCoordinates DIR_LEFT = {0, -1};
+
 } // namespace bd2
 
 

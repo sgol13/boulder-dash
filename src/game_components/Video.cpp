@@ -55,6 +55,6 @@ sf::Vector2f bd2::Video::tilePosition(MapCoordinates position) {
 
     float x = static_cast<float>(position.c * tile_size_);
     float y = static_cast<float>(upper_bar_size_ + position.r * tile_size_);
-    // std::cout << x << " " << y << std::endl;
+
     return sf::Vector2f(x, y);
 }

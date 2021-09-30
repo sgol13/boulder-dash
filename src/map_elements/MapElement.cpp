@@ -94,6 +94,8 @@ void bd2::MapElement::loadTextures(
     setScale(sf::Vector2f(scale_x, scale_y));
 }
 
+void bd2::MapElement::simulate(sf::Time elapsed_time) { (void)elapsed_time; }
+
 bd2::MapCoordinates bd2::MapElement::getMapPosition() const { return position_; }
 
 bool bd2::MapElement::isMoveable() const { return false; }

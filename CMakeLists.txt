@@ -36,7 +36,6 @@ src/map_elements/Player.cpp
 
 # other files
 src/Level.cpp
-src/MapCoordinates.cpp
 )
 
 add_executable(game ${sources})

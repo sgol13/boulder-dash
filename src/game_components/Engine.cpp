@@ -22,6 +22,16 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
 void bd2::Engine::processEngineOperations() {
 
+    auto elapsed_time = clock_.restart();
+
+    for (auto &weak_object : simulated_objects_) {
+
+        if (auto object = weak_object.lock()) {
+
+            object->simulate(elapsed_time);
+        }
+    }
+
     // clear newly created map elements from the previous turn
     new_objects_.clear();
 }
@@ -59,6 +69,7 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
 
         std::shared_ptr<Player> new_player = std::make_shared<Player>(type, position);
         new_element = std::dynamic_pointer_cast<MapElement>(new_player);
+        player_ = new_player;
 
     } break;
 
@@ -71,6 +82,9 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
 
         // put a pointer to a new element onto the map
         map_[position.r][position.c] = new_element;
+
+        // add to the list of simulated objects
+        simulated_objects_.insert(new_element);
 
         // add a new element to the list of elements created during the current turn
         new_objects_.push_back(new_element);

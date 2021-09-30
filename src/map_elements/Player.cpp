@@ -1,5 +1,10 @@
 #include "boulder-dash2/map_elements/Player.hpp"
 
+bd2::Player::Player(Type _type, MapCoordinates _position)
+    : MapElement(_type, _position), Moveable(_type, _position) {}
+
+void bd2::Player::simulate(sf::Time elapsed_time) { simulateMovement(elapsed_time); }
+
 void bd2::Player::loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
                                unsigned int tile_size) {
 
