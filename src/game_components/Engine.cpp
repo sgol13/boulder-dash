@@ -1,5 +1,85 @@
 #include "boulder-dash2/game_components/Engine.hpp"
 
+// ==============================================================================
+// DOUBLE TILE
+// ==============================================================================
+
+bd2::Engine::DoubleTile::DoubleTile() : ptr0_(nullptr), ptr1_(nullptr) {}
+
+bd2::Engine::DoubleTile::DoubleTile(const std::shared_ptr<MapElement> &_ptr0)
+    : ptr0_(_ptr0) {}
+
+bd2::Engine::DoubleTile::DoubleTile(const std::shared_ptr<MapElement> &_ptr0,
+                                    const std::shared_ptr<MapElement> &_ptr1)
+    : ptr0_(_ptr0), ptr1_(_ptr1) {}
+
+std::shared_ptr<bd2::MapElement> &
+bd2::Engine::DoubleTile::operator=(const std::shared_ptr<MapElement> &_ptr0) {
+    ptr0_ = _ptr0;
+    return *this;
+}
+
+std::shared_ptr<bd2::MapElement> &bd2::Engine::DoubleTile::operator[](int n) {
+
+    if (n == 0)
+        return ptr0_;
+
+    if (n == 1)
+        return ptr1_;
+
+    return const_cast<std::shared_ptr<MapElement> &>(empty_ptr);
+}
+
+int bd2::Engine::DoubleTile::size() const {
+
+    if (ptr0_ == nullptr)
+        return 0;
+
+    if (ptr1_ == nullptr)
+        return 1;
+
+    return 2;
+}
+
+void bd2::Engine::DoubleTile::remove(int n) {
+
+    if (n == 0) {
+        ptr0_ = nullptr;
+        ptr0_ = ptr1_;
+        ptr1_ = nullptr;
+
+    } else if (n == 1)
+        ptr1_ = nullptr;
+}
+
+void bd2::Engine::DoubleTile::remove(const std::shared_ptr<MapElement> &ptr_remove) {
+
+    if (ptr_remove == ptr0_)
+        remove(0);
+    else if (ptr_remove == ptr1_)
+        remove(1);
+}
+
+bool bd2::Engine::DoubleTile::add(const std::shared_ptr<MapElement> &ptr_add) {
+
+    if (ptr0_ == nullptr)
+        ptr0_ = ptr_add;
+    else if (ptr1_ == nullptr)
+        ptr1_ = ptr_add;
+    else
+        return false;
+
+    return true;
+}
+
+bd2::Engine::DoubleTile::operator std::shared_ptr<MapElement> &() { return ptr0_; }
+
+const std::shared_ptr<bd2::MapElement> bd2::Engine::DoubleTile::empty_ptr = nullptr;
+
+// ==============================================================================
+// ENGINE
+// ==============================================================================
+
 bd2::Engine::Engine(sf::RenderWindow &_window) : window_(_window), exit_(false) {}
 
 void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
@@ -7,8 +87,7 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
     // set map dimensions
     map_size_ = level->getMapSize();
 
-    map_.resize(map_size_.r,
-                std::vector<std::shared_ptr<MapElement>>(map_size_.c, nullptr));
+    map_.resize(map_size_.r, std::vector<DoubleTile>(map_size_.c));
 
     // create initial map elements
     auto level_map = level->getMap();

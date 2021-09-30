@@ -10,6 +10,42 @@
 namespace bd2 {
 
 class Engine {
+  private:
+    // ==========================================================================
+    // DOUBLE TILE
+    // ==========================================================================
+    class DoubleTile {
+      public:
+        DoubleTile();
+
+        DoubleTile(const std::shared_ptr<MapElement> &_ptr0);
+
+        DoubleTile(const std::shared_ptr<MapElement> &_ptr0,
+                   const std::shared_ptr<MapElement> &_ptr1);
+
+        std::shared_ptr<MapElement> &
+        operator=(const std::shared_ptr<MapElement> &_ptr0);
+
+        std::shared_ptr<MapElement> &operator[](int n);
+
+        int size() const;
+
+        void remove(int n);
+
+        void remove(const std::shared_ptr<MapElement> &ptr_remove);
+
+        bool add(const std::shared_ptr<MapElement> &ptr_add);
+
+        operator std::shared_ptr<MapElement> &();
+
+      private:
+        std::shared_ptr<MapElement> ptr0_;
+        std::shared_ptr<MapElement> ptr1_;
+
+        const static std::shared_ptr<MapElement> empty_ptr; // = nullptr
+    };
+    // ==========================================================================
+
   public:
     /* Constructor */
     Engine(sf::RenderWindow &_window);
@@ -36,20 +72,20 @@ class Engine {
     /* Main game clock - measures time elapsed between turns */
     sf::Clock clock_;
 
+    // pointer to the player object
+    std::shared_ptr<Player> player_;
+
   private:
     /* Creates a new map element of given type on [row, column] position */
     void addMapElement(MapElement::Type type, MapCoordinates position);
 
     // map
-    std::vector<std::vector<std::shared_ptr<MapElement>>> map_;
+    std::vector<std::vector<DoubleTile>> map_;
 
     std::set<std::weak_ptr<MapElement>, MapElement::Compare> simulated_objects_;
 
     // sizes of the current level: {number of rows, number of columns}
     MapCoordinates map_size_;
-
-    // pointer to the player object
-    std::shared_ptr<Player> player_;
 };
 
 } // namespace bd2
