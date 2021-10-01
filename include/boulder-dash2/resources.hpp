@@ -29,6 +29,9 @@ enum class Textures {
     GROUND,
 
     // animations
+
+    // other textures
+    ICON,
 };
 
 constexpr std::pair<Textures, const char *> texture_files[] = {
@@ -38,6 +41,9 @@ constexpr std::pair<Textures, const char *> texture_files[] = {
     {Textures::BOULDER, "boulder.png"},
     {Textures::EXIT, "exit.png"},
     {Textures::GROUND, "ground.png"},
+
+    // other textures
+    {Textures::ICON, "icon.png"},
 };
 
 constexpr int texture_files_num =

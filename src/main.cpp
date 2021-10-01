@@ -41,6 +41,13 @@ int main() {
     window.setPosition(sf::Vector2i(INI_WINDOW_POS_X, INI_WINDOW_POS_Y));
     window.setVerticalSyncEnabled(true);
 
+    if (auto icon_texture = textures_handler[bd2::resources::Textures::ICON]) {
+
+        auto icon_image = icon_texture->copyToImage();
+        auto icon_size = icon_image.getSize();
+        window.setIcon(icon_size.x, icon_size.y, icon_image.getPixelsPtr());
+    }
+
     bd2::Game game(window, textures_handler, fonts_handler);
     game.play(levels_handler[bd2::resources::Levels::TEST_LEVEL]);
 
