@@ -12,7 +12,6 @@ void bd2::Player::simulate(sf::Time elapsed_time) {
     // interpret arrow keys
     if (getMoveState() == State::NO_MOVE) {
 
-        std::cout << elapsed_time.asMilliseconds() << "\n";
         if (abs(arrow_keys_.r) + abs(arrow_keys_.c) == 1) {
             planned_move_ = arrow_keys_;
         }
@@ -26,27 +25,18 @@ void bd2::Player::simulate(sf::Time elapsed_time) {
         if ((current_move_.r != 0 && current_move_.r == -arrow_keys_.r) ||
             (current_move_.c != 0 && current_move_.c == -arrow_keys_.c)) {
             revertMove();
+
         } else if (getMoveState() == State::ENDED_MOVE && planned_move_ == false &&
                    current_move_ == arrow_keys_) {
 
             planned_move_ = arrow_keys_;
-            std::cout << "   X\n";
+
         } else {
 
-            // if (move_time_ > 0.2f * move_duration_) {
-
-            /* if (current_move_.r) {
+            if (current_move_.r) {
                 arrow_keys_.r = 0;
 
             } else if (current_move_.c) {
-                arrow_keys_.c = 0;
-            } */
-
-            if (arrow_keys_.r == move_beginning_arrow_keys_.r) {
-                arrow_keys_.r = 0;
-            }
-
-            if (arrow_keys_.c == move_beginning_arrow_keys_.c) {
                 arrow_keys_.c = 0;
             }
 

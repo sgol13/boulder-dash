@@ -135,6 +135,7 @@ void bd2::Engine::processEngineOperations() {
                     startObjectMove(moveable_object);
 
                 } else if (move_state == Moveable::State::ENDED_MOVE) {
+
                     finishObjectMove(moveable_object);
 
                     /** Start the next move immediately after the previous one
