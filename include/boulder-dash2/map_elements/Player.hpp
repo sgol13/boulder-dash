@@ -9,7 +9,7 @@ namespace bd2 {
 class Player final : public Moveable {
   public:
     /** Constructor - as an argument takes the real type of the element
-     * and ist initial position (row and column) */
+     * and its initial position (row and column) */
     Player(Type _type, MapCoordinates _position);
 
     /* This function is called once a turn to let the object execute its operations */
@@ -21,7 +21,14 @@ class Player final : public Moveable {
     virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
                               unsigned int tile_size) override;
 
+    /** Passes information about the current position of arrow keys. Should be
+     * used once a turn to let the player plan the moves */
+    void passArrowKeysPosition(MapCoordinates arrow_keys);
+
   private:
+    MapCoordinates arrow_keys_;
+
+    MapCoordinates move_beginning_arrow_keys_;
 };
 
 } // namespace bd2

@@ -38,6 +38,8 @@ class Moveable : virtual public MapElement {
 
     void finishMove();
 
+    void revertMove();
+
   protected:
     void simulateMovement(sf::Time elapsed_time);
 
@@ -45,16 +47,18 @@ class Moveable : virtual public MapElement {
     const sf::Time move_duration_;
 
     /* Direction in which the object is moving */
-    MapCoordinates move_direction_;
+    MapCoordinates current_move_;
+
+    MapCoordinates planned_move_;
+
+    /* The time that passed from the beginning of the move */
+    sf::Time move_time_;
 
   private:
     /* Flag indicating if the object is currently moving */
     bool is_moving_;
 
     bool is_move_ended_;
-
-    /* The time that passed from the beginning of the move */
-    sf::Time move_time_;
 
     /* Current move offset relative to the tile (in fractions of tile size)  */
     sf::Vector2f move_offset_;

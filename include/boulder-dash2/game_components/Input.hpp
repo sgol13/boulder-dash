@@ -22,7 +22,7 @@ class Input : virtual public Engine {
     /* Processes KeyPressed event */
     void handleKeyPressed(const sf::Event::KeyEvent &key);
 
-    /* Processes game control - arrows */
+    /* Processes game control - arrow keys */
     void handleControl();
 };
 

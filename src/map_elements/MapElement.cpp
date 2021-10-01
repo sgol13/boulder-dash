@@ -24,7 +24,7 @@ bool bd2::MapElement::Compare::operator()(const std::weak_ptr<MapElement> &el1,
         return true;
 
     if (it1 > it2)
-        return true;
+        return false;
 
     auto coord1 = p1->getMapPosition();
     auto coord2 = p2->getMapPosition();

@@ -129,18 +129,20 @@ void bd2::Engine::processEngineOperations() {
             // if an object is Moveable
             if (auto moveable_object = std::dynamic_pointer_cast<Moveable>(object)) {
 
-                switch (moveable_object->getMoveState()) {
+                auto move_state = moveable_object->getMoveState();
 
-                case Moveable::State::PLANNED_MOVE:
+                if (move_state == Moveable::State::PLANNED_MOVE) {
                     startObjectMove(moveable_object);
-                    break;
 
-                case Moveable::State::ENDED_MOVE:
+                } else if (move_state == Moveable::State::ENDED_MOVE) {
                     finishObjectMove(moveable_object);
-                    break;
 
-                default:
-                    break;
+                    /** Start the next move immediately after the previous one
+                     * was finished to obtain fluent movement animation */
+                    move_state = moveable_object->getMoveState();
+                    if (move_state == Moveable::State::PLANNED_MOVE) {
+                        startObjectMove(moveable_object);
+                    }
                 }
             }
         }
@@ -204,7 +206,6 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
 
 void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object) {
 
-
     // get the move that an object is planning to do
     auto planned_move = object->getPlannedMove();
 
@@ -221,14 +222,7 @@ void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object) {
 
 void bd2::Engine::finishObjectMove(const std::shared_ptr<Moveable> &object) {
 
-    auto planned_move = object->getPlannedMove();
-
-    if (planned_move) {
-
-        auto position = object->getMapPosition();
-
-        map_[position.r][position.c].remove(object);
-
-        object->finishMove();
-    }
+    auto position = object->getMapPosition();
+    map_[position.r][position.c].remove(object);
+    object->finishMove();
 }
