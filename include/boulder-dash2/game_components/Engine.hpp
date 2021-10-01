@@ -77,6 +77,9 @@ class Engine {
 
     std::set<std::weak_ptr<MapElement>, MapElement::Compare> simulated_objects_;
 
+    // sizes of the current level: {number of rows, number of columns}
+    MapCoordinates map_size_;
+
   private:
     /* Creates a new map element of given type on [row, column] position */
     void addMapElement(MapElement::Type type, MapCoordinates position);
@@ -87,9 +90,6 @@ class Engine {
 
     // map
     std::vector<std::vector<DoubleTile>> map_;
-
-    // sizes of the current level: {number of rows, number of columns}
-    MapCoordinates map_size_;
 };
 
 } // namespace bd2

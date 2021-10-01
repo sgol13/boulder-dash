@@ -87,9 +87,11 @@ const std::shared_ptr<bd2::MapElement> bd2::Engine::DoubleTile::empty_ptr = null
 // ENGINE
 // ==============================================================================
 
-bd2::Engine::Engine(sf::RenderWindow &_window) : window_(_window), exit_(false) {}
+bd2::Engine::Engine(sf::RenderWindow &_window) : window_(_window) {}
 
 void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
+
+    exit_ = false;
 
     // set map dimensions
     map_size_ = level->getMapSize();

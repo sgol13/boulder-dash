@@ -25,8 +25,16 @@ class Video : virtual public Engine {
 
   private:
     /** Calculate tile's position (in pixels) on the screen on the basis
-     * of its position on the map {row, column} */
-    sf::Vector2f tilePosition(MapCoordinates position);
+     * of its position on the map {row, column} and the current move offset */
+    sf::Vector2f tilePosition(const MapCoordinates &position,
+                              const sf::Vector2f &move_offset = {0.0f, 0.0f}) const;
+
+    /* Returns the vector with coordinates of the center of the tile */
+    sf::Vector2f tileCenter(const MapCoordinates &position,
+                            const sf::Vector2f &move_offset = {0.0f, 0.0f}) const;
+
+    /* Moves view area so that it covers only map area */
+    void fitViewAreaToMap();
 
     const ResourceHandler<sf::Texture> &textures_handler_;
     const ResourceHandler<sf::Font> &fonts_handler_;
@@ -36,6 +44,8 @@ class Video : virtual public Engine {
 
     // size of the upper interface bar (score and time) in pixels
     unsigned int upper_bar_size_;
+
+    sf::FloatRect view_area_;
 };
 
 } // namespace bd2

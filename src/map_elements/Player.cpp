@@ -67,7 +67,6 @@ void bd2::Player::simulate(sf::Time elapsed_time) {
     }
 }
 
-
 void bd2::Player::loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
                                unsigned int tile_size) {
 

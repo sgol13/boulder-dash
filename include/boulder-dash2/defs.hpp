@@ -53,6 +53,7 @@ constexpr int INI_WINDOW_POS_X = 0;
 constexpr int INI_WINDOW_POS_Y = 0;
 
 constexpr int VERTICAL_TILES_NUM = 20;
+constexpr float VIEW_MARGIN_RATIO = 0.3f;
 
 
 // =============================================================================
