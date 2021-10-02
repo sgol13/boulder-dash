@@ -21,10 +21,16 @@ class Moveable : virtual public MapElement {
 
     /** Constructor - as an argument takes the real type of the element
      * and ist initial position (row and column) */
-    Moveable(Type _type, MapCoordinates _position, sf::Time _move_duration);
+    Moveable(Type _type, const MapCoordinates &_position, sf::Time _move_duration);
+
+    /** Loads needed textures from the ResourceHandler given as a pararameter.
+     * The second parameter describes the expected size of the sprite tile after
+     * scaling.*/
+    virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
+                              unsigned int tile_size) override = 0;
 
     /* This function is called once a turn to let an object execute its operations */
-    virtual void simulate(sf::Time elapsed_time) = 0;
+    virtual void simulate(sf::Time elapsed_time) override = 0;
 
     /* Returns the vector what is the move offset relative to a tile */
     sf::Vector2f getMoveOffset() const;
@@ -50,6 +56,8 @@ class Moveable : virtual public MapElement {
     MapCoordinates current_move_;
 
     MapCoordinates planned_move_;
+
+    bool new_move_;
 
     /* The time that passed from the beginning of the move */
     sf::Time move_time_;

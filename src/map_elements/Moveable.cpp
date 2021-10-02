@@ -1,7 +1,8 @@
 #include "boulder-dash2/map_elements/Moveable.hpp"
 
-bd2::Moveable::Moveable(Type _type, MapCoordinates _position, sf::Time _move_duration)
-    : MapElement(_type, _position), move_duration_(_move_duration),
+bd2::Moveable::Moveable(Type _type, const MapCoordinates &_position,
+                        sf::Time _move_duration)
+    : MapElement(_type, _position), move_duration_(_move_duration), new_move_(false),
       move_time_(sf::seconds(0)), is_moving_(false), is_move_ended_(false) {}
 
 sf::Vector2f bd2::Moveable::getMoveOffset() const {
@@ -17,6 +18,7 @@ bd2::MapCoordinates bd2::Moveable::getPlannedMove() const { return planned_move_
 void bd2::Moveable::startMove() {
 
     is_moving_ = true;
+    new_move_ = true;
 
     if (move_time_ > move_duration_) {
         move_time_ -= move_duration_;
@@ -62,6 +64,7 @@ void bd2::Moveable::finishMove() {
 
 void bd2::Moveable::revertMove() {
 
+    new_move_ = true;
     move_time_ = move_duration_ - move_time_;
 
     position_ += current_move_;

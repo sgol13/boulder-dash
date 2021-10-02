@@ -43,7 +43,7 @@ class MapElement : public sf::Sprite {
     //==========================================================================
     /** Constructor - as an argument takes the real type of the element
      * and ist initial position (row and column) */
-    MapElement(Type _type, MapCoordinates _position);
+    MapElement(Type _type, const MapCoordinates &_position);
 
     /** Loads needed textures from the ResourceHandler given as a pararameter.
      * The second parameter describes the expected size of the sprite tile after
@@ -61,7 +61,7 @@ class MapElement : public sf::Sprite {
     const Type type_;
 
   protected:
-    std::shared_ptr<const sf::Texture> static_texture_;
+    std::shared_ptr<const sf::Texture> basic_texture_;
 
     // current position on the map
     MapCoordinates position_;

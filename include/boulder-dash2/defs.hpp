@@ -6,6 +6,9 @@
 // =============================================================================
 
 // standard library headers
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -58,9 +61,8 @@ constexpr float VIEW_MARGIN_RATIO = 0.3f;
 
 // =============================================================================
 // DURATION SETTINGS
-// Values given in milliseconds indicate the time that the half of the
-// object's move lasts.
 // =============================================================================
 const sf::Time PLAYER_MOVE_DURATION = sf::milliseconds(120);
+const sf::Time PLAYER_STANDING_ANIMATION_DURATION = sf::milliseconds(700);
 
 #endif

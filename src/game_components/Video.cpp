@@ -118,12 +118,12 @@ sf::Vector2f bd2::Video::tileCenter(const MapCoordinates &position,
 
 void bd2::Video::fitViewAreaToMap() {
 
-    view_area_.left = std::max(view_area_.left, 0.0f);
-    view_area_.top = std::max(view_area_.top, 0.0f);
-
     float map_width = static_cast<float>(tile_size_ * map_size_.c);
     float map_height = static_cast<float>(tile_size_ * map_size_.r);
 
     view_area_.left = std::min(view_area_.left, map_width - view_area_.width);
     view_area_.top = std::min(view_area_.top, map_height - view_area_.height);
+
+    view_area_.left = std::max(view_area_.left, 0.0f);
+    view_area_.top = std::max(view_area_.top, 0.0f);
 }

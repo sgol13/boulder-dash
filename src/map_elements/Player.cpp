@@ -1,13 +1,10 @@
 #include "boulder-dash2/map_elements/Player.hpp"
 
 bd2::Player::Player(Type _type, MapCoordinates _position)
-    : MapElement(_type, _position), Moveable(_type, _position, PLAYER_MOVE_DURATION) {
-}
+    : MapElement(_type, _position), Moveable(_type, _position, PLAYER_MOVE_DURATION),
+      Animatable(_type, _position), previous_left_(true) {}
 
 void bd2::Player::simulate(sf::Time elapsed_time) {
-
-    // simulate moduls
-    simulateMovement(elapsed_time);
 
     // interpret arrow keys
     if (getMoveState() == State::NO_MOVE) {
@@ -17,10 +14,6 @@ void bd2::Player::simulate(sf::Time elapsed_time) {
         }
 
     } else {
-
-        if (move_time_ < 0.1f * move_duration_) {
-            move_beginning_arrow_keys_ = arrow_keys_;
-        }
 
         if ((current_move_.r != 0 && current_move_.r == -arrow_keys_.r) ||
             (current_move_.c != 0 && current_move_.c == -arrow_keys_.c)) {
@@ -65,24 +58,48 @@ void bd2::Player::simulate(sf::Time elapsed_time) {
             }
         }
     }
+
+    if (new_move_) {
+
+        if (current_move_ == DIR_LEFT ||
+            ((current_move_ == DIR_UP || current_move_ == DIR_DOWN) &&
+             previous_left_)) {
+
+            startAnimation(move_left_texture_, 2.f * move_duration_, move_time_);
+            previous_left_ = true;
+
+        } else {
+            startAnimation(move_right_texture_, 2.f * move_duration_, move_time_);
+            previous_left_ = false;
+        }
+
+        new_move_ = false;
+    }
+
+    if (isAnimating() == false) {
+
+        startAnimation(standing_textures_[rand() % static_cast<unsigned int>(
+                                                       standing_textures_.size())],
+                       PLAYER_STANDING_ANIMATION_DURATION);
+    }
+
+    // simulate moduls
+    simulateMovement(elapsed_time);
+    simulateAnimation(elapsed_time);
 }
 
 void bd2::Player::loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
                                unsigned int tile_size) {
 
-    static_texture_ = textures_handler[resources::Textures::BOULDER];
+    tile_size_ = tile_size;
 
-    // set a static texture
-    setTexture(*static_texture_);
+    standing_textures_.push_back(textures_handler[resources::Textures::PLAYER_BLINK]);
+    standing_textures_.push_back(textures_handler[resources::Textures::PLAYER_LEG]);
+    standing_textures_.push_back(
+        textures_handler[resources::Textures::PLAYER_BLINK_LEG]);
 
-    // scale the texture to get proper dimensions of a tile */
-    float texture_x = static_cast<float>(static_texture_->getSize().x);
-    float texture_y = static_cast<float>(static_texture_->getSize().y);
-
-    float scale_x = static_cast<float>(tile_size) / texture_x;
-    float scale_y = static_cast<float>(tile_size) / texture_y;
-
-    setScale(sf::Vector2f(scale_x, scale_y));
+    move_left_texture_ = textures_handler[resources::Textures::PLAYER_LEFT];
+    move_right_texture_ = textures_handler[resources::Textures::PLAYER_RIGHT];
 }
 
 void bd2::Player::passArrowKeysPosition(MapCoordinates arrow_keys) {

@@ -28,7 +28,12 @@ enum class Textures {
     EXIT,
     GROUND,
 
-    // animations
+    // animatable textures
+    PLAYER_BLINK,
+    PLAYER_LEG,
+    PLAYER_BLINK_LEG,
+    PLAYER_LEFT,
+    PLAYER_RIGHT,
 
     // other textures
     ICON,
@@ -41,6 +46,13 @@ constexpr std::pair<Textures, const char *> texture_files[] = {
     {Textures::BOULDER, "boulder.png"},
     {Textures::EXIT, "exit.png"},
     {Textures::GROUND, "ground.png"},
+
+    // animatable textures
+    {Textures::PLAYER_BLINK, "player_blink.png"},
+    {Textures::PLAYER_LEG, "player_leg.png"},
+    {Textures::PLAYER_BLINK_LEG, "player_blink_leg.png"},
+    {Textures::PLAYER_LEFT, "player_left.png"},
+    {Textures::PLAYER_RIGHT, "player_right.png"},
 
     // other textures
     {Textures::ICON, "icon.png"},

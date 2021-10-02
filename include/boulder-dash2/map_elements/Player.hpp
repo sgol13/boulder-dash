@@ -2,11 +2,12 @@
 #define BD2_PLAYER_HPP
 
 #include "boulder-dash2/defs.hpp"
+#include "boulder-dash2/map_elements/Animatable.hpp"
 #include "boulder-dash2/map_elements/Moveable.hpp"
 
 namespace bd2 {
 
-class Player final : public Moveable {
+class Player final : public Moveable, public Animatable {
   public:
     /** Constructor - as an argument takes the real type of the element
      * and its initial position (row and column) */
@@ -28,7 +29,11 @@ class Player final : public Moveable {
   private:
     MapCoordinates arrow_keys_;
 
-    MapCoordinates move_beginning_arrow_keys_;
+    std::vector<std::shared_ptr<const sf::Texture>> standing_textures_;
+    std::shared_ptr<const sf::Texture> move_left_texture_;
+    std::shared_ptr<const sf::Texture> move_right_texture_;
+
+    bool previous_left_;
 };
 
 } // namespace bd2

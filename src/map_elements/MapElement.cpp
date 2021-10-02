@@ -52,7 +52,7 @@ const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers =
     bd2::MapElement::Type::Boulder,   // 4
 };
 
-bd2::MapElement::MapElement(Type _type, MapCoordinates _position)
+bd2::MapElement::MapElement(Type _type, const MapCoordinates &_position)
     : type_(_type), position_(_position) {}
 
 void bd2::MapElement::loadTextures(
@@ -61,15 +61,15 @@ void bd2::MapElement::loadTextures(
     // load a static texture depending on the type of the map element
     switch (type_) {
     case Type::Wall:
-        static_texture_ = textures_handler[resources::Textures::WALL];
+        basic_texture_ = textures_handler[resources::Textures::WALL];
         break;
 
     case Type::Exit:
-        static_texture_ = textures_handler[resources::Textures::EXIT];
+        basic_texture_ = textures_handler[resources::Textures::EXIT];
         break;
 
     case Type::Ground:
-        static_texture_ = textures_handler[resources::Textures::GROUND];
+        basic_texture_ = textures_handler[resources::Textures::GROUND];
         break;
 
     default:
@@ -77,16 +77,16 @@ void bd2::MapElement::loadTextures(
     }
 
     // if no texture can be loaded
-    if (static_texture_ == nullptr) {
+    if (basic_texture_ == nullptr) {
         return;
     }
 
     // set a static texture
-    setTexture(*static_texture_);
+    setTexture(*basic_texture_);
 
     // scale the texture to get proper dimensions of a tile */
-    float texture_x = static_cast<float>(static_texture_->getSize().x);
-    float texture_y = static_cast<float>(static_texture_->getSize().y);
+    float texture_x = static_cast<float>(basic_texture_->getSize().x);
+    float texture_y = static_cast<float>(basic_texture_->getSize().y);
 
     float scale_x = static_cast<float>(tile_size) / texture_x;
     float scale_y = static_cast<float>(tile_size) / texture_y;
