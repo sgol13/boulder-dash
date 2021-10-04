@@ -44,26 +44,26 @@ void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
 
 void bd2::Input::handleControl() {
 
-    if (window_.hasFocus()) {
+    /*     if (window_.hasFocus()) {
 
-        MapCoordinates arrow_keys = {0, 0};
+            MapCoordinates arrow_keys = {0, 0};
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            arrow_keys += DIR_UP;
-        }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                arrow_keys += DIR_UP;
+            }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            arrow_keys += DIR_RIGHT;
-        }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+                arrow_keys += DIR_RIGHT;
+            }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-            arrow_keys += DIR_DOWN;
-        }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                arrow_keys += DIR_DOWN;
+            }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            arrow_keys += DIR_LEFT;
-        }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                arrow_keys += DIR_LEFT;
+            }
 
-        player_->passArrowKeysPosition(arrow_keys);
-    }
+            player_->passArrowKeysPosition(arrow_keys);
+        } */
 }

@@ -8,21 +8,17 @@ bd2::Video::Video(sf::RenderWindow &_window,
 
 void bd2::Video::initialiseVideo() {
 
-    // dimensions
-    tile_size_ = sf::VideoMode::getDesktopMode().height / VERTICAL_TILES_NUM;
-    upper_bar_size_ = tile_size_;
-
     // set a view area with the player in the center
-    auto window_size = window_.getSize();
-    auto player_center =
-        tileCenter(player_->getMapPosition(), player_->getMoveOffset());
+    /*     auto window_size = window_.getSize();
+        auto player_center =
+            tileCenter(player_->getMapPosition(), player_->getMoveOffset());
 
-    view_area_.left = player_center.x - 0.5f * static_cast<float>(window_size.x);
-    view_area_.top = player_center.y - 0.5f * static_cast<float>(window_size.y);
-    view_area_.width = static_cast<float>(window_size.x);
-    view_area_.height = static_cast<float>(window_size.y);
+        view_area_.left = player_center.x - 0.5f * static_cast<float>(window_size.x);
+        view_area_.top = player_center.y - 0.5f * static_cast<float>(window_size.y);
+        view_area_.width = static_cast<float>(window_size.x);
+        view_area_.height = static_cast<float>(window_size.y);
 
-    fitViewAreaToMap();
+        fitViewAreaToMap(); */
 }
 
 void bd2::Video::processVideoOperations() {
@@ -33,60 +29,57 @@ void bd2::Video::processVideoOperations() {
 
         if (auto object = weak_object.lock()) {
 
-            object->loadTextures(textures_handler_, tile_size_);
-            object->setPosition(tilePosition(object->getMapPosition()));
+            object->loadTextures(textures_handler_);
         }
     }
 
-    // set positions of moveable objects
-    for (auto &weak_object : simulated_objects_) {
+    for (auto &weak_object : map_objects_) {
 
-        if (auto object = std::dynamic_pointer_cast<Moveable>(weak_object.lock())) {
+        if (auto object = weak_object.lock()) {
 
-            auto move_offset = object->getMoveOffset();
-            auto tile_position = tilePosition(object->getMapPosition(), move_offset);
-
-            object->setPosition(tile_position);
+            object->simulateAnimation(turn_time_);
         }
     }
 
     // SETTING VIEW
-    auto window_size = window_.getSize();
+    /*     auto window_size = window_.getSize();
 
-    auto player_center =
-        tileCenter(player_->getMapPosition(), player_->getMoveOffset());
+        auto player_center =
+            tileCenter(player_->getMapPosition(), player_->getMoveOffset());
 
-    // move the view area to keep the player inside (+ margins)
-    view_area_.width = static_cast<float>(window_size.x);
-    view_area_.height = static_cast<float>(window_size.y);
+        // move the view area to keep the player inside (+ margins)
+        view_area_.width = static_cast<float>(window_size.x);
+        view_area_.height = static_cast<float>(window_size.y);
 
-    float horizontal_margin = VIEW_MARGIN_RATIO * static_cast<float>(window_size.x);
-    float vertical_margin = VIEW_MARGIN_RATIO * static_cast<float>(window_size.y);
+        float horizontal_margin = VIEW_MARGIN_RATIO *
+       static_cast<float>(window_size.x); float vertical_margin =
+       VIEW_MARGIN_RATIO * static_cast<float>(window_size.y);
 
-    view_area_.left = std::min(view_area_.left, player_center.x - horizontal_margin);
-    view_area_.left = std::max(view_area_.left, player_center.x + horizontal_margin -
-                                                    view_area_.width);
+        view_area_.left = std::min(view_area_.left, player_center.x -
+       horizontal_margin); view_area_.left = std::max(view_area_.left,
+       player_center.x
+       + horizontal_margin - view_area_.width);
 
-    view_area_.top = std::min(view_area_.top, player_center.y - vertical_margin);
-    view_area_.top = std::max(view_area_.top,
-                              player_center.y + vertical_margin - view_area_.height);
+        view_area_.top = std::min(view_area_.top, player_center.y -
+       vertical_margin); view_area_.top = std::max(view_area_.top, player_center.y
+       + vertical_margin - view_area_.height);
 
 
-    // move a view to keep it on the map
-    fitViewAreaToMap();
+        // move a view to keep it on the map
+        fitViewAreaToMap();
 
-    // the viewport is the whole screen apart from the upper bar
-    sf::View view;
-    view.reset(view_area_);
+        // the viewport is the whole screen apart from the upper bar
+        sf::View view;
+        view.reset(view_area_);
 
-    view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
-    window_.setView(view);
+        view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
+        window_.setView(view); */
 
     // DRAWING
     window_.clear(sf::Color::Black);
 
     // draw all map elements
-    for (auto &object : simulated_objects_) {
+    for (auto &object : map_objects_) {
 
         window_.draw(*object.lock());
     }

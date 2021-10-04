@@ -5,7 +5,6 @@
 #include "boulder-dash2/MapCoordinates.hpp"
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
-#include "boulder-dash2/map_elements/Player.hpp"
 
 namespace bd2 {
 
@@ -69,13 +68,12 @@ class Engine {
      * e.g. initialise them. */
     std::vector<std::weak_ptr<MapElement>> new_objects_;
 
-    /* Main game clock - measures time elapsed between turns */
-    sf::Clock clock_;
+    sf::Time turn_time_;
 
     // pointer to the player object
-    std::shared_ptr<Player> player_;
+    // std::shared_ptr<Player> player_;
 
-    std::set<std::weak_ptr<MapElement>, MapElement::Compare> simulated_objects_;
+    std::set<std::weak_ptr<MapElement>, MapElement::Compare> map_objects_;
 
     // sizes of the current level: {number of rows, number of columns}
     MapCoordinates map_size_;
@@ -84,12 +82,14 @@ class Engine {
     /* Creates a new map element of given type on [row, column] position */
     void addMapElement(MapElement::Type type, MapCoordinates position);
 
-    void startObjectMove(const std::shared_ptr<Moveable> &object);
+    // void startObjectMove(const std::shared_ptr<Moveable> &object);
 
-    void finishObjectMove(const std::shared_ptr<Moveable> &object);
+    // void finishObjectMove(const std::shared_ptr<Moveable> &object);
 
     // map
     std::vector<std::vector<DoubleTile>> map_;
+
+    sf::Clock clock_;
 };
 
 } // namespace bd2

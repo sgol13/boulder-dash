@@ -34,7 +34,7 @@ class Level {
     bool interpretMap(const std::vector<std::string> &rows);
 
     /* Checks if a given char is a border tile = is a wall or an exit */
-    bool isBorderTile(char c);
+    bool isBorderTile(MapElement::Type tile_type);
 
     std::string name_;
 

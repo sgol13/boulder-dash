@@ -29,11 +29,19 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
         map_size_.r = static_cast<int>(rows.size());
 
         // interpret level map and check if it's correct
-        if (!interpretMap(rows))
-            correct = false;
+        if (map_size_.r > 2 && map_size_.c > 2) {
 
-        if (!file.good())
+            if (!interpretMap(rows)) {
+                correct = false;
+            }
+
+        } else {
             correct = false;
+        }
+
+        if (!file.good()) {
+            correct = false;
+        }
 
         // print error information
         if (!correct) {
@@ -77,25 +85,11 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
             if (c < '0' || c > '8')
                 return false;
 
-    // check if the map is surrounded by walls (or an exit tile)
-    for (const auto &row : rows) {
-
-        if (row.size() < 2)
-            return false;
-
-        if (!isBorderTile(row.front()) || !isBorderTile(row.back()))
-            return false;
-    }
-
     if (static_cast<int>(rows.front().size()) != map_size_.c ||
         static_cast<int>(rows.back().size()) != map_size_.c)
         return false;
 
-    for (int i = 0; i < map_size_.c; i++) {
 
-        if (!isBorderTile(rows.front()[i]) || !isBorderTile(rows.back()[i]))
-            return false;
-    }
 
     // count players and exists to check if there is only one of one type
     int players_counter = 0;
@@ -119,11 +113,31 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
 
     /* Check if there are exactly one player and one exit */
     if (players_counter != 1 || exits_counter != 1) {
+        map_.clear();
         return false;
+    }
+
+    // check if the map is surrounded by walls (or an exit tile)
+    for (const auto &row : map_) {
+
+        if (!isBorderTile(row.front()) || !isBorderTile(row.back())) {
+            map_.clear();
+            return false;
+        }
+    }
+
+    for (int i = 0; i < map_size_.c; i++) {
+
+        if (!isBorderTile(map_.front()[i]) || !isBorderTile(map_.back()[i])) {
+            map_.clear();
+            return false;
+        }
     }
 
     return true;
 }
 
 /* Checks if a given char is a border tile = is a wall or an exit */
-bool bd2::Level::isBorderTile(char c) { return c == '1' || c == '2'; }
+bool bd2::Level::isBorderTile(MapElement::Type tile_type) {
+    return tile_type == MapElement::Type::Wall || tile_type == MapElement::Type::Exit;
+}

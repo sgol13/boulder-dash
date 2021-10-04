@@ -26,8 +26,8 @@ class Moveable : virtual public MapElement {
     /** Loads needed textures from the ResourceHandler given as a pararameter.
      * The second parameter describes the expected size of the sprite tile after
      * scaling.*/
-    virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
-                              unsigned int tile_size) override = 0;
+    /* virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
+                              unsigned int tile_size) override = 0; */
 
     /* This function is called once a turn to let an object execute its operations */
     virtual void simulate(sf::Time elapsed_time) override = 0;

@@ -16,10 +16,10 @@ class MapElement : public sf::Sprite {
     enum class Type : int {
         Empty = 0,
         Wall = 1,
-        Exit = 2,
-        Ground = 3,
-        Boulder = 4,
-        Diamond = 5,
+        Ground = 2,
+        Diamond = 3,
+        Exit = 4,
+        Boulder = 5,
         Butterfly = 6,
         Firefly = 7,
         Player = 8,
@@ -28,7 +28,7 @@ class MapElement : public sf::Sprite {
 
     //==========================================================================
     /** COMPARE functional object - used to compare MapElement objects to form
-     * proper layers. Puts expired pointers in the end */
+     * proper layers. Puts expired pointers in the end. */
     //==========================================================================
     class Compare {
       public:
@@ -42,17 +42,12 @@ class MapElement : public sf::Sprite {
 
     //==========================================================================
     /** Constructor - as an argument takes the real type of the element
-     * and ist initial position (row and column) */
-    MapElement(Type _type, const MapCoordinates &_position);
+     * and its initial position (row and column) */
+    MapElement(Type _type, const MapCoordinates &_map_position);
 
-    /** Loads needed textures from the ResourceHandler given as a pararameter.
-     * The second parameter describes the expected size of the sprite tile after
-     * scaling.*/
-    virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
-                              unsigned int tile_size);
+    virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler);
 
-    /* This function is called once a turn to let the object execute its operations */
-    virtual void simulate(sf::Time elapsed_time);
+    void simulateAnimation(sf::Time elapsed_time);
 
     /* returns the current position on the map {row, column} */
     MapCoordinates getMapPosition() const;
@@ -61,10 +56,18 @@ class MapElement : public sf::Sprite {
     const Type type_;
 
   protected:
-    std::shared_ptr<const sf::Texture> basic_texture_;
+    void startAnimation(const sf::Texture &texture,
+                        sf::Time duration = sf::seconds(0),
+                        sf::Time initial_time = sf::seconds(0));
 
     // current position on the map
-    MapCoordinates position_;
+    MapCoordinates map_position_;
+
+    std::shared_ptr<const sf::Texture> basic_texture_;
+
+  private:
+    sf::Time animation_duration_;
+    sf::Time animation_time_;
 };
 
 } // namespace bd2

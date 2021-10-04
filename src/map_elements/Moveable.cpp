@@ -57,7 +57,7 @@ bd2::Moveable::State bd2::Moveable::getMoveState() const {
 void bd2::Moveable::finishMove() {
 
     is_move_ended_ = false;
-    position_ += current_move_;
+    map_position_ += current_move_;
 
     move_offset_ = {0, 0};
 }
@@ -67,7 +67,7 @@ void bd2::Moveable::revertMove() {
     new_move_ = true;
     move_time_ = move_duration_ - move_time_;
 
-    position_ += current_move_;
+    map_position_ += current_move_;
     move_offset_.x -= static_cast<float>(current_move_.c);
     move_offset_.y -= static_cast<float>(current_move_.r);
 

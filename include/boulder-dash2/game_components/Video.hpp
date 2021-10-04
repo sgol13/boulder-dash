@@ -5,7 +5,6 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/game_components/Engine.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
-#include "boulder-dash2/map_elements/Moveable.hpp"
 
 namespace bd2 {
 

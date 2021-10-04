@@ -53,49 +53,74 @@ const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers =
 };
 
 bd2::MapElement::MapElement(Type _type, const MapCoordinates &_position)
-    : type_(_type), position_(_position) {}
+    : type_(_type), map_position_(_position) {
+
+    float x = static_cast<float>(_position.c * TILE_SIZE);
+    float y = static_cast<float>(_position.r * TILE_SIZE);
+
+    setPosition(x, y);
+}
 
 void bd2::MapElement::loadTextures(
-    const ResourceHandler<sf::Texture> &textures_handler, unsigned int tile_size) {
+    const ResourceHandler<sf::Texture> &textures_handler) {
 
-    // load a static texture depending on the type of the map element
     switch (type_) {
-    case Type::Wall:
+    case MapElement::Type::Wall:
         basic_texture_ = textures_handler[resources::Textures::WALL];
+        startAnimation(*basic_texture_);
         break;
 
-    case Type::Exit:
-        basic_texture_ = textures_handler[resources::Textures::EXIT];
-        break;
-
-    case Type::Ground:
+    case MapElement::Type::Ground:
         basic_texture_ = textures_handler[resources::Textures::GROUND];
+        startAnimation(*basic_texture_);
         break;
+
+    case MapElement::Type::Diamond:
+        basic_texture_ = textures_handler[resources::Textures::DIAMOND];
+        startAnimation(*basic_texture_, DIAMOND_ANIMATION_TIME);
+        break;
+
+        /*case MapElement::Type::Explosion:
+            basic_texture_ = textures_handler[resources::Textures::EXPLOSION];
+            break;
+        } */
 
     default:
-        return;
+        break;
     }
-
-    // if no texture can be loaded
-    if (basic_texture_ == nullptr) {
-        return;
-    }
-
-    // set a static texture
-    setTexture(*basic_texture_);
-
-    // scale the texture to get proper dimensions of a tile */
-    float texture_x = static_cast<float>(basic_texture_->getSize().x);
-    float texture_y = static_cast<float>(basic_texture_->getSize().y);
-
-    float scale_x = static_cast<float>(tile_size) / texture_x;
-    float scale_y = static_cast<float>(tile_size) / texture_y;
-
-    setScale(sf::Vector2f(scale_x, scale_y));
 }
 
-void bd2::MapElement::simulate(sf::Time elapsed_time) {
-    (void)elapsed_time; // to avoid unused parameter warning
+bd2::MapCoordinates bd2::MapElement::getMapPosition() const { return map_position_; }
+
+void bd2::MapElement::startAnimation(const sf::Texture &texture, sf::Time duration,
+                                     sf::Time initial_time) {
+
+    animation_duration_ = duration;
+    animation_time_ = initial_time;
+
+    setTexture(texture);
+
+    float texture_height = static_cast<float>(texture.getSize().y);
+    float scale = static_cast<float>(TILE_SIZE) / texture_height;
+    setScale(scale, scale);
 }
 
-bd2::MapCoordinates bd2::MapElement::getMapPosition() const { return position_; }
+void bd2::MapElement::simulateAnimation(sf::Time elapsed_time) {
+
+    if (animation_duration_ > sf::seconds(0)) {
+
+        animation_time_ += elapsed_time;
+        animation_time_ %= animation_duration_;
+
+        auto texture_size = getTexture()->getSize();
+        int frames_number = texture_size.x / texture_size.y;
+
+        int current_frame = static_cast<int>(static_cast<float>(frames_number) *
+                                             (animation_time_ / animation_duration_));
+
+        sf::IntRect frame_rectangle(current_frame * texture_size.y, 0, texture_size.y,
+                                    texture_size.y);
+
+        setTextureRect(frame_rectangle);
+    }
+}
