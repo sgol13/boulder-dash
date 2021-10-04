@@ -30,6 +30,8 @@ enum class Textures {
 
     // animatable textures
     DIAMOND,
+    BUTTERFLY,
+    FIREFLY,
     PLAYER_STANDING,
     PLAYER_MOVING_LEFT,
     PLAYER_MOVING_RIGHT,
@@ -48,6 +50,8 @@ constexpr std::pair<Textures, const char *> texture_files[] = {
 
     // animatable textures
     {Textures::DIAMOND, "diamond.png"},
+    {Textures::BUTTERFLY, "butterfly.png"},
+    {Textures::FIREFLY, "firefly.png"},
     {Textures::PLAYER_STANDING, "player_standing.png"},
     {Textures::PLAYER_MOVING_LEFT, "player_moving_left.png"},
     {Textures::PLAYER_MOVING_RIGHT, "player_moving_right.png"},

@@ -109,6 +109,9 @@ constexpr MapCoordinates DIR_RIGHT = {0, 1};
 constexpr MapCoordinates DIR_DOWN = {1, 0};
 constexpr MapCoordinates DIR_LEFT = {0, -1};
 
+constexpr std::array<MapCoordinates, 4> DIR_AROUND4 = {DIR_UP, DIR_RIGHT, DIR_DOWN,
+                                                       DIR_LEFT};
+
 } // namespace bd2
 
 

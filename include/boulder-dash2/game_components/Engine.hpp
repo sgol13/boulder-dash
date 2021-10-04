@@ -4,6 +4,7 @@
 #include "boulder-dash2/Level.hpp"
 #include "boulder-dash2/MapCoordinates.hpp"
 #include "boulder-dash2/defs.hpp"
+#include "boulder-dash2/map_elements/Flyable.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
 #include "boulder-dash2/map_elements/Moveable.hpp"
 #include "boulder-dash2/map_elements/Player.hpp"
@@ -90,6 +91,8 @@ class Engine {
                          MapCoordinates planned_move);
 
     void finishObjectMove(const std::shared_ptr<Moveable> &object);
+
+    Moveable::Map3x3 getMap3x3(MapCoordinates center);
 
     std::vector<std::vector<DoubleTile>> map_;
 

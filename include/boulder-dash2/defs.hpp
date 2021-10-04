@@ -6,11 +6,14 @@
 // =============================================================================
 
 // standard library headers
+#include <array>
 #include <cmath>
 #include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <random>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -52,7 +55,7 @@ constexpr float INI_WINDOW_SCREEN_RATIO_Y = 0.7f;
 constexpr int INI_WINDOW_POS_X = 0;
 constexpr int INI_WINDOW_POS_Y = 0;
 
-constexpr int TILE_SIZE = 48;
+constexpr int TILE_SIZE = 32;
 // constexpr int VERTICAL_TILES_NUM = 20;
 // constexpr float VIEW_MARGIN_RATIO = 0.3f;
 
@@ -63,6 +66,8 @@ const sf::Time PLAYER_MOVE_DURATION = sf::milliseconds(120);
 const sf::Time PLAYER_MOVING_ANIMATION_DURATION = sf::milliseconds(240);
 const sf::Time PLAYER_STANDING_ANIMATION_DURATION = sf::milliseconds(1400);
 
+const sf::Time FLYABLE_ANIMATION_DURATION = sf::milliseconds(195);
+const sf::Time FLYABLE_MOVE_DURATION = sf::milliseconds(195);
 const sf::Time DIAMOND_ANIMATION_DURATION = sf::milliseconds(240);
 
 #endif

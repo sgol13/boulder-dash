@@ -19,6 +19,8 @@ class Moveable : public MapElement {
     };
     // ==========================================================================
 
+    using Map3x3 = std::array<std::array<MapElement::Type, 3>, 3>;
+
     /** Constructor - as an argument takes the real type of the element
      * and ist initial position (row and column) */
     Moveable(Type _type, const MapCoordinates &_position, sf::Time _move_duration);
@@ -33,7 +35,7 @@ class Moveable : public MapElement {
 
     MapCoordinates getCurrentMove() const;
 
-    virtual MapCoordinates getPlannedMove() const = 0;
+    virtual MapCoordinates getPlannedMove(const Map3x3 &map3x3) const = 0;
 
     /* Functions initialising the move */
     virtual void startMove(MapCoordinates new_move);

@@ -144,7 +144,8 @@ void bd2::Engine::processEngineOperations() {
 
         if (moveable_object->getMovePhase() == Moveable::MovePhase::STANDING) {
 
-            auto planned_move = moveable_object->getPlannedMove();
+            auto map3x3 = getMap3x3(moveable_object->getMapPosition());
+            auto planned_move = moveable_object->getPlannedMove(map3x3);
             startObjectMove(moveable_object, planned_move);
         }
     }
@@ -170,13 +171,16 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
 
     } break;
 
-    case MapElement::Type::Boulder:   // 5 - BOULDER
+    case MapElement::Type::Boulder: { // 5 - BOULDER
+
+    } break;
+
     case MapElement::Type::Butterfly: // 6 - BUTTERFLY
     case MapElement::Type::Firefly: { // 7 - FIREFLY
 
-        /* std::shared_ptr<Moveable> new_moveable =
-            std::make_shared<Moveable>(type, position);
-        new_element = std::dynamic_pointer_cast<MapElement>(new_moveable); */
+        std::shared_ptr<Moveable> new_moveable =
+            std::make_shared<Flyable>(type, position);
+        new_element = std::dynamic_pointer_cast<MapElement>(new_moveable);
 
     } break;
 
@@ -213,6 +217,7 @@ void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object,
 
         auto position = object->getMapPosition();
         auto target_position = position + planned_move;
+        std::cout << target_position << "\n";
 
         map_[target_position.r][target_position.c] = object;
 
@@ -225,4 +230,38 @@ void bd2::Engine::finishObjectMove(const std::shared_ptr<Moveable> &object) {
     auto position = object->getMapPosition();
     map_[position.r][position.c].remove(object);
     object->finishMove();
+}
+
+bd2::Moveable::Map3x3 bd2::Engine::getMap3x3(MapCoordinates center) {
+
+    Moveable::Map3x3 map3x3 = {};
+
+    if (center.r < 1 || center.c < 1 || center.r + 1 >= map_size_.r ||
+        center.c + 1 >= map_size_.c + 1) {
+        return map3x3;
+    }
+
+    for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 3; c++) {
+
+            switch (map_[center.r + r - 1][center.c + c - 1].size()) {
+            case 0:
+                map3x3[r][c] = MapElement::Type::Empty;
+                break;
+
+            case 1:
+                map3x3[r][c] = map_[center.r + r - 1][center.c + c - 1][0]->type_;
+                break;
+
+            case 2:
+                map3x3[r][c] = MapElement::Type::Wall;
+                break;
+
+            default:
+                break;
+            }
+        }
+    }
+
+    return map3x3;
 }

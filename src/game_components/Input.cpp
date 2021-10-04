@@ -68,8 +68,6 @@ void bd2::Input::handleControl() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             arrow_keys += DIR_LEFT;
         }
-
-        player_->passArrowKeysPosition(arrow_keys);
     }
 
     // set the player's planned move on the basis of the arrow keys' states

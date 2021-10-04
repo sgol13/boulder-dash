@@ -2,10 +2,13 @@
 
 bd2::Player::Player(Type _type, MapCoordinates _position)
     : Moveable(_type, _position, PLAYER_MOVE_DURATION),
-      arrow_keys_(MapCoordinates(0, 0)), planned_move_(MapCoordinates(0, 0)),
-      previous_move_left_(true) {}
+      planned_move_(MapCoordinates(0, 0)), previous_move_left_(true) {}
 
-bd2::MapCoordinates bd2::Player::getPlannedMove() const { return planned_move_; }
+bd2::MapCoordinates bd2::Player::getPlannedMove(const Map3x3 &map3x3) const {
+
+    (void)map3x3;
+    return planned_move_;
+}
 
 void bd2::Player::startMove(MapCoordinates new_move) {
 
