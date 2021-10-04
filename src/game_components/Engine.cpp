@@ -93,7 +93,7 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
     new_objects_.clear();
     map_objects_.clear();
-    exit_ = false;
+    end_game_ = false;
     map_.clear();
     clock_.restart();
 
@@ -169,6 +169,10 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
 
     case MapElement::Type::Exit: { // 6 - EXIT
 
+        auto new_exit = std::make_shared<Exit>(type, position);
+        exit_ = new_exit;
+        new_element = std::dynamic_pointer_cast<MapElement>(new_exit);
+
     } break;
 
     case MapElement::Type::Boulder: { // 5 - BOULDER
@@ -178,15 +182,14 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
     case MapElement::Type::Butterfly: // 6 - BUTTERFLY
     case MapElement::Type::Firefly: { // 7 - FIREFLY
 
-        std::shared_ptr<Moveable> new_moveable =
-            std::make_shared<Flyable>(type, position);
+        auto new_moveable = std::make_shared<Flyable>(type, position);
         new_element = std::dynamic_pointer_cast<MapElement>(new_moveable);
 
     } break;
 
     case MapElement::Type::Player: { // 8 - PLAYER
 
-        std::shared_ptr<Player> new_player = std::make_shared<Player>(type, position);
+        auto new_player = std::make_shared<Player>(type, position);
         player_ = new_player;
         new_element = std::dynamic_pointer_cast<MapElement>(new_player);
 
@@ -217,7 +220,6 @@ void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object,
 
         auto position = object->getMapPosition();
         auto target_position = position + planned_move;
-        std::cout << target_position << "\n";
 
         map_[target_position.r][target_position.c] = object;
 

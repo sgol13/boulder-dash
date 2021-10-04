@@ -30,6 +30,7 @@ src/game_components/Input.cpp
 
 # map elements
 src/map_elements/MapElement.cpp
+src/map_elements/Exit.cpp
 src/map_elements/Moveable.cpp
 src/map_elements/Player.cpp
 src/map_elements/Flyable.cpp

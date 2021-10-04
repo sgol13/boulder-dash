@@ -4,6 +4,7 @@
 #include "boulder-dash2/Level.hpp"
 #include "boulder-dash2/MapCoordinates.hpp"
 #include "boulder-dash2/defs.hpp"
+#include "boulder-dash2/map_elements/Exit.hpp"
 #include "boulder-dash2/map_elements/Flyable.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
 #include "boulder-dash2/map_elements/Moveable.hpp"
@@ -63,7 +64,7 @@ class Engine {
     sf::RenderWindow &window_;
 
     // flag indicating if the game is going to be exited
-    bool exit_;
+    bool end_game_;
 
     /** The list of newly created map elements. It cointains only the elements
      * which were created in a current turn so that other components
@@ -75,6 +76,7 @@ class Engine {
 
     // pointer to the player object
     std::shared_ptr<Player> player_;
+    std::shared_ptr<Exit> exit_;
 
     std::set<std::weak_ptr<MapElement>, MapElement::Compare> map_objects_;
 

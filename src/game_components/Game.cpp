@@ -12,7 +12,7 @@ int bd2::Game::play(const std::shared_ptr<const Level> level) {
     initialiseVideo();
 
     // game loop
-    while (!exit_) {
+    while (end_game_ == false) {
 
         processInputOperations();
         processEngineOperations();

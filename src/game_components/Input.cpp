@@ -16,7 +16,7 @@ void bd2::Input::handleEvents() {
         switch (event.type) {
 
         case sf::Event::Closed: // exit the game
-            exit_ = true;
+            end_game_ = true;
             window_.close();
             break;
 
@@ -38,7 +38,7 @@ void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
 
     switch (key.code) {
     case sf::Keyboard::C: // exit the game
-        exit_ = true;
+        end_game_ = true;
         break;
 
     default:
