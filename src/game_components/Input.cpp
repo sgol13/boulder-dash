@@ -21,7 +21,11 @@ void bd2::Input::handleEvents() {
             break;
 
         case sf::Event::KeyPressed:
-            handleKeyPressed(event.key);
+
+            if (window_.hasFocus()) {
+                handleKeyPressed(event.key);
+            }
+
             break;
 
         default:
@@ -44,26 +48,38 @@ void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
 
 void bd2::Input::handleControl() {
 
-    /*     if (window_.hasFocus()) {
+    MapCoordinates arrow_keys = {0, 0};
 
-            MapCoordinates arrow_keys = {0, 0};
+    // read the current states of the arrow keys
+    if (window_.hasFocus()) {
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                arrow_keys += DIR_UP;
-            }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            arrow_keys += DIR_UP;
+        }
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                arrow_keys += DIR_RIGHT;
-            }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            arrow_keys += DIR_RIGHT;
+        }
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                arrow_keys += DIR_DOWN;
-            }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+            arrow_keys += DIR_DOWN;
+        }
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                arrow_keys += DIR_LEFT;
-            }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            arrow_keys += DIR_LEFT;
+        }
 
-            player_->passArrowKeysPosition(arrow_keys);
-        } */
+        player_->passArrowKeysPosition(arrow_keys);
+    }
+
+    // set the player's planned move on the basis of the arrow keys' states
+    if (abs(arrow_keys.r) + abs(arrow_keys.c) <= 1) {
+        player_->setPlannedMove(arrow_keys);
+    }
+
+    if ((arrow_keys.r != 0 && player_->getCurrentMove().r == -arrow_keys.r) ||
+        (arrow_keys.c != 0 && player_->getCurrentMove().c == -arrow_keys.c)) {
+
+        player_->reverseMove();
+    }
 }

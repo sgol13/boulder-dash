@@ -2,38 +2,41 @@
 #define BD2_PLAYER_HPP
 
 #include "boulder-dash2/defs.hpp"
-#include "boulder-dash2/map_elements/Animatable.hpp"
 #include "boulder-dash2/map_elements/Moveable.hpp"
 
 namespace bd2 {
 
-class Player final : public Moveable, public Animatable {
+class Player final : public Moveable {
   public:
     /** Constructor - as an argument takes the real type of the element
      * and its initial position (row and column) */
     Player(Type _type, MapCoordinates _position);
 
-    /* This function is called once a turn to let the object execute its operations */
-    virtual void simulate(sf::Time elapsed_time) override;
-
     /** Loads needed textures from the ResourceHandler given as a pararameter.
      * The second parameter describes the expected size of the sprite tile after
      * scaling.*/
-    virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler,
-                              unsigned int tile_size) override;
+    void loadTextures(const ResourceHandler<sf::Texture> &textures_handler) override;
 
-    /** Passes information about the current position of arrow keys. Should be
-     * used once a turn to let the player plan the moves */
-    void passArrowKeysPosition(MapCoordinates arrow_keys);
+    MapCoordinates getPlannedMove() const override;
+
+    void startMove(MapCoordinates new_move) override;
+
+    void finishMove() override;
+
+    void reverseMove() override;
+
+    void setPlannedMove(MapCoordinates new_planned_move);
 
   private:
-    MapCoordinates arrow_keys_;
+    /* Starts an animation proper for the current move direction. */
+    void startMoveAnimation();
 
-    std::vector<std::shared_ptr<const sf::Texture>> standing_textures_;
+    MapCoordinates planned_move_;
+
     std::shared_ptr<const sf::Texture> move_left_texture_;
     std::shared_ptr<const sf::Texture> move_right_texture_;
 
-    bool previous_left_;
+    bool previous_move_left_;
 };
 
 } // namespace bd2

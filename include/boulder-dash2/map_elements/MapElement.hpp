@@ -56,12 +56,13 @@ class MapElement : public sf::Sprite {
     const Type type_;
 
   protected:
+    // current position on the map
+    MapCoordinates map_position_;
+
     void startAnimation(const sf::Texture &texture,
                         sf::Time duration = sf::seconds(0),
                         sf::Time initial_time = sf::seconds(0));
 
-    // current position on the map
-    MapCoordinates map_position_;
 
     std::shared_ptr<const sf::Texture> basic_texture_;
 

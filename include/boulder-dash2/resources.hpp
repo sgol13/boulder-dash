@@ -30,11 +30,9 @@ enum class Textures {
 
     // animatable textures
     DIAMOND,
-    PLAYER_BLINK,
-    PLAYER_LEG,
-    PLAYER_BLINK_LEG,
-    PLAYER_LEFT,
-    PLAYER_RIGHT,
+    PLAYER_STANDING,
+    PLAYER_MOVING_LEFT,
+    PLAYER_MOVING_RIGHT,
 
     // other textures
     ICON,
@@ -50,11 +48,9 @@ constexpr std::pair<Textures, const char *> texture_files[] = {
 
     // animatable textures
     {Textures::DIAMOND, "diamond.png"},
-    {Textures::PLAYER_BLINK, "player_blink.png"},
-    {Textures::PLAYER_LEG, "player_leg.png"},
-    {Textures::PLAYER_BLINK_LEG, "player_blink_leg.png"},
-    {Textures::PLAYER_LEFT, "player_left.png"},
-    {Textures::PLAYER_RIGHT, "player_right.png"},
+    {Textures::PLAYER_STANDING, "player_standing.png"},
+    {Textures::PLAYER_MOVING_LEFT, "player_moving_left.png"},
+    {Textures::PLAYER_MOVING_RIGHT, "player_moving_right.png"},
 
     // other textures
     {Textures::ICON, "icon.png"},

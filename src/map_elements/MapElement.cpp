@@ -55,8 +55,8 @@ const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers =
 bd2::MapElement::MapElement(Type _type, const MapCoordinates &_position)
     : type_(_type), map_position_(_position) {
 
-    float x = static_cast<float>(_position.c * TILE_SIZE);
-    float y = static_cast<float>(_position.r * TILE_SIZE);
+    float x = static_cast<float>(map_position_.c * TILE_SIZE);
+    float y = static_cast<float>(map_position_.r * TILE_SIZE);
 
     setPosition(x, y);
 }
@@ -77,7 +77,7 @@ void bd2::MapElement::loadTextures(
 
     case MapElement::Type::Diamond:
         basic_texture_ = textures_handler[resources::Textures::DIAMOND];
-        startAnimation(*basic_texture_, DIAMOND_ANIMATION_TIME);
+        startAnimation(*basic_texture_, DIAMOND_ANIMATION_DURATION);
         break;
 
         /*case MapElement::Type::Explosion:
@@ -115,11 +115,15 @@ void bd2::MapElement::simulateAnimation(sf::Time elapsed_time) {
         auto texture_size = getTexture()->getSize();
         int frames_number = texture_size.x / texture_size.y;
 
+        float animation_progress = animation_time_ / animation_duration_;
         int current_frame = static_cast<int>(static_cast<float>(frames_number) *
-                                             (animation_time_ / animation_duration_));
+                                             (animation_progress));
 
-        sf::IntRect frame_rectangle(current_frame * texture_size.y, 0, texture_size.y,
-                                    texture_size.y);
+        sf::IntRect frame_rectangle;
+        frame_rectangle.left = current_frame * texture_size.y;
+        frame_rectangle.top = 0;
+        frame_rectangle.width = texture_size.y;
+        frame_rectangle.height = texture_size.y;
 
         setTextureRect(frame_rectangle);
     }

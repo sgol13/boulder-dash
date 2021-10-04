@@ -15,8 +15,8 @@ int bd2::Game::play(const std::shared_ptr<const Level> level) {
     while (!exit_) {
 
         processInputOperations();
-        processVideoOperations();
         processEngineOperations();
+        processVideoOperations();
     }
 
     return 0;

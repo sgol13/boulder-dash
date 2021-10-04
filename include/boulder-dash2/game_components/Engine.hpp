@@ -5,6 +5,8 @@
 #include "boulder-dash2/MapCoordinates.hpp"
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
+#include "boulder-dash2/map_elements/Moveable.hpp"
+#include "boulder-dash2/map_elements/Player.hpp"
 
 namespace bd2 {
 
@@ -68,10 +70,10 @@ class Engine {
      * e.g. initialise them. */
     std::vector<std::weak_ptr<MapElement>> new_objects_;
 
-    sf::Time turn_time_;
+    sf::Time turn_elapsed_time_;
 
     // pointer to the player object
-    // std::shared_ptr<Player> player_;
+    std::shared_ptr<Player> player_;
 
     std::set<std::weak_ptr<MapElement>, MapElement::Compare> map_objects_;
 
@@ -79,14 +81,16 @@ class Engine {
     MapCoordinates map_size_;
 
   private:
+    std::set<std::weak_ptr<Moveable>, MapElement::Compare> moveable_objects_;
+
     /* Creates a new map element of given type on [row, column] position */
     void addMapElement(MapElement::Type type, MapCoordinates position);
 
-    // void startObjectMove(const std::shared_ptr<Moveable> &object);
+    void startObjectMove(const std::shared_ptr<Moveable> &object,
+                         MapCoordinates planned_move);
 
-    // void finishObjectMove(const std::shared_ptr<Moveable> &object);
+    void finishObjectMove(const std::shared_ptr<Moveable> &object);
 
-    // map
     std::vector<std::vector<DoubleTile>> map_;
 
     sf::Clock clock_;

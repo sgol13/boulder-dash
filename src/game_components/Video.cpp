@@ -19,6 +19,13 @@ void bd2::Video::initialiseVideo() {
         view_area_.height = static_cast<float>(window_size.y);
 
         fitViewAreaToMap(); */
+
+    for (auto &weak_object : new_objects_) {
+        if (auto object = weak_object.lock()) {
+
+            object->loadTextures(textures_handler_);
+        }
+    }
 }
 
 void bd2::Video::processVideoOperations() {
@@ -37,7 +44,7 @@ void bd2::Video::processVideoOperations() {
 
         if (auto object = weak_object.lock()) {
 
-            object->simulateAnimation(turn_time_);
+            object->simulateAnimation(turn_elapsed_time_);
         }
     }
 

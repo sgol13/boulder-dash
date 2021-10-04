@@ -91,7 +91,11 @@ bd2::Engine::Engine(sf::RenderWindow &_window) : window_(_window) {}
 
 void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
+    new_objects_.clear();
+    map_objects_.clear();
     exit_ = false;
+    map_.clear();
+    clock_.restart();
 
     // set map dimensions
     map_size_ = level->getMapSize();
@@ -110,52 +114,44 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
 void bd2::Engine::processEngineOperations() {
 
-    turn_time_ = clock_.restart();
+    turn_elapsed_time_ = clock_.restart();
 
     // clear the list of newly created map elements from the previous turn
     new_objects_.clear();
 
     // delete pointers to non-existing objects - they are in the beginning of the set,
     // thanks to the special compare operator (bd2::MapElement::Compare())
-    while (!map_objects_.empty() && map_objects_.begin()->expired()) {
-        map_objects_.erase(map_objects_.begin());
+    /*     while (!map_objects_.empty() && map_objects_.begin()->expired()) {
+            map_objects_.erase(map_objects_.begin());
+        } */
+
+    // simulate and finish moves
+    for (auto &weak_moveable_object : moveable_objects_) {
+
+        auto moveable_object = weak_moveable_object.lock();
+
+        moveable_object->simulateMovement(turn_elapsed_time_);
+
+        if (moveable_object->getMovePhase() == Moveable::MovePhase::ENDED_MOVE) {
+            finishObjectMove(moveable_object);
+        }
     }
 
+    // start new moves
+    for (auto &weak_moveable_object : moveable_objects_) {
 
+        auto moveable_object = weak_moveable_object.lock();
 
-    /*     for (auto &weak_object : simulated_objects_) {
-            if (auto object = weak_object.lock()) {
+        if (moveable_object->getMovePhase() == Moveable::MovePhase::STANDING) {
 
-                object->simulate(elapsed_time);
-
-                // if an object is Moveable
-                if (auto moveable_object =
-       std::dynamic_pointer_cast<Moveable>(object)) {
-
-                    auto move_state = moveable_object->getMoveState();
-
-                    if (move_state == Moveable::State::PLANNED_MOVE) {
-                        startObjectMove(moveable_object);
-
-                    } else if (move_state == Moveable::State::ENDED_MOVE) {
-
-                        finishObjectMove(moveable_object);
-
-                        // Start the next move immediately after the previous one
-                        // was finished to obtain fluent movement animation
-                        move_state = moveable_object->getMoveState();
-                        if (move_state == Moveable::State::PLANNED_MOVE) {
-                            startObjectMove(moveable_object);
-                        }
-                    }
-                }
-            }
-        } */
+            auto planned_move = moveable_object->getPlannedMove();
+            startObjectMove(moveable_object, planned_move);
+        }
+    }
 }
 
 void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) {
 
-    // allocate a new element
     std::shared_ptr<MapElement> new_element = nullptr;
 
     switch (type) {
@@ -174,21 +170,21 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
 
     } break;
 
-    case MapElement::Type::Boulder: { // 5 - BOULDER
-
-    } break;
-
-    case MapElement::Type::Butterfly: { // 6 - BUTTERFLY
-    } break;
-
+    case MapElement::Type::Boulder:   // 5 - BOULDER
+    case MapElement::Type::Butterfly: // 6 - BUTTERFLY
     case MapElement::Type::Firefly: { // 7 - FIREFLY
+
+        /* std::shared_ptr<Moveable> new_moveable =
+            std::make_shared<Moveable>(type, position);
+        new_element = std::dynamic_pointer_cast<MapElement>(new_moveable); */
+
     } break;
 
     case MapElement::Type::Player: { // 8 - PLAYER
 
-        /* std::shared_ptr<Player> new_player = std::make_shared<Player>(type,
-        position); new_element = std::dynamic_pointer_cast<MapElement>(new_player);
-        player_ = new_player; */
+        std::shared_ptr<Player> new_player = std::make_shared<Player>(type, position);
+        player_ = new_player;
+        new_element = std::dynamic_pointer_cast<MapElement>(new_player);
 
     } break;
 
@@ -196,24 +192,22 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
     } break;
     }
 
-    // if new element was allocated
     if (new_element) {
 
-        // put a pointer to a new element onto the map
         map_[position.r][position.c] = new_element;
-
-        // add to the list of simulated objects
         map_objects_.insert(new_element);
+
+        if (auto new_moveable = std::dynamic_pointer_cast<Moveable>(new_element)) {
+            moveable_objects_.insert(new_moveable);
+        }
 
         // add a new element to the list of elements created during the current turn
         new_objects_.push_back(new_element);
     }
 }
 
-/* void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object) {
-
-    // get the move that an object is planning to do
-    auto planned_move = object->getPlannedMove();
+void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object,
+                                  MapCoordinates planned_move) {
 
     if (planned_move) {
 
@@ -222,13 +216,13 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
 
         map_[target_position.r][target_position.c] = object;
 
-        object->startMove();
+        object->startMove(planned_move);
     }
-} */
+}
 
-/* void bd2::Engine::finishObjectMove(const std::shared_ptr<Moveable> &object) {
+void bd2::Engine::finishObjectMove(const std::shared_ptr<Moveable> &object) {
 
     auto position = object->getMapPosition();
     map_[position.r][position.c].remove(object);
     object->finishMove();
-} */
+}
