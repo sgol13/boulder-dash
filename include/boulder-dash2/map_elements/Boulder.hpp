@@ -12,6 +12,9 @@ class Boulder final : public Moveable {
 
     MapCoordinates getPlannedMove(const Map3x3 &map3x3) override;
 
+    void startMove(const MapCoordinates &new_move,
+                   sf::Time new_move_duration) override;
+
     void pushSide(const MapCoordinates &direction);
 
   private:

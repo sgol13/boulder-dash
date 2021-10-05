@@ -19,13 +19,16 @@ class Player final : public Moveable {
 
     MapCoordinates getPlannedMove(const Map3x3 &map3x3) override;
 
-    void startMove(const MapCoordinates &new_move) override;
+    void startMove(const MapCoordinates &new_move,
+                   sf::Time new_move_duration) override;
 
     void finishMove() override;
 
     void reverseMove() override;
 
     void setPlannedMove(const MapCoordinates &new_planned_move);
+
+    void setTempMoveDuration(sf::Time new_temporary_move_duration);
 
   private:
     /* Starts an animation proper for the current move direction. */
@@ -37,6 +40,8 @@ class Player final : public Moveable {
     std::shared_ptr<const sf::Texture> move_right_texture_;
 
     bool previous_move_left_;
+
+    sf::Time temporary_move_duration_;
 };
 
 } // namespace bd2

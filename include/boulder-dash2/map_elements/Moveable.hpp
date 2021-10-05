@@ -23,8 +23,7 @@ class Moveable : public MapElement {
 
     /** Constructor - as an argument takes the real type of the element
      * and ist initial position (row and column) */
-    Moveable(Type _type, const MapCoordinates &_map_position,
-             sf::Time _move_duration);
+    Moveable(Type _type, const MapCoordinates &_map_position);
 
     MovePhase getMovePhase() const;
 
@@ -33,7 +32,8 @@ class Moveable : public MapElement {
     virtual MapCoordinates getPlannedMove(const Map3x3 &map3x3) = 0;
 
     /* Functions initialising the move */
-    virtual void startMove(const MapCoordinates &new_move);
+    virtual void startMove(const MapCoordinates &new_move,
+                           sf::Time new_move_duration = sf::seconds(0));
 
     virtual void finishMove();
 
@@ -44,8 +44,7 @@ class Moveable : public MapElement {
     std::vector<MapCoordinates> getAllMapPositions() const override;
 
   protected:
-    /* Duration of a move for this type of object */
-    const sf::Time move_duration_;
+    sf::Time move_duration_;
 
     /* The time that passed from the beginning of the move */
     sf::Time move_time_;

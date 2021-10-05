@@ -176,7 +176,6 @@ void bd2::Engine::processEngineOperations() {
         }
     }
 
-
     std::sort(map_objects_.begin(), map_objects_.end(), MapElement::Compare());
 
     while (!map_objects_.empty() && map_objects_.back().expired()) {
@@ -435,15 +434,28 @@ bool bd2::Engine::collidePlayer(Player &player, MapElement &target_object) {
         auto position = player.getMapPosition();
         auto move = target_object.getMapPosition() - player.getMapPosition();
 
-        if (move == DIR_LEFT && !map_[position.r][position.c - 2].size()) {
-            boulder_reference.pushSide(DIR_LEFT);
+        auto player_pos_y = player.getPosition().y;
+        auto boulder_pos_y = boulder_reference.getPosition().y;
+
+        if ((move == DIR_LEFT || move == DIR_RIGHT) && player_pos_y < boulder_pos_y) {
             is_move_possible = true;
 
-        } else if (move == DIR_RIGHT && !map_[position.r][position.c + 2].size()) {
-            boulder_reference.pushSide(DIR_RIGHT);
-            is_move_possible = true;
+        } else if (player_pos_y == boulder_pos_y) {
+
+            if (move == DIR_LEFT && !map_[position.r][position.c - 2].size()) {
+
+                boulder_reference.pushSide(DIR_LEFT);
+                player.setTempMoveDuration(BOULDER_MOVE_DURATION);
+                is_move_possible = true;
+
+            } else if (move == DIR_RIGHT &&
+                       !map_[position.r][position.c + 2].size()) {
+
+                boulder_reference.pushSide(DIR_RIGHT);
+                player.setTempMoveDuration(BOULDER_MOVE_DURATION);
+                is_move_possible = true;
+            }
         }
-
     } break;
 
     case MapElement::Type::Butterfly:

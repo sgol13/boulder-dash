@@ -1,8 +1,8 @@
 #include "boulder-dash2/map_elements/Player.hpp"
 
 bd2::Player::Player(Type _type, const MapCoordinates &_map_position)
-    : Moveable(_type, _map_position, PLAYER_MOVE_DURATION),
-      planned_move_(MapCoordinates(0, 0)), previous_move_left_(true) {}
+    : Moveable(_type, _map_position), planned_move_(MapCoordinates(0, 0)),
+      previous_move_left_(true), temporary_move_duration_(sf::seconds(0)) {}
 
 bd2::MapCoordinates bd2::Player::getPlannedMove(const Map3x3 &map3x3) {
 
@@ -10,9 +10,19 @@ bd2::MapCoordinates bd2::Player::getPlannedMove(const Map3x3 &map3x3) {
     return planned_move_;
 }
 
-void bd2::Player::startMove(const MapCoordinates &new_move) {
+void bd2::Player::startMove(const MapCoordinates &new_move,
+                            sf::Time new_move_duration) {
 
-    Moveable::startMove(new_move);
+    if (new_move_duration == sf::seconds(0)) {
+        new_move_duration = PLAYER_MOVE_DURATION;
+    }
+
+    if (temporary_move_duration_ != sf::seconds(0)) {
+        new_move_duration = temporary_move_duration_;
+        temporary_move_duration_ = sf::seconds(0);
+    }
+
+    Moveable::startMove(new_move, new_move_duration);
     startMoveAnimation();
     planned_move_ = {0, 0};
 }
@@ -20,12 +30,12 @@ void bd2::Player::startMove(const MapCoordinates &new_move) {
 void bd2::Player::finishMove() {
 
     Moveable::finishMove();
-    if (!planned_move_) {
-        startAnimation(*basic_texture_, PLAYER_STANDING_ANIMATION_DURATION);
-    }
+    startAnimation(*basic_texture_, PLAYER_STANDING_ANIMATION_DURATION);
 }
 
 void bd2::Player::reverseMove() {
+
+    move_duration_ = PLAYER_MOVE_DURATION;
 
     Moveable::reverseMove();
     planned_move_ = {0, 0};
@@ -43,6 +53,10 @@ void bd2::Player::loadTextures(const ResourceHandler<sf::Texture> &textures_hand
 
 void bd2::Player::setPlannedMove(const MapCoordinates &new_planned_move) {
     planned_move_ = new_planned_move;
+}
+
+void bd2::Player::setTempMoveDuration(sf::Time new_temporary_move_duration) {
+    temporary_move_duration_ = new_temporary_move_duration;
 }
 
 void bd2::Player::startMoveAnimation() {

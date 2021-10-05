@@ -18,6 +18,9 @@ class Flyable : public Moveable {
     virtual void
     loadTextures(const ResourceHandler<sf::Texture> &textures_handler) override;
 
+    virtual void startMove(const MapCoordinates &new_move,
+                           sf::Time new_move_duration) override;
+
     virtual MapCoordinates getPlannedMove(const Map3x3 &map3x3) override;
 
   private:

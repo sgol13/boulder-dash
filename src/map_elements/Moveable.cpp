@@ -1,13 +1,20 @@
 #include "boulder-dash2/map_elements/Moveable.hpp"
 
-bd2::Moveable::Moveable(Type _type, const MapCoordinates &_map_position,
-                        sf::Time _move_duration)
-    : MapElement(_type, _map_position), move_duration_(_move_duration),
+bd2::Moveable::Moveable(Type _type, const MapCoordinates &_map_position)
+    : MapElement(_type, _map_position), move_duration_(sf::seconds(0)),
       move_time_(sf::seconds(0)), move_phase_(MovePhase::STANDING) {}
 
-void bd2::Moveable::startMove(const MapCoordinates &new_move) {
+void bd2::Moveable::startMove(const MapCoordinates &new_move,
+                              sf::Time new_move_duration) {
 
     move_phase_ = MovePhase::STARTED_MOVE;
+
+    // special case for temporary changing the move duration
+    // move_time_ should be set to 0 to keep an animation fluent
+    if (move_duration_ != new_move_duration) {
+        move_time_ = sf::seconds(0);
+    }
+    move_duration_ = new_move_duration;
     move_time_ %= move_duration_;
     current_move_ = new_move;
 }
