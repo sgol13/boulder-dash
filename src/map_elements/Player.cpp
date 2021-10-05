@@ -4,12 +4,9 @@ bd2::Player::Player(Type _type, const MapCoordinates &_map_position)
     : Moveable(_type, _map_position, PLAYER_MOVE_DURATION),
       planned_move_(MapCoordinates(0, 0)), previous_move_left_(true) {}
 
-bd2::MapCoordinates bd2::Player::getPlannedMove(const Map3x3 &map3x3,
-                                                sf::Time elapsed_time) {
+bd2::MapCoordinates bd2::Player::getPlannedMove(const Map3x3 &map3x3) {
 
     (void)map3x3;
-    (void)elapsed_time;
-
     return planned_move_;
 }
 
@@ -31,6 +28,7 @@ void bd2::Player::finishMove() {
 void bd2::Player::reverseMove() {
 
     Moveable::reverseMove();
+    planned_move_ = {0, 0};
     startMoveAnimation();
 }
 

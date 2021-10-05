@@ -30,8 +30,7 @@ class Moveable : public MapElement {
 
     MapCoordinates getCurrentMove() const;
 
-    virtual MapCoordinates getPlannedMove(const Map3x3 &map3x3,
-                                          sf::Time elapsed_time) = 0;
+    virtual MapCoordinates getPlannedMove(const Map3x3 &map3x3) = 0;
 
     /* Functions initialising the move */
     virtual void startMove(const MapCoordinates &new_move);
@@ -41,6 +40,8 @@ class Moveable : public MapElement {
     virtual void reverseMove();
 
     void simulateMovement(sf::Time elapsed_time);
+
+    std::vector<MapCoordinates> getAllMapPositions() const override;
 
   protected:
     /* Duration of a move for this type of object */

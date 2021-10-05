@@ -3,16 +3,21 @@
 bd2::Boulder::Boulder(Type _type, const MapCoordinates &_map_position)
     : Moveable(_type, _map_position, BOULDER_MOVE_DURATION),
       left_fall_time_(sf::seconds(0)), center_fall_time_(sf::seconds(0)),
-      right_fall_time_(sf::seconds(0)), is_falling_(false) {}
+      right_fall_time_(sf::seconds(0)), is_falling_(false), pushed_direction_(0, 0) {}
 
-bd2::MapCoordinates bd2::Boulder::getPlannedMove(const Map3x3 &map3x3,
-                                                 sf::Time elapsed_time) {
-    (void)map3x3;
-    (void)elapsed_time;
+bd2::MapCoordinates bd2::Boulder::getPlannedMove(const Map3x3 &map3x3) {
 
     bool left_free = false;
     bool center_free = false;
     bool right_free = false;
+
+    MapCoordinates planned_move;
+
+    if (pushed_direction_) {
+        planned_move = pushed_direction_;
+        pushed_direction_ = {0, 0};
+        return planned_move;
+    }
 
     if (map3x3[1][0] == Type::Empty && map3x3[2][0] == Type::Empty) {
         left_free = true;
@@ -33,7 +38,6 @@ bd2::MapCoordinates bd2::Boulder::getPlannedMove(const Map3x3 &map3x3,
         right_free = true;
     }
 
-    MapCoordinates planned_move;
     if (center_free) {
         planned_move = DIR_DOWN;
 
@@ -55,4 +59,8 @@ bd2::MapCoordinates bd2::Boulder::getPlannedMove(const Map3x3 &map3x3,
     is_falling_ = planned_move;
 
     return planned_move;
+}
+
+void bd2::Boulder::pushSide(const MapCoordinates &direction) {
+    pushed_direction_ = direction;
 }

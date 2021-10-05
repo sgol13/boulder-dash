@@ -57,3 +57,15 @@ void bd2::Moveable::simulateMovement(sf::Time elapsed_time) {
         setPosition(x, y);
     }
 }
+
+std::vector<bd2::MapCoordinates> bd2::Moveable::getAllMapPositions() const {
+
+    auto all_map_positions = MapElement::getAllMapPositions();
+
+    if (getMovePhase() != MovePhase::STANDING) {
+
+        auto target_position = map_position_ + current_move_;
+        all_map_positions.push_back(target_position);
+    }
+    return all_map_positions;
+}

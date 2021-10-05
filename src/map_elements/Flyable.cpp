@@ -24,10 +24,7 @@ void bd2::Flyable::loadTextures(
     startAnimation(*basic_texture_, FLYABLE_ANIMATION_DURATION);
 }
 
-bd2::MapCoordinates bd2::Flyable::getPlannedMove(const Map3x3 &map3x3,
-                                                 sf::Time elapsed_time) {
-
-    (void)elapsed_time;
+bd2::MapCoordinates bd2::Flyable::getPlannedMove(const Map3x3 &map3x3) {
 
     MapCoordinates chosen_map_dir(0, 0);
 

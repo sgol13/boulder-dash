@@ -6,6 +6,7 @@
 // =============================================================================
 
 // standard library headers
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdlib>
@@ -14,7 +15,6 @@
 #include <iostream>
 #include <memory>
 #include <random>
-#include <set>
 #include <unordered_map>
 #include <utility>
 #include <vector>

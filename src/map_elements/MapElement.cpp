@@ -8,13 +8,13 @@ bool bd2::MapElement::Compare::operator()(const std::weak_ptr<MapElement> &el1,
 
     // if one of the pointers is expired
     if (p1 && !p2)
-        return false;
+        return true;
 
     if (!p1 && p2)
-        return true;
+        return false;
 
     if (!p1 && !p2)
-        return true;
+        return false;
 
     // if both pointers are not expired
     auto it1 = std::find(type_layers.begin(), type_layers.end(), p1->type_);
@@ -132,4 +132,11 @@ void bd2::MapElement::simulateAnimation(sf::Time elapsed_time) {
 
         setTextureRect(frame_rectangle);
     }
+}
+
+std::vector<bd2::MapCoordinates> bd2::MapElement::getAllMapPositions() const {
+
+    std::vector<MapCoordinates> all_map_positions;
+    all_map_positions.push_back(map_position_);
+    return all_map_positions;
 }

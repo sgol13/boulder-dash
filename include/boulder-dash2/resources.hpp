@@ -80,7 +80,7 @@ constexpr int font_files_num =
 enum class Levels { TEST_LEVEL };
 
 constexpr std::pair<Levels, const char *> level_files[] = {
-    {Levels::TEST_LEVEL, "level1"}};
+    {Levels::TEST_LEVEL, "level0"}};
 
 constexpr int level_files_num =
     sizeof(level_files) / sizeof(std::pair<Levels, const char *>);

@@ -75,9 +75,12 @@ void bd2::Input::handleControl() {
         player_->setPlannedMove(arrow_keys);
     }
 
-    if ((arrow_keys.r != 0 && player_->getCurrentMove().r == -arrow_keys.r) ||
-        (arrow_keys.c != 0 && player_->getCurrentMove().c == -arrow_keys.c)) {
+    if (player_->getMovePhase() == Moveable::MovePhase::MOVING) {
 
-        player_->reverseMove();
+        if ((arrow_keys.r != 0 && player_->getCurrentMove().r == -arrow_keys.r) ||
+            (arrow_keys.c != 0 && player_->getCurrentMove().c == -arrow_keys.c)) {
+
+            player_->reverseMove();
+        }
     }
 }

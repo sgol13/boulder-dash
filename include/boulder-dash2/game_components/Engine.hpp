@@ -38,6 +38,8 @@ class Engine {
 
         void remove(const std::shared_ptr<MapElement> &ptr_remove);
 
+        void remove(const MapElement &object_remove);
+
         bool add(const std::shared_ptr<MapElement> &ptr_add);
 
         operator std::shared_ptr<MapElement> &();
@@ -49,6 +51,12 @@ class Engine {
         const static std::shared_ptr<MapElement> empty_ptr; // = nullptr
     };
     // ==========================================================================
+
+    class MapIteratorCompare {
+      public:
+        bool operator()(const std::vector<DoubleTile>::iterator &it1,
+                        const std::vector<DoubleTile>::iterator &it2);
+    };
 
   public:
     /* Constructor */
@@ -79,23 +87,38 @@ class Engine {
     std::shared_ptr<Player> player_;
     std::shared_ptr<Exit> exit_;
 
-    std::set<std::weak_ptr<MapElement>, MapElement::Compare> map_objects_;
+    std::vector<std::weak_ptr<MapElement>> map_objects_;
 
     // sizes of the current level: {number of rows, number of columns}
     MapCoordinates map_size_;
 
   private:
-    std::set<std::weak_ptr<Moveable>, MapElement::Compare> moveable_objects_;
+    std::vector<std::weak_ptr<Moveable>> moveable_objects_;
 
     /* Creates a new map element of given type on [row, column] position */
     void addMapElement(MapElement::Type type, const MapCoordinates &position);
 
-    void startObjectMove(const std::shared_ptr<Moveable> &object,
-                         const MapCoordinates &planned_move);
-
-    void finishObjectMove(const std::shared_ptr<Moveable> &object);
-
     Moveable::Map3x3 getMap3x3(const MapCoordinates &center);
+
+    void startObjectMove(Moveable &object, const MapCoordinates &planned_move);
+
+    void finishObjectMove(Moveable &object);
+
+    void killObject(MapElement &object);
+
+    void gameOver();
+
+    bool checkCollision(Moveable &moveable_object, const MapCoordinates &move);
+
+    bool collideObjects(Moveable &moveable_object, MapElement &target_object);
+
+    bool collidePlayer(Player &player, MapElement &target_object);
+
+    bool collideBoulder(Boulder &boulder, MapElement &target_object);
+
+    bool collideFlyable(Flyable &flyable, MapElement &target_object);
+
+    std::vector<std::vector<DoubleTile>::iterator> double_tiles_;
 
     std::vector<std::vector<DoubleTile>> map_;
 

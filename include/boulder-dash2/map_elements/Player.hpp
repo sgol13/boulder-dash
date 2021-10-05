@@ -17,8 +17,7 @@ class Player final : public Moveable {
      * scaling.*/
     void loadTextures(const ResourceHandler<sf::Texture> &textures_handler) override;
 
-    MapCoordinates getPlannedMove(const Map3x3 &map3x3,
-                                  sf::Time elapsed_time) override;
+    MapCoordinates getPlannedMove(const Map3x3 &map3x3) override;
 
     void startMove(const MapCoordinates &new_move) override;
 

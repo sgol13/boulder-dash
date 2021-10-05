@@ -52,6 +52,8 @@ class MapElement : public sf::Sprite {
     /* returns the current position on the map {row, column} */
     MapCoordinates getMapPosition() const;
 
+    virtual std::vector<MapCoordinates> getAllMapPositions() const;
+
     /* Const member indicating the type of the map element */
     const Type type_;
 
