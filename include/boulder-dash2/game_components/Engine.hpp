@@ -4,6 +4,7 @@
 #include "boulder-dash2/Level.hpp"
 #include "boulder-dash2/MapCoordinates.hpp"
 #include "boulder-dash2/defs.hpp"
+#include "boulder-dash2/map_elements/Boulder.hpp"
 #include "boulder-dash2/map_elements/Exit.hpp"
 #include "boulder-dash2/map_elements/Flyable.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
@@ -87,14 +88,14 @@ class Engine {
     std::set<std::weak_ptr<Moveable>, MapElement::Compare> moveable_objects_;
 
     /* Creates a new map element of given type on [row, column] position */
-    void addMapElement(MapElement::Type type, MapCoordinates position);
+    void addMapElement(MapElement::Type type, const MapCoordinates &position);
 
     void startObjectMove(const std::shared_ptr<Moveable> &object,
-                         MapCoordinates planned_move);
+                         const MapCoordinates &planned_move);
 
     void finishObjectMove(const std::shared_ptr<Moveable> &object);
 
-    Moveable::Map3x3 getMap3x3(MapCoordinates center);
+    Moveable::Map3x3 getMap3x3(const MapCoordinates &center);
 
     std::vector<std::vector<DoubleTile>> map_;
 

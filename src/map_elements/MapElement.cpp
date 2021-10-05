@@ -52,8 +52,8 @@ const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers =
     bd2::MapElement::Type::Boulder,   // 4
 };
 
-bd2::MapElement::MapElement(Type _type, const MapCoordinates &_position)
-    : type_(_type), map_position_(_position) {
+bd2::MapElement::MapElement(Type _type, const MapCoordinates &_map_position)
+    : type_(_type), map_position_(_map_position) {
 
     float x = static_cast<float>(map_position_.c * TILE_SIZE);
     float y = static_cast<float>(map_position_.r * TILE_SIZE);
@@ -78,6 +78,11 @@ void bd2::MapElement::loadTextures(
     case MapElement::Type::Diamond:
         basic_texture_ = textures_handler[resources::Textures::DIAMOND];
         startAnimation(*basic_texture_, DIAMOND_ANIMATION_DURATION);
+        break;
+
+    case MapElement::Type::Boulder:
+        basic_texture_ = textures_handler[resources::Textures::BOULDER];
+        startAnimation(*basic_texture_);
         break;
 
         /*case MapElement::Type::Explosion:

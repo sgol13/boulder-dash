@@ -1,16 +1,19 @@
 #include "boulder-dash2/map_elements/Player.hpp"
 
-bd2::Player::Player(Type _type, MapCoordinates _position)
-    : Moveable(_type, _position, PLAYER_MOVE_DURATION),
+bd2::Player::Player(Type _type, const MapCoordinates &_map_position)
+    : Moveable(_type, _map_position, PLAYER_MOVE_DURATION),
       planned_move_(MapCoordinates(0, 0)), previous_move_left_(true) {}
 
-bd2::MapCoordinates bd2::Player::getPlannedMove(const Map3x3 &map3x3) const {
+bd2::MapCoordinates bd2::Player::getPlannedMove(const Map3x3 &map3x3,
+                                                sf::Time elapsed_time) {
 
     (void)map3x3;
+    (void)elapsed_time;
+
     return planned_move_;
 }
 
-void bd2::Player::startMove(MapCoordinates new_move) {
+void bd2::Player::startMove(const MapCoordinates &new_move) {
 
     Moveable::startMove(new_move);
     startMoveAnimation();
@@ -40,7 +43,7 @@ void bd2::Player::loadTextures(const ResourceHandler<sf::Texture> &textures_hand
     startAnimation(*basic_texture_, PLAYER_STANDING_ANIMATION_DURATION);
 }
 
-void bd2::Player::setPlannedMove(MapCoordinates new_planned_move) {
+void bd2::Player::setPlannedMove(const MapCoordinates &new_planned_move) {
     planned_move_ = new_planned_move;
 }
 

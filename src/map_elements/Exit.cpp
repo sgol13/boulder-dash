@@ -1,7 +1,7 @@
 #include "boulder-dash2/map_elements/Exit.hpp"
 
-bd2::Exit::Exit(Type _type, const MapCoordinates &_position)
-    : MapElement(_type, _position) {}
+bd2::Exit::Exit(Type _type, const MapCoordinates &_map_position)
+    : MapElement(_type, _map_position) {}
 
 void bd2::Exit::loadTextures(const ResourceHandler<sf::Texture> &textures_handler) {
 

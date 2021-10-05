@@ -32,6 +32,7 @@ src/game_components/Input.cpp
 src/map_elements/MapElement.cpp
 src/map_elements/Exit.cpp
 src/map_elements/Moveable.cpp
+src/map_elements/Boulder.cpp
 src/map_elements/Player.cpp
 src/map_elements/Flyable.cpp
 

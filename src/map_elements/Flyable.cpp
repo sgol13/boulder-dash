@@ -1,18 +1,18 @@
 #include "boulder-dash2/map_elements/Flyable.hpp"
 
-bd2::Flyable::Flyable(Type _type, MapCoordinates _position)
-    : Moveable(_type, _position, FLYABLE_MOVE_DURATION) {}
+bd2::Flyable::Flyable(Type _type, const MapCoordinates &_map_position)
+    : Moveable(_type, _map_position, FLYABLE_MOVE_DURATION) {}
 
 void bd2::Flyable::loadTextures(
     const ResourceHandler<sf::Texture> &textures_handler) {
 
     switch (type_) {
-    case MapElement::Type::Butterfly:
+    case Type::Butterfly:
 
         basic_texture_ = textures_handler[resources::Textures::BUTTERFLY];
         break;
 
-    case MapElement::Type::Firefly:
+    case Type::Firefly:
 
         basic_texture_ = textures_handler[resources::Textures::FIREFLY];
         break;
@@ -24,7 +24,10 @@ void bd2::Flyable::loadTextures(
     startAnimation(*basic_texture_, FLYABLE_ANIMATION_DURATION);
 }
 
-bd2::MapCoordinates bd2::Flyable::getPlannedMove(const Map3x3 &map3x3) const {
+bd2::MapCoordinates bd2::Flyable::getPlannedMove(const Map3x3 &map3x3,
+                                                 sf::Time elapsed_time) {
+
+    (void)elapsed_time;
 
     MapCoordinates chosen_map_dir(0, 0);
 
@@ -33,10 +36,10 @@ bd2::MapCoordinates bd2::Flyable::getPlannedMove(const Map3x3 &map3x3) const {
 
         auto map_dir = dir + MapCoordinates(1, 1);
 
-        if (map3x3[map_dir.r][map_dir.c] == MapElement::Type::Empty) {
+        if (map3x3[map_dir.r][map_dir.c] == Type::Empty) {
             possible_directions.push_back(map_dir);
 
-        } else if (map3x3[map_dir.r][map_dir.c] == MapElement::Type::Player) {
+        } else if (map3x3[map_dir.r][map_dir.c] == Type::Player) {
             chosen_map_dir = map_dir;
             break;
         }
@@ -46,7 +49,7 @@ bd2::MapCoordinates bd2::Flyable::getPlannedMove(const Map3x3 &map3x3) const {
 
         MapCoordinates current_map_dir = getCurrentMove() + MapCoordinates(1, 1);
 
-        if (map3x3[current_map_dir.r][current_map_dir.c] == MapElement::Type::Empty) {
+        if (map3x3[current_map_dir.r][current_map_dir.c] == Type::Empty) {
             possible_directions.resize(possible_directions.size() + 9,
                                        current_map_dir);
         }
@@ -58,6 +61,6 @@ bd2::MapCoordinates bd2::Flyable::getPlannedMove(const Map3x3 &map3x3) const {
         }
     }
 
-    MapCoordinates chosen_move = chosen_map_dir - MapCoordinates(1, 1);
-    return chosen_move;
+    MapCoordinates planned_move = chosen_map_dir - MapCoordinates(1, 1);
+    return planned_move;
 }

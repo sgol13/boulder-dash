@@ -10,22 +10,23 @@ class Player final : public Moveable {
   public:
     /** Constructor - as an argument takes the real type of the element
      * and its initial position (row and column) */
-    Player(Type _type, MapCoordinates _position);
+    Player(Type _type, const MapCoordinates &_map_position);
 
     /** Loads needed textures from the ResourceHandler given as a pararameter.
      * The second parameter describes the expected size of the sprite tile after
      * scaling.*/
     void loadTextures(const ResourceHandler<sf::Texture> &textures_handler) override;
 
-    MapCoordinates getPlannedMove(const Map3x3 &map3x3) const override;
+    MapCoordinates getPlannedMove(const Map3x3 &map3x3,
+                                  sf::Time elapsed_time) override;
 
-    void startMove(MapCoordinates new_move) override;
+    void startMove(const MapCoordinates &new_move) override;
 
     void finishMove() override;
 
     void reverseMove() override;
 
-    void setPlannedMove(MapCoordinates new_planned_move);
+    void setPlannedMove(const MapCoordinates &new_planned_move);
 
   private:
     /* Starts an animation proper for the current move direction. */

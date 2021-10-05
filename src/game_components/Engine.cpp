@@ -145,13 +145,15 @@ void bd2::Engine::processEngineOperations() {
         if (moveable_object->getMovePhase() == Moveable::MovePhase::STANDING) {
 
             auto map3x3 = getMap3x3(moveable_object->getMapPosition());
-            auto planned_move = moveable_object->getPlannedMove(map3x3);
+            auto planned_move =
+                moveable_object->getPlannedMove(map3x3, turn_elapsed_time_);
             startObjectMove(moveable_object, planned_move);
         }
     }
 }
 
-void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) {
+void bd2::Engine::addMapElement(MapElement::Type type,
+                                const MapCoordinates &position) {
 
     std::shared_ptr<MapElement> new_element = nullptr;
 
@@ -176,6 +178,9 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
     } break;
 
     case MapElement::Type::Boulder: { // 5 - BOULDER
+
+        auto new_boulder = std::make_shared<Boulder>(type, position);
+        new_element = std::dynamic_pointer_cast<MapElement>(new_boulder);
 
     } break;
 
@@ -214,7 +219,7 @@ void bd2::Engine::addMapElement(MapElement::Type type, MapCoordinates position) 
 }
 
 void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object,
-                                  MapCoordinates planned_move) {
+                                  const MapCoordinates &planned_move) {
 
     if (planned_move) {
 
@@ -234,7 +239,7 @@ void bd2::Engine::finishObjectMove(const std::shared_ptr<Moveable> &object) {
     object->finishMove();
 }
 
-bd2::Moveable::Map3x3 bd2::Engine::getMap3x3(MapCoordinates center) {
+bd2::Moveable::Map3x3 bd2::Engine::getMap3x3(const MapCoordinates &center) {
 
     Moveable::Map3x3 map3x3 = {};
 

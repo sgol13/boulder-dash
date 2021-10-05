@@ -68,6 +68,10 @@ const sf::Time PLAYER_STANDING_ANIMATION_DURATION = sf::milliseconds(1400);
 
 const sf::Time FLYABLE_ANIMATION_DURATION = sf::milliseconds(195);
 const sf::Time FLYABLE_MOVE_DURATION = sf::milliseconds(195);
+
+const sf::Time BOULDER_WAIT_DURATION = sf::milliseconds(150);
+const sf::Time BOULDER_MOVE_DURATION = sf::milliseconds(150);
+
 const sf::Time DIAMOND_ANIMATION_DURATION = sf::milliseconds(240);
 
 #endif

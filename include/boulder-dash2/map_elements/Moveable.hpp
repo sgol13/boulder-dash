@@ -23,22 +23,18 @@ class Moveable : public MapElement {
 
     /** Constructor - as an argument takes the real type of the element
      * and ist initial position (row and column) */
-    Moveable(Type _type, const MapCoordinates &_position, sf::Time _move_duration);
-
-    /** Loads needed textures from the ResourceHandler given as a pararameter.
-     * The second parameter describes the expected size of the sprite tile after
-     * scaling.*/
-    virtual void
-    loadTextures(const ResourceHandler<sf::Texture> &textures_handler) override = 0;
+    Moveable(Type _type, const MapCoordinates &_map_position,
+             sf::Time _move_duration);
 
     MovePhase getMovePhase() const;
 
     MapCoordinates getCurrentMove() const;
 
-    virtual MapCoordinates getPlannedMove(const Map3x3 &map3x3) const = 0;
+    virtual MapCoordinates getPlannedMove(const Map3x3 &map3x3,
+                                          sf::Time elapsed_time) = 0;
 
     /* Functions initialising the move */
-    virtual void startMove(MapCoordinates new_move);
+    virtual void startMove(const MapCoordinates &new_move);
 
     virtual void finishMove();
 
