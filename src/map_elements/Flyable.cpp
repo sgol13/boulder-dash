@@ -35,7 +35,7 @@ void bd2::Flyable::startMove(const MapCoordinates &new_move,
 
 bd2::MapCoordinates bd2::Flyable::getPlannedMove(const Map3x3 &map3x3) {
 
-    MapCoordinates chosen_map_dir(0, 0);
+    MapCoordinates chosen_map_dir(1, 1);
 
     std::vector<MapCoordinates> possible_directions;
     for (auto &dir : DIR_AROUND4) {
@@ -51,7 +51,7 @@ bd2::MapCoordinates bd2::Flyable::getPlannedMove(const Map3x3 &map3x3) {
         }
     }
 
-    if (!chosen_map_dir) {
+    if (chosen_map_dir == MapCoordinates(1, 1)) {
 
         MapCoordinates current_map_dir = getCurrentMove() + MapCoordinates(1, 1);
 

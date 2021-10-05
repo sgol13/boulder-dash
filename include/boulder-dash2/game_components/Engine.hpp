@@ -92,6 +92,11 @@ class Engine {
     // sizes of the current level: {number of rows, number of columns}
     MapCoordinates map_size_;
 
+    int score_;
+
+    int time_limit_;
+    int required_diamonds_;
+
   private:
     std::vector<std::weak_ptr<Moveable>> moveable_objects_;
 
@@ -100,9 +105,10 @@ class Engine {
 
     Moveable::Map3x3 getMap3x3(const MapCoordinates &center);
 
-    void startObjectMove(Moveable &object, const MapCoordinates &planned_move);
+    void startObjectMove(const std::shared_ptr<Moveable> &object,
+                         const MapCoordinates &planned_move);
 
-    void finishObjectMove(Moveable &object);
+    void finishObjectMove(const std::shared_ptr<Moveable> &object);
 
     void killObject(MapElement &object);
 
@@ -113,10 +119,6 @@ class Engine {
     bool collideObjects(Moveable &moveable_object, MapElement &target_object);
 
     bool collidePlayer(Player &player, MapElement &target_object);
-
-    bool collideBoulder(Boulder &boulder, MapElement &target_object);
-
-    bool collideFlyable(Flyable &flyable, MapElement &target_object);
 
     std::vector<std::vector<DoubleTile>::iterator> double_tiles_;
 

@@ -41,8 +41,8 @@ class Level {
     std::vector<std::vector<MapElement::Type>> map_;
     MapCoordinates map_size_;
 
-    unsigned int time_limit_;
-    unsigned int required_diamonds_;
+    int time_limit_;
+    int required_diamonds_;
 };
 
 } // namespace bd2

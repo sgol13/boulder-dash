@@ -16,8 +16,12 @@ class Exit final : public MapElement {
 
     void openDoor();
 
+    bool isOpen();
+
   private:
     std::shared_ptr<const sf::Texture> opened_exit_texture_;
+
+    bool is_open;
 };
 
 } // namespace bd2
