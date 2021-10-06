@@ -14,6 +14,7 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <set>
 #include <unordered_map>
@@ -21,6 +22,7 @@
 #include <vector>
 
 // SFML headers
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -36,6 +38,10 @@
 
 #ifndef BD2_FONT_RESOURCES_DIR
 #define BD2_FONT_RESOURCES_DIR "res/fonts/"
+#endif
+
+#ifndef BD2_AUDIO_RESOURCES_DIR
+#define BD2_AUDIO_RESOURCES_DIR "res/sounds/"
 #endif
 
 #ifndef BD2_LEVEL_RESOURCES_DIR
@@ -75,5 +81,12 @@ const sf::Time BOULDER_MOVE_DURATION = sf::milliseconds(150);
 const sf::Time DIAMOND_ANIMATION_DURATION = sf::milliseconds(240);
 
 const sf::Time EXPLOSION_DURATION = sf::milliseconds(720);
+
+// =============================================================================
+// SOUNDS SETTINGS
+// =============================================================================
+constexpr float MUSIC_VOLUME = 100;
+
+
 
 #endif

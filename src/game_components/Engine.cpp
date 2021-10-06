@@ -113,15 +113,20 @@ bd2::Engine::Engine(sf::RenderWindow &_window) : window_(_window) {}
 
 void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
+    // restart all members
     map_.clear();
     new_objects_.clear();
     map_objects_.clear();
     moveable_objects_.clear();
+    double_tiles_.clear();
+    explosions_.clear();
+    sounds_to_play_.clear();
     end_game_ = false;
+    win_game_ = false;
     player_ = nullptr;
     exit_ = nullptr;
     clock_.restart();
-    score_ = 0;
+    picked_diamonds_ = 0;
 
     // set map dimensions
     map_size_ = level->getMapSize();
@@ -146,6 +151,7 @@ void bd2::Engine::processEngineOperations() {
 
     // clear the list of newly created map elements from the previous turn
     new_objects_.clear();
+    sounds_to_play_.clear();
 
     // simulate and finish moves
     for (auto &weak_moveable_object : moveable_objects_) {
@@ -358,6 +364,8 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
 
     case MapElement::Type::Butterfly: {
 
+        playSound(resources::Sounds::BUTTERFLY_DESTROY);
+
         for (auto &dir : DIR_AROUND5) {
 
             bool add_diamond = false;
@@ -394,6 +402,8 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
 
     case MapElement::Type::Firefly: {
 
+        playSound(resources::Sounds::EXPLOSION);
+
         for (auto &dir : DIR_AROUND8) {
 
             bool add_explosion = false;
@@ -428,7 +438,17 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
     }
 }
 
-void bd2::Engine::gameOver() { std::cout << "GAME OVER" << std::endl; }
+void bd2::Engine::gameOver() {
+
+    end_game_ = true;
+
+    if (win_game_) {
+        playSound(resources::Sounds::GAME_WIN);
+
+    } else {
+        playSound(resources::Sounds::GAME_OVER);
+    }
+}
 
 bool bd2::Engine::checkCollision(const std::shared_ptr<Moveable> &moveable_object,
                                  const MapCoordinates &move) {
@@ -521,6 +541,8 @@ bool bd2::Engine::collidePlayer(const std::shared_ptr<Player> &player,
 
     switch (target_object->type_) {
     case MapElement::Type::Ground: {
+
+        playSound(resources::Sounds::GROUND_DESTROY);
         killObject(target_object);
         is_move_possible = true;
 
@@ -528,9 +550,10 @@ bool bd2::Engine::collidePlayer(const std::shared_ptr<Player> &player,
 
     case MapElement::Type::Diamond: {
 
+        playSound(resources::Sounds::DIAMOND);
         killObject(target_object);
-        score_++;
-        if (score_ == required_diamonds_) {
+        picked_diamonds_++;
+        if (picked_diamonds_ == required_diamonds_) {
             exit_->openDoor();
         }
 
@@ -542,6 +565,7 @@ bool bd2::Engine::collidePlayer(const std::shared_ptr<Player> &player,
 
         if (exit_->isOpen()) {
             is_move_possible = true;
+            win_game_ = true;
             gameOver();
         }
 
@@ -575,6 +599,10 @@ bool bd2::Engine::collidePlayer(const std::shared_ptr<Player> &player,
                 player->setTempMoveDuration(BOULDER_MOVE_DURATION);
                 is_move_possible = true;
             }
+        }
+
+        if (is_move_possible) {
+            playSound(resources::Sounds::BOULDER_PUSH);
         }
 
     } break;
@@ -649,4 +677,8 @@ void bd2::Engine::collideObjectsInMove(std::shared_ptr<MapElement> object_1,
     default:
         break;
     }
+}
+
+void bd2::Engine::playSound(resources::Sounds sound) {
+    sounds_to_play_.push_back(sound);
 }

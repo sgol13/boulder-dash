@@ -77,6 +77,35 @@ constexpr int font_files_num =
     sizeof(font_files) / sizeof(std::pair<Fonts, const char *>);
 
 //=============================================================================
+// SOUNDS
+//=============================================================================
+enum class Sounds {
+
+    MUSIC,
+    EXPLOSION,
+    BOULDER_PUSH,
+    GROUND_DESTROY,
+    BUTTERFLY_DESTROY,
+    DIAMOND,
+    GAME_OVER,
+    GAME_WIN,
+};
+
+constexpr std::pair<Sounds, const char *> sound_files[] = {
+    {Sounds::MUSIC, "music.wav"},
+    {Sounds::EXPLOSION, "explosion.wav"},
+    {Sounds::BOULDER_PUSH, "boulder_push.wav"},
+    {Sounds::GROUND_DESTROY, "ground_destroy.wav"},
+    {Sounds::BUTTERFLY_DESTROY, "butterfly_destroy.wav"},
+    {Sounds::DIAMOND, "diamond.wav"},
+    {Sounds::GAME_OVER, "game_over.wav"},
+    {Sounds::GAME_WIN, "game_win.wav"},
+};
+
+constexpr int sound_files_num =
+    sizeof(sound_files) / sizeof(std::pair<Sounds, const char *>);
+
+//=============================================================================
 // LEVELS
 //=============================================================================
 enum class Levels { TEST_LEVEL };
@@ -111,6 +140,12 @@ template <> struct __FilenamesStruct<Textures> {
 template <> struct __FilenamesStruct<Fonts> {
     static constexpr const std::pair<Fonts, const char *> *files_ = font_files;
     static constexpr int files_num_ = font_files_num;
+};
+
+// template specialised for Sounds
+template <> struct __FilenamesStruct<Sounds> {
+    static constexpr const std::pair<Sounds, const char *> *files_ = sound_files;
+    static constexpr int files_num_ = sound_files_num;
 };
 
 // template specialised for Levels

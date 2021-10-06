@@ -12,10 +12,12 @@ set(CMAKE_CXX_FLAGS "-Wall -Wconversion -Wextra -Wshadow -Werror")
 set(RESOURCES_DIR "../res/")
 set(GRAPHIC_RESOURCES_DIR "${RESOURCES_DIR}textures/")
 set(FONT_RESOURCES_DIR "${RESOURCES_DIR}fonts/")
+set(AUDIO_RESOURCES_DIR "${RESOURCES_DIR}sounds/")
 set(LEVEL_RESOURCES_DIR "${RESOURCES_DIR}levels/")
 
 add_definitions(-DBD2_GRAPHIC_RESOURCES_DIR="${GRAPHIC_RESOURCES_DIR}")
 add_definitions(-DBD2_FONT_RESOURCES_DIR="${FONT_RESOURCES_DIR}")
+add_definitions(-DBD2_AUDIO_RESOURCES_DIR="${AUDIO_RESOURCES_DIR}")
 add_definitions(-DBD2_LEVEL_RESOURCES_DIR="${LEVEL_RESOURCES_DIR}")
 
 # list of source files
@@ -25,8 +27,9 @@ src/main.cpp
 # game components
 src/game_components/Engine.cpp
 src/game_components/Video.cpp
-src/game_components/Game.cpp
+src/game_components/Audio.cpp
 src/game_components/Input.cpp
+src/game_components/Game.cpp
 
 # map elements
 src/map_elements/MapElement.cpp

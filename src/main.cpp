@@ -14,6 +14,7 @@ int main() {
 
     bd2::ResourceHandler<sf::Texture> textures_handler;
     bd2::ResourceHandler<sf::Font> fonts_handler;
+    bd2::ResourceHandler<sf::SoundBuffer> sounds_handler;
     bd2::ResourceHandler<bd2::Level> levels_handler;
 
     textures_handler.loadResources(bd2::resources::texture_files,
@@ -23,6 +24,10 @@ int main() {
     fonts_handler.loadResources(bd2::resources::font_files,
                                 bd2::resources::font_files_num,
                                 BD2_FONT_RESOURCES_DIR);
+
+    sounds_handler.loadResources(bd2::resources::sound_files,
+                                 bd2::resources::sound_files_num,
+                                 BD2_AUDIO_RESOURCES_DIR);
 
     levels_handler.loadResources(bd2::resources::level_files,
                                  bd2::resources::level_files_num,
@@ -50,7 +55,7 @@ int main() {
         window.setIcon(icon_size.x, icon_size.y, icon_image.getPixelsPtr());
     }
 
-    bd2::Game game(window, textures_handler, fonts_handler);
+    bd2::Game game(window, textures_handler, fonts_handler, sounds_handler);
     game.play(levels_handler[bd2::resources::Levels::TEST_LEVEL]);
 
     return 0;

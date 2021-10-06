@@ -70,11 +70,15 @@ class Engine {
     // flag indicating if the game is going to be exited
     bool end_game_;
 
+    bool win_game_;
+
     /** The list of newly created map elements. It cointains only the elements
      * which were created in a current turn so that other components
      * (Video, Input, Audio) could perform some operations on new elements
      * e.g. initialise them. */
     std::vector<std::weak_ptr<MapElement>> new_objects_;
+
+    std::vector<resources::Sounds> sounds_to_play_;
 
     sf::Time turn_elapsed_time_;
 
@@ -87,7 +91,7 @@ class Engine {
     // sizes of the current level: {number of rows, number of columns}
     MapCoordinates map_size_;
 
-    int score_;
+    int picked_diamonds_;
 
     int time_limit_;
     int required_diamonds_;
@@ -120,6 +124,8 @@ class Engine {
 
     void collideObjectsInMove(std::shared_ptr<MapElement> object_1,
                               std::shared_ptr<MapElement> object_2);
+
+    void playSound(resources::Sounds sound);
 
     template <class T>
     void eraseFromVectorIf(std::vector<T> &vector,

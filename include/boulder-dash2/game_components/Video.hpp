@@ -38,12 +38,6 @@ class Video : virtual public Engine {
     const ResourceHandler<sf::Texture> &textures_handler_;
     const ResourceHandler<sf::Font> &fonts_handler_;
 
-    // square tile size in pixels (depending on the screen resolution)
-    unsigned int tile_size_;
-
-    // size of the upper interface bar (score and time) in pixels
-    unsigned int upper_bar_size_;
-
     sf::FloatRect view_area_;
 };
 

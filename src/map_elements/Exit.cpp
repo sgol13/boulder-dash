@@ -5,14 +5,16 @@ bd2::Exit::Exit(Type _type, const MapCoordinates &_map_position)
 
 void bd2::Exit::loadTextures(const ResourceHandler<sf::Texture> &textures_handler) {
 
-    is_open = true;
-
     basic_texture_ = textures_handler[resources::Textures::WALL];
     opened_exit_texture_ = textures_handler[resources::Textures::EXIT];
 
     startAnimation(*basic_texture_);
 }
 
-void bd2::Exit::openDoor() { startAnimation(*opened_exit_texture_); }
+void bd2::Exit::openDoor() {
+
+    is_open = true;
+    startAnimation(*opened_exit_texture_);
+}
 
 bool bd2::Exit::isOpen() { return is_open; }
