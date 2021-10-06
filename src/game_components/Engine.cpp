@@ -106,12 +106,6 @@ bd2::Engine::DoubleTile::operator std::shared_ptr<MapElement> &() { return ptr0_
 const std::shared_ptr<bd2::MapElement> bd2::Engine::DoubleTile::empty_ptr = nullptr;
 
 // ==============================================================================
-bool bd2::Engine::MapIteratorCompare::operator()(
-    const std::vector<DoubleTile>::iterator &it1,
-    const std::vector<DoubleTile>::iterator &it2) {
-    return it1->size() > it2->size();
-}
-// ==============================================================================
 // ENGINE
 // ==============================================================================
 
@@ -191,18 +185,20 @@ void bd2::Engine::processEngineOperations() {
         }
     }
 
-    std::sort(map_objects_.begin(), map_objects_.end(), MapElement::Compare());
+    auto dt_end = std::remove_if(double_tiles_.begin(), double_tiles_.end(),
+                                 [](auto a) { return a->size() < 2; });
+    double_tiles_.erase(dt_end, double_tiles_.end());
 
-    while (!map_objects_.empty() && map_objects_.back().expired()) {
-        map_objects_.pop_back();
-    }
 
-    std::sort(moveable_objects_.begin(), moveable_objects_.end(),
-              MapElement::Compare());
 
-    while (!moveable_objects_.empty() && moveable_objects_.back().expired()) {
-        moveable_objects_.pop_back();
-    }
+    auto mpo_end = std::remove_if(map_objects_.begin(), map_objects_.end(),
+                                  [](auto a) { return a.expired(); });
+    map_objects_.erase(mpo_end, map_objects_.end());
+
+
+    auto mbo_end = std::remove_if(moveable_objects_.begin(), moveable_objects_.end(),
+                                  [](auto a) { return a.expired(); });
+    moveable_objects_.erase(mbo_end, moveable_objects_.end());
 }
 
 void bd2::Engine::addMapElement(MapElement::Type type,

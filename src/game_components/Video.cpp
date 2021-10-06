@@ -83,6 +83,9 @@ void bd2::Video::processVideoOperations() {
         window_.setView(view); */
 
     // DRAWING
+
+    std::sort(map_objects_.begin(), map_objects_.end(), MapElement::Compare());
+
     window_.clear(sf::Color::Black);
 
     // draw all map elements

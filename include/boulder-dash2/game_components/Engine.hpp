@@ -52,12 +52,6 @@ class Engine {
     };
     // ==========================================================================
 
-    class MapIteratorCompare {
-      public:
-        bool operator()(const std::vector<DoubleTile>::iterator &it1,
-                        const std::vector<DoubleTile>::iterator &it2);
-    };
-
   public:
     /* Constructor */
     Engine(sf::RenderWindow &_window);
@@ -123,6 +117,9 @@ class Engine {
     void collideObjectsInMove(std::shared_ptr<MapElement> object_1,
                               std::shared_ptr<MapElement> object_2);
 
+    /*     template <class T>
+        void removeExpiredTail(std::vector<T> &vector, std::function<void(T)>); */
+
     std::vector<std::vector<DoubleTile>::iterator> double_tiles_;
 
     std::vector<std::vector<DoubleTile>> map_;
@@ -132,4 +129,7 @@ class Engine {
 
 } // namespace bd2
 
+/* template <class T>
+void bd2::Engine::removeExpiredTail(std::vector<T> &vector, std::function<void(T)>) {}
+ */
 #endif
