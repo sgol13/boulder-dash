@@ -62,9 +62,10 @@ constexpr float INI_WINDOW_SCREEN_RATIO_Y = 0.7f;
 constexpr int INI_WINDOW_POS_X = 0;
 constexpr int INI_WINDOW_POS_Y = 0;
 
-constexpr int TILE_SIZE = 48;
-// constexpr int VERTICAL_TILES_NUM = 20;
-// constexpr float VIEW_MARGIN_RATIO = 0.3f;
+constexpr int TILE_SIZE = 64;
+constexpr int VERTICAL_TILES_NUM = 25;
+// constexpr float UPPER_BAR_RATIO = 0.05;
+constexpr float VIEW_MARGIN_RATIO = 0.4f;
 
 // =============================================================================
 // DURATION SETTINGS

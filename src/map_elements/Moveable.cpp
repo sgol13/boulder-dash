@@ -76,3 +76,12 @@ std::vector<bd2::MapCoordinates> bd2::Moveable::getAllMapPositions() const {
     }
     return all_map_positions;
 }
+
+sf::Vector2f bd2::Moveable::getCenterPosition() const {
+
+    sf::Vector2f position = getPosition();
+    position.x += TILE_SIZE / 2;
+    position.y += TILE_SIZE / 2;
+
+    return position;
+}

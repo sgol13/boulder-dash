@@ -43,6 +43,8 @@ class Moveable : public MapElement {
 
     std::vector<MapCoordinates> getAllMapPositions() const override;
 
+    sf::Vector2f getCenterPosition() const;
+
   protected:
     sf::Time move_duration_;
 

@@ -440,8 +440,6 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
 
 void bd2::Engine::gameOver() {
 
-    end_game_ = true;
-
     if (win_game_) {
         playSound(resources::Sounds::GAME_WIN);
 

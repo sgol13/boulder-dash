@@ -9,16 +9,17 @@ bd2::Video::Video(sf::RenderWindow &_window,
 void bd2::Video::initialiseVideo() {
 
     // set a view area with the player in the center
-    /*     auto window_size = window_.getSize();
-        auto player_center =
-            tileCenter(player_->getMapPosition(), player_->getMoveOffset());
+    auto window_size = window_.getSize();
+    auto player_center = player_->getCenterPosition();
 
-        view_area_.left = player_center.x - 0.5f * static_cast<float>(window_size.x);
-        view_area_.top = player_center.y - 0.5f * static_cast<float>(window_size.y);
-        view_area_.width = static_cast<float>(window_size.x);
-        view_area_.height = static_cast<float>(window_size.y);
+    float scale = getViewScale();
 
-        fitViewAreaToMap(); */
+    view_area_.width = static_cast<float>(window_size.x) * scale;
+    view_area_.height = static_cast<float>(window_size.y) * scale;
+    view_area_.left = player_center.x - 0.5f * view_area_.width;
+    view_area_.top = player_center.y - 0.5f * view_area_.height;
+
+    fitViewAreaToMap();
 
     for (auto &weak_object : new_objects_) {
         if (auto object = weak_object.lock()) {
@@ -49,41 +50,37 @@ void bd2::Video::processVideoOperations() {
     }
 
     // SETTING VIEW
-    /*     auto window_size = window_.getSize();
+    auto window_size = window_.getSize();
+    auto player_center = player_->getCenterPosition();
 
-        auto player_center =
-            tileCenter(player_->getMapPosition(), player_->getMoveOffset());
+    float scale = getViewScale();
 
-        // move the view area to keep the player inside (+ margins)
-        view_area_.width = static_cast<float>(window_size.x);
-        view_area_.height = static_cast<float>(window_size.y);
+    // move the view area to keep the player inside (+ margins)
+    view_area_.width = static_cast<float>(window_size.x) * scale;
+    view_area_.height = static_cast<float>(window_size.y) * scale;
 
-        float horizontal_margin = VIEW_MARGIN_RATIO *
-       static_cast<float>(window_size.x); float vertical_margin =
-       VIEW_MARGIN_RATIO * static_cast<float>(window_size.y);
+    float horizontal_margin = VIEW_MARGIN_RATIO * view_area_.width;
+    float vertical_margin = VIEW_MARGIN_RATIO * view_area_.height;
 
-        view_area_.left = std::min(view_area_.left, player_center.x -
-       horizontal_margin); view_area_.left = std::max(view_area_.left,
-       player_center.x
-       + horizontal_margin - view_area_.width);
+    view_area_.left = std::min(view_area_.left, player_center.x - horizontal_margin);
+    view_area_.left = std::max(view_area_.left, player_center.x + horizontal_margin -
+                                                    view_area_.width);
 
-        view_area_.top = std::min(view_area_.top, player_center.y -
-       vertical_margin); view_area_.top = std::max(view_area_.top, player_center.y
-       + vertical_margin - view_area_.height);
+    view_area_.top = std::min(view_area_.top, player_center.y - vertical_margin);
+    view_area_.top = std::max(view_area_.top,
+                              player_center.y + vertical_margin - view_area_.height);
 
 
-        // move a view to keep it on the map
-        fitViewAreaToMap();
+    // move a view to keep it on the map
+    fitViewAreaToMap();
 
-        // the viewport is the whole screen apart from the upper bar
-        sf::View view;
-        view.reset(view_area_);
-
-        view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
-        window_.setView(view); */
+    // the viewport is the whole screen apart from the upper bar
+    sf::View view;
+    view.reset(view_area_);
+    view.setViewport(sf::FloatRect(0.0f, 0.0f, 1.0f, 1.0f));
+    window_.setView(view);
 
     // DRAWING
-
     std::sort(map_objects_.begin(), map_objects_.end(), MapElement::Compare());
 
     window_.clear(sf::Color::Black);
@@ -97,28 +94,6 @@ void bd2::Video::processVideoOperations() {
     window_.display();
 }
 
-sf::Vector2f bd2::Video::tilePosition(const MapCoordinates &position,
-                                      const sf::Vector2f &move_offset) const {
-
-    sf::Vector2f tile_position;
-    tile_position.x = static_cast<float>(position.c * TILE_SIZE);
-    tile_position.y = static_cast<float>(position.r * TILE_SIZE);
-
-    tile_position += move_offset * static_cast<float>(TILE_SIZE);
-
-    return tile_position;
-}
-
-sf::Vector2f bd2::Video::tileCenter(const MapCoordinates &position,
-                                    const sf::Vector2f &move_offset) const {
-
-    auto tile_position = tilePosition(position, move_offset);
-    auto centre_offset = 0.5f * sf::Vector2f(static_cast<float>(TILE_SIZE),
-                                             static_cast<float>(TILE_SIZE));
-
-    return tile_position + centre_offset;
-}
-
 void bd2::Video::fitViewAreaToMap() {
 
     float map_width = static_cast<float>(TILE_SIZE * map_size_.c);
@@ -129,4 +104,12 @@ void bd2::Video::fitViewAreaToMap() {
 
     view_area_.left = std::max(view_area_.left, 0.0f);
     view_area_.top = std::max(view_area_.top, 0.0f);
+}
+
+float bd2::Video::getViewScale() {
+
+    float screen_height = static_cast<float>(sf::VideoMode::getDesktopMode().height);
+    float scale = (TILE_SIZE * VERTICAL_TILES_NUM) / screen_height;
+
+    return scale;
 }

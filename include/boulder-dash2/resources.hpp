@@ -111,7 +111,7 @@ constexpr int sound_files_num =
 enum class Levels { TEST_LEVEL };
 
 constexpr std::pair<Levels, const char *> level_files[] = {
-    {Levels::TEST_LEVEL, "level0"}};
+    {Levels::TEST_LEVEL, "level1"}};
 
 constexpr int level_files_num =
     sizeof(level_files) / sizeof(std::pair<Levels, const char *>);
