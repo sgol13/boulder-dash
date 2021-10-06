@@ -104,23 +104,25 @@ class Engine {
 
     void finishObjectMove(const std::shared_ptr<Moveable> &object);
 
-    void killObject(MapElement &object);
+    void killObject(const std::shared_ptr<MapElement> &object);
 
     void gameOver();
 
-    bool checkCollision(Moveable &moveable_object, const MapCoordinates &move);
+    bool checkCollision(const std::shared_ptr<Moveable> &moveable_object,
+                        const MapCoordinates &move);
 
-    bool collideObjects(Moveable &moveable_object, MapElement &target_object);
+    bool collideObjects(const std::shared_ptr<Moveable> &moveable_object,
+                        const std::shared_ptr<MapElement> &target_object);
 
-    bool collidePlayer(Player &player, MapElement &target_object);
+    bool collidePlayer(const std::shared_ptr<Player> &player,
+                       const std::shared_ptr<MapElement> &target_object);
 
     void collideObjectsInMove(std::shared_ptr<MapElement> object_1,
                               std::shared_ptr<MapElement> object_2);
 
-    /*     template <class T>
-        void removeExpiredTail(std::vector<T> &vector, std::function<void(T)>); */
-
     std::vector<std::vector<DoubleTile>::iterator> double_tiles_;
+
+    std::set<std::shared_ptr<MapElement>, MapElement::Compare> killed_objects_;
 
     std::vector<std::vector<DoubleTile>> map_;
 
@@ -129,7 +131,4 @@ class Engine {
 
 } // namespace bd2
 
-/* template <class T>
-void bd2::Engine::removeExpiredTail(std::vector<T> &vector, std::function<void(T)>) {}
- */
 #endif

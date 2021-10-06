@@ -104,13 +104,26 @@ class MapCoordinates {
 // ==============================================================================
 // Typical move directions
 
+constexpr MapCoordinates DIR_CENTER = {0, 0};
+constexpr MapCoordinates DIR_UP_LEFT = {-1, -1};
 constexpr MapCoordinates DIR_UP = {-1, 0};
+constexpr MapCoordinates DIR_UP_RIGHT = {-1, 1};
 constexpr MapCoordinates DIR_RIGHT = {0, 1};
+constexpr MapCoordinates DIR_DOWN_RIGHT = {1, 1};
 constexpr MapCoordinates DIR_DOWN = {1, 0};
+constexpr MapCoordinates DIR_DOWN_LEFT = {1, -1};
 constexpr MapCoordinates DIR_LEFT = {0, -1};
+
 
 constexpr std::array<MapCoordinates, 4> DIR_AROUND4 = {DIR_UP, DIR_RIGHT, DIR_DOWN,
                                                        DIR_LEFT};
+
+constexpr std::array<MapCoordinates, 5> DIR_AROUND5 = {DIR_CENTER, DIR_UP, DIR_RIGHT,
+                                                       DIR_DOWN, DIR_LEFT};
+
+constexpr std::array<MapCoordinates, 8> DIR_AROUND8 = {
+    DIR_UP_LEFT,    DIR_UP,   DIR_UP_RIGHT,  DIR_RIGHT,
+    DIR_DOWN_RIGHT, DIR_DOWN, DIR_DOWN_LEFT, DIR_LEFT};
 
 } // namespace bd2
 

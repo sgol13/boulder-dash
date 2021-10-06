@@ -185,10 +185,19 @@ void bd2::Engine::processEngineOperations() {
         }
     }
 
+
+    for (auto &killed_object : killed_objects_) {
+
+        for (auto &map_position : killed_object->getAllMapPositions()) {
+            map_[map_position.r][map_position.c].remove(killed_object);
+        }
+    }
+    killed_objects_.clear();
+
+
     auto dt_end = std::remove_if(double_tiles_.begin(), double_tiles_.end(),
                                  [](auto a) { return a->size() < 2; });
     double_tiles_.erase(dt_end, double_tiles_.end());
-
 
 
     auto mpo_end = std::remove_if(map_objects_.begin(), map_objects_.end(),
@@ -249,8 +258,8 @@ void bd2::Engine::addMapElement(MapElement::Type type,
 
     } break;
 
-    case MapElement::Type::Explosion: { // 9 - EXPLOSION
-    } break;
+    default:
+        break;
     }
 
     if (new_element) {
@@ -309,7 +318,7 @@ void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object,
         auto position = object->getMapPosition();
         auto target_position = position + planned_move;
 
-        if (checkCollision(*object, planned_move)) {
+        if (checkCollision(object, planned_move)) {
 
             map_[target_position.r][target_position.c] = object;
             object->startMove(planned_move);
@@ -324,31 +333,88 @@ void bd2::Engine::finishObjectMove(const std::shared_ptr<Moveable> &object) {
     object->finishMove();
 }
 
-void bd2::Engine::killObject(MapElement &object) {
+void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
 
-    if (object.type_ == MapElement::Type::Player) {
-        gameOver();
-
-    } else if (object.type_ == MapElement::Type::Diamond) {
-        score_++;
-        if (score_ == required_diamonds_) {
-            exit_->openDoor();
-        }
+    if (object->type_ == MapElement::Type::Wall ||
+        object->type_ == MapElement::Type::Exit) {
+        return;
     }
 
-    for (auto &map_position : object.getAllMapPositions()) {
-        map_[map_position.r][map_position.c].remove(object);
+    if (killed_objects_.find(object) != killed_objects_.end()) {
+        return;
+    }
+
+    killed_objects_.insert(object);
+
+    switch (object->type_) {
+    case MapElement::Type::Player: {
+        gameOver();
+    } break;
+
+    case MapElement::Type::Butterfly: {
+
+        for (auto &dir : DIR_AROUND5) {
+
+            bool add_diamond = false;
+            auto map_position = object->getMapPosition() + dir;
+
+            if (map_[map_position.r][map_position.c].size() == 0) {
+                add_diamond = true;
+
+            } else {
+
+                if (auto object_1 = map_[map_position.r][map_position.c][0]) {
+
+                    if (object_1->type_ == MapElement::Type::Ground ||
+                        object_1->type_ == MapElement::Type::Boulder) {
+                        killObject(map_[map_position.r][map_position.c][0]);
+                        add_diamond = true;
+                    }
+                }
+
+                if (auto object_2 = map_[map_position.r][map_position.c][1]) {
+
+                    if (object_2->type_ == MapElement::Type::Boulder) {
+                        killObject(map_[map_position.r][map_position.c][1]);
+                        add_diamond = true;
+                    }
+                }
+            }
+
+            if (add_diamond) {
+                addMapElement(MapElement::Type::Diamond, map_position);
+            }
+        }
+    } break;
+
+    case MapElement::Type::Firefly: {
+
+        for (auto &dir : DIR_AROUND8) {
+
+            auto map_position = object->getMapPosition() + dir;
+            if (auto object_1 = map_[map_position.r][map_position.c][0]) {
+                killObject(object_1);
+            }
+
+            if (auto object_2 = map_[map_position.r][map_position.c][1]) {
+                killObject(object_2);
+            }
+        }
+    } break;
+
+    default:
+        break;
     }
 }
 
 void bd2::Engine::gameOver() { std::cout << "GAME OVER" << std::endl; }
 
-bool bd2::Engine::checkCollision(Moveable &moveable_object,
+bool bd2::Engine::checkCollision(const std::shared_ptr<Moveable> &moveable_object,
                                  const MapCoordinates &move) {
 
     bool is_move_possible = false;
 
-    auto target_position = moveable_object.getMapPosition() + move;
+    auto target_position = moveable_object->getMapPosition() + move;
     DoubleTile &target_tile = map_[target_position.r][target_position.c];
 
     switch (target_tile.size()) {
@@ -358,13 +424,13 @@ bool bd2::Engine::checkCollision(Moveable &moveable_object,
 
     case 1: {
 
-        auto rectangle_1 = moveable_object.getGlobalBounds();
+        auto rectangle_1 = moveable_object->getGlobalBounds();
         rectangle_1.left += static_cast<float>(move.c);
         rectangle_1.top += static_cast<float>(move.r);
         auto rectangle_2 = target_tile[0]->getGlobalBounds();
 
         if (rectangle_1.intersects(rectangle_2)) {
-            is_move_possible = collideObjects(moveable_object, *target_tile[0]);
+            is_move_possible = collideObjects(moveable_object, target_tile[0]);
 
         } else {
             double_tiles_.push_back(map_[target_position.r].begin() +
@@ -376,8 +442,8 @@ bool bd2::Engine::checkCollision(Moveable &moveable_object,
 
     case 2: {
 
-        bool possible_1 = collideObjects(moveable_object, *target_tile[0]);
-        bool possible_2 = collideObjects(moveable_object, *target_tile[1]);
+        bool possible_1 = collideObjects(moveable_object, target_tile[0]);
+        bool possible_2 = collideObjects(moveable_object, target_tile[1]);
         is_move_possible = possible_1 && possible_2;
 
     } break;
@@ -389,16 +455,16 @@ bool bd2::Engine::checkCollision(Moveable &moveable_object,
     return is_move_possible;
 }
 
-bool bd2::Engine::collideObjects(Moveable &moveable_object,
-                                 MapElement &target_object) {
+bool bd2::Engine::collideObjects(const std::shared_ptr<Moveable> &moveable_object,
+                                 const std::shared_ptr<MapElement> &target_object) {
 
     bool is_move_possible = false;
 
-    switch (moveable_object.type_) {
+    switch (moveable_object->type_) {
     case MapElement::Type::Player: {
 
-        Player &player_reference = dynamic_cast<Player &>(moveable_object);
-        is_move_possible = collidePlayer(player_reference, target_object);
+        auto player_ptr = std::dynamic_pointer_cast<Player>(moveable_object);
+        is_move_possible = collidePlayer(player_ptr, target_object);
 
     } break;
 
@@ -412,7 +478,7 @@ bool bd2::Engine::collideObjects(Moveable &moveable_object,
     case MapElement::Type::Butterfly:
     case MapElement::Type::Firefly: {
 
-        if (target_object.type_ == MapElement::Type::Player) {
+        if (target_object->type_ == MapElement::Type::Player) {
 
             killObject(target_object);
             is_move_possible = true;
@@ -427,15 +493,26 @@ bool bd2::Engine::collideObjects(Moveable &moveable_object,
     return is_move_possible;
 }
 
-bool bd2::Engine::collidePlayer(Player &player, MapElement &target_object) {
+bool bd2::Engine::collidePlayer(const std::shared_ptr<Player> &player,
+                                const std::shared_ptr<MapElement> &target_object) {
 
     bool is_move_possible = false;
 
-    switch (target_object.type_) {
-    case MapElement::Type::Ground:
+    switch (target_object->type_) {
+    case MapElement::Type::Ground: {
+        killObject(target_object);
+        is_move_possible = true;
+
+    } break;
+
     case MapElement::Type::Diamond: {
 
         killObject(target_object);
+        score_++;
+        if (score_ == required_diamonds_) {
+            exit_->openDoor();
+        }
+
         is_move_possible = true;
 
     } break;
@@ -451,13 +528,13 @@ bool bd2::Engine::collidePlayer(Player &player, MapElement &target_object) {
 
     case MapElement::Type::Boulder: {
 
-        Boulder &boulder_reference = dynamic_cast<Boulder &>(target_object);
+        auto boulder_ptr = std::dynamic_pointer_cast<Boulder>(target_object);
 
-        auto position = player.getMapPosition();
-        auto move = target_object.getMapPosition() - position;
+        auto position = player->getMapPosition();
+        auto move = target_object->getMapPosition() - position;
 
-        auto player_pos_y = player.getPosition().y;
-        auto boulder_pos_y = boulder_reference.getPosition().y;
+        auto player_pos_y = player->getPosition().y;
+        auto boulder_pos_y = boulder_ptr->getPosition().y;
 
         if ((move == DIR_LEFT || move == DIR_RIGHT) && player_pos_y < boulder_pos_y) {
             is_move_possible = true;
@@ -466,15 +543,15 @@ bool bd2::Engine::collidePlayer(Player &player, MapElement &target_object) {
 
             if (move == DIR_LEFT && map_[position.r][position.c - 2].size() == 0) {
 
-                boulder_reference.pushSide(DIR_LEFT);
-                player.setTempMoveDuration(BOULDER_MOVE_DURATION);
+                boulder_ptr->pushSide(DIR_LEFT);
+                player->setTempMoveDuration(BOULDER_MOVE_DURATION);
                 is_move_possible = true;
 
             } else if (move == DIR_RIGHT &&
                        map_[position.r][position.c + 2].size() == 0) {
 
-                boulder_reference.pushSide(DIR_RIGHT);
-                player.setTempMoveDuration(BOULDER_MOVE_DURATION);
+                boulder_ptr->pushSide(DIR_RIGHT);
+                player->setTempMoveDuration(BOULDER_MOVE_DURATION);
                 is_move_possible = true;
             }
         }
@@ -525,13 +602,13 @@ void bd2::Engine::collideObjectsInMove(std::shared_ptr<MapElement> object_1,
         if (object_2->type_ == MapElement::Type::Boulder) {
 
             if (object_2->getPosition().y < object_1->getPosition().y) {
-                killObject(*object_1);
+                killObject(object_1);
             }
 
         } else if (object_2->type_ == MapElement::Type::Butterfly ||
                    object_2->type_ == MapElement::Type::Firefly) {
 
-            killObject(*object_1);
+            killObject(object_1);
         }
 
     } break;
@@ -540,10 +617,10 @@ void bd2::Engine::collideObjectsInMove(std::shared_ptr<MapElement> object_1,
     case MapElement::Type::Firefly: {
 
         if (object_2->type_ == MapElement::Type::Boulder) {
-            killObject(*object_1);
+            killObject(object_1);
 
         } else if (object_2->type_ == MapElement::Type::Player) {
-            killObject(*object_1);
+            killObject(object_1);
         }
 
     } break;
