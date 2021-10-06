@@ -179,6 +179,18 @@ void bd2::Engine::processEngineOperations() {
         }
     }
 
+    for (auto &double_tile : double_tiles_) {
+        if (double_tile->size() == 2) {
+
+            auto rectangle_1 = (*double_tile)[0]->getGlobalBounds();
+            auto rectangle_2 = (*double_tile)[1]->getGlobalBounds();
+
+            if (rectangle_1.intersects(rectangle_2)) {
+                collideObjectsInMove((*double_tile)[0], (*double_tile)[1]);
+            }
+        }
+    }
+
     std::sort(map_objects_.begin(), map_objects_.end(), MapElement::Compare());
 
     while (!map_objects_.empty() && map_objects_.back().expired()) {
@@ -355,12 +367,6 @@ bool bd2::Engine::checkCollision(Moveable &moveable_object,
         rectangle_1.top += static_cast<float>(move.r);
         auto rectangle_2 = target_tile[0]->getGlobalBounds();
 
-        /* std::cout << rectangle_1.left << " " << rectangle_1.top << " "
-                  << rectangle_1.width << " " << rectangle_1.height << "\n";
-
-        std::cout << rectangle_2.left << " " << rectangle_2.top << " "
-                  << rectangle_2.width << " " << rectangle_2.height << "\n"; */
-
         if (rectangle_1.intersects(rectangle_2)) {
             is_move_possible = collideObjects(moveable_object, *target_tile[0]);
 
@@ -452,7 +458,7 @@ bool bd2::Engine::collidePlayer(Player &player, MapElement &target_object) {
         Boulder &boulder_reference = dynamic_cast<Boulder &>(target_object);
 
         auto position = player.getMapPosition();
-        auto move = target_object.getMapPosition() - player.getMapPosition();
+        auto move = target_object.getMapPosition() - position;
 
         auto player_pos_y = player.getPosition().y;
         auto boulder_pos_y = boulder_reference.getPosition().y;
@@ -475,16 +481,7 @@ bool bd2::Engine::collidePlayer(Player &player, MapElement &target_object) {
                 player.setTempMoveDuration(BOULDER_MOVE_DURATION);
                 is_move_possible = true;
             }
-
-        } /* else if (move == DIR_DOWN && player_pos_y + TILE_SIZE < boulder_pos_y) {
-
-            float distance = player_pos_y + 2 * TILE_SIZE - boulder_pos_y;
-            float distance_ratio = distance / TILE_SIZE;
-            sf::Time move_duration = distance_ratio * BOULDER_MOVE_DURATION;
-            std::cout << move_duration.asMilliseconds() << "\n";
-            player.setTempMoveDuration(move_duration);
-            is_move_possible = true;
-        } */
+        }
 
     } break;
 
@@ -499,4 +496,63 @@ bool bd2::Engine::collidePlayer(Player &player, MapElement &target_object) {
     }
 
     return is_move_possible;
+}
+
+void bd2::Engine::collideObjectsInMove(std::shared_ptr<MapElement> object_1,
+                                       std::shared_ptr<MapElement> object_2) {
+
+    // swap if needed
+    if (object_1->type_ == MapElement::Type::Boulder &&
+        object_2->type_ == MapElement::Type::Player) {
+
+        std::swap(object_1, object_2);
+    }
+
+    if (object_1->type_ == MapElement::Type::Boulder &&
+        (object_2->type_ == MapElement::Type::Butterfly ||
+         object_2->type_ == MapElement::Type::Firefly)) {
+
+        std::swap(object_1, object_2);
+    }
+
+    if ((object_1->type_ == MapElement::Type::Butterfly ||
+         object_1->type_ == MapElement::Type::Firefly) &&
+        object_2->type_ == MapElement::Type::Player) {
+
+        std::swap(object_1, object_2);
+    }
+
+    // collide
+    switch (object_1->type_) {
+    case MapElement::Type::Player: {
+
+        if (object_2->type_ == MapElement::Type::Boulder) {
+
+            if (object_2->getPosition().y < object_1->getPosition().y) {
+                killObject(*object_1);
+            }
+
+        } else if (object_2->type_ == MapElement::Type::Butterfly ||
+                   object_2->type_ == MapElement::Type::Firefly) {
+
+            killObject(*object_1);
+        }
+
+    } break;
+
+    case MapElement::Type::Butterfly:
+    case MapElement::Type::Firefly: {
+
+        if (object_2->type_ == MapElement::Type::Boulder) {
+            killObject(*object_1);
+
+        } else if (object_2->type_ == MapElement::Type::Player) {
+            killObject(*object_1);
+        }
+
+    } break;
+
+    default:
+        break;
+    }
 }

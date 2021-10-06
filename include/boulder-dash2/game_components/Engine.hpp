@@ -120,6 +120,9 @@ class Engine {
 
     bool collidePlayer(Player &player, MapElement &target_object);
 
+    void collideObjectsInMove(std::shared_ptr<MapElement> object_1,
+                              std::shared_ptr<MapElement> object_2);
+
     std::vector<std::vector<DoubleTile>::iterator> double_tiles_;
 
     std::vector<std::vector<DoubleTile>> map_;
