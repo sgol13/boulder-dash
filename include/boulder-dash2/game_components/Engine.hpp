@@ -6,6 +6,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/Boulder.hpp"
 #include "boulder-dash2/map_elements/Exit.hpp"
+#include "boulder-dash2/map_elements/Explosion.hpp"
 #include "boulder-dash2/map_elements/Flyable.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
 #include "boulder-dash2/map_elements/Moveable.hpp"
@@ -120,14 +121,28 @@ class Engine {
     void collideObjectsInMove(std::shared_ptr<MapElement> object_1,
                               std::shared_ptr<MapElement> object_2);
 
+    template <class T>
+    void eraseFromVectorIf(std::vector<T> &vector,
+                           std::function<bool(const T &)> predicate);
+
     std::vector<std::vector<DoubleTile>::iterator> double_tiles_;
 
     std::set<std::shared_ptr<MapElement>, MapElement::Compare> killed_objects_;
+
+    std::vector<std::shared_ptr<Explosion>> explosions_;
 
     std::vector<std::vector<DoubleTile>> map_;
 
     sf::Clock clock_;
 };
+
+template <class T>
+void bd2::Engine::eraseFromVectorIf(std::vector<T> &vector,
+                                    std::function<bool(const T &)> predicate) {
+
+    auto new_end = std::remove_if(vector.begin(), vector.end(), predicate);
+    vector.erase(new_end, vector.end());
+}
 
 } // namespace bd2
 

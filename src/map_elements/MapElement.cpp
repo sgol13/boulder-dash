@@ -41,15 +41,16 @@ bool bd2::MapElement::Compare::operator()(const std::weak_ptr<MapElement> &el1,
 
 const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers = {
 
-    bd2::MapElement::Type::Empty,     // 0
-    bd2::MapElement::Type::Wall,      // 1
-    bd2::MapElement::Type::Exit,      // 2
-    bd2::MapElement::Type::Ground,    // 3
-    bd2::MapElement::Type::Diamond,   // 5
-    bd2::MapElement::Type::Player,    // 8
-    bd2::MapElement::Type::Butterfly, // 6
-    bd2::MapElement::Type::Firefly,   // 7
-    bd2::MapElement::Type::Boulder,   // 4
+    Type::Empty,     // 0
+    Type::Wall,      // 1
+    Type::Exit,      // 2
+    Type::Ground,    // 3
+    Type::Diamond,   // 5
+    Type::Player,    // 8
+    Type::Butterfly, // 6
+    Type::Firefly,   // 7
+    Type::Boulder,   // 4
+    Type::Explosion, // 9
 };
 
 bd2::MapElement::MapElement(Type _type, const MapCoordinates &_map_position)
@@ -85,10 +86,10 @@ void bd2::MapElement::loadTextures(
         startAnimation(*basic_texture_);
         break;
 
-        /*case MapElement::Type::Explosion:
-            basic_texture_ = textures_handler[resources::Textures::EXPLOSION];
-            break;
-        } */
+    case MapElement::Type::Explosion:
+        basic_texture_ = textures_handler[resources::Textures::EXPLOSION];
+        startAnimation(*basic_texture_, EXPLOSION_DURATION);
+        break;
 
     default:
         break;

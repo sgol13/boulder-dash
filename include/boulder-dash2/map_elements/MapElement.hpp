@@ -47,7 +47,7 @@ class MapElement : public sf::Sprite {
 
     virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler);
 
-    void simulateAnimation(sf::Time elapsed_time);
+    virtual void simulateAnimation(sf::Time elapsed_time);
 
     /* returns the current position on the map {row, column} */
     MapCoordinates getMapPosition() const;

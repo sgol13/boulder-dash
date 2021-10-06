@@ -194,20 +194,17 @@ void bd2::Engine::processEngineOperations() {
     }
     killed_objects_.clear();
 
+    eraseFromVectorIf<std::shared_ptr<Explosion>>(
+        explosions_, [](auto a) { return a->isFinished(); });
 
-    auto dt_end = std::remove_if(double_tiles_.begin(), double_tiles_.end(),
-                                 [](auto a) { return a->size() < 2; });
-    double_tiles_.erase(dt_end, double_tiles_.end());
+    eraseFromVectorIf<std::vector<DoubleTile>::iterator>(
+        double_tiles_, [](auto a) { return a->size() < 2; });
 
+    eraseFromVectorIf<std::weak_ptr<MapElement>>(map_objects_,
+                                                 [](auto a) { return a.expired(); });
 
-    auto mpo_end = std::remove_if(map_objects_.begin(), map_objects_.end(),
-                                  [](auto a) { return a.expired(); });
-    map_objects_.erase(mpo_end, map_objects_.end());
-
-
-    auto mbo_end = std::remove_if(moveable_objects_.begin(), moveable_objects_.end(),
-                                  [](auto a) { return a.expired(); });
-    moveable_objects_.erase(mbo_end, moveable_objects_.end());
+    eraseFromVectorIf<std::weak_ptr<Moveable>>(moveable_objects_,
+                                               [](auto a) { return a.expired(); });
 }
 
 void bd2::Engine::addMapElement(MapElement::Type type,
@@ -258,13 +255,21 @@ void bd2::Engine::addMapElement(MapElement::Type type,
 
     } break;
 
-    default:
-        break;
+    case MapElement::Type::Explosion: { // 9 - EXPLOSION
+
+        auto new_explosion = std::make_shared<Explosion>(type, position);
+        explosions_.push_back(new_explosion);
+        new_element = std::dynamic_pointer_cast<Explosion>(new_explosion);
+
+    } break;
     }
 
     if (new_element) {
 
-        map_[position.r][position.c] = new_element;
+        if (new_element->type_ != MapElement::Type::Explosion) {
+            map_[position.r][position.c] = new_element;
+        }
+
         map_objects_.push_back(new_element);
 
         if (auto new_moveable = std::dynamic_pointer_cast<Moveable>(new_element)) {
@@ -391,13 +396,29 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
 
         for (auto &dir : DIR_AROUND8) {
 
+            bool add_explosion = false;
             auto map_position = object->getMapPosition() + dir;
+
             if (auto object_1 = map_[map_position.r][map_position.c][0]) {
-                killObject(object_1);
+
+                if (object_1->type_ != MapElement::Type::Wall &&
+                    object_1->type_ != MapElement::Type::Exit) {
+                    killObject(object_1);
+                    add_explosion = true;
+                }
             }
 
             if (auto object_2 = map_[map_position.r][map_position.c][1]) {
-                killObject(object_2);
+
+                if (object_2->type_ != MapElement::Type::Wall &&
+                    object_2->type_ != MapElement::Type::Exit) {
+                    killObject(object_2);
+                    add_explosion = true;
+                }
+            }
+
+            if (add_explosion) {
+                addMapElement(MapElement::Type::Explosion, map_position);
             }
         }
     } break;

@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <set>
@@ -72,5 +73,7 @@ const sf::Time FLYABLE_ANIMATION_DURATION = sf::milliseconds(195);
 const sf::Time BOULDER_MOVE_DURATION = sf::milliseconds(150);
 
 const sf::Time DIAMOND_ANIMATION_DURATION = sf::milliseconds(240);
+
+const sf::Time EXPLOSION_DURATION = sf::milliseconds(720);
 
 #endif
