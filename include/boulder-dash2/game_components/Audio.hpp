@@ -22,6 +22,8 @@ class Audio : virtual public Engine {
     sf::Sound music_;
 
     std::map<resources::Sounds, sf::Sound> sounds_;
+
+    bool previous_pause_;
 };
 
 } // namespace bd2

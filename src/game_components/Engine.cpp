@@ -18,26 +18,22 @@ bd2::Engine::DoubleTile::operator=(const std::shared_ptr<MapElement> &ptr) {
 
     add(ptr);
 
-    if (ptr0_ == ptr) {
+    if (ptr0_ == ptr)
         return ptr0_;
-    }
 
-    if (ptr1_ == ptr) {
+    if (ptr1_ == ptr)
         return ptr1_;
-    }
 
     return const_cast<std::shared_ptr<MapElement> &>(empty_ptr);
 }
 
 std::shared_ptr<bd2::MapElement> &bd2::Engine::DoubleTile::operator[](int n) {
 
-    if (n == 0) {
+    if (n == 0)
         return ptr0_;
-    }
 
-    if (n == 1) {
+    if (n == 1)
         return ptr1_;
-    }
 
     return const_cast<std::shared_ptr<MapElement> &>(empty_ptr);
 }
@@ -109,7 +105,9 @@ const std::shared_ptr<bd2::MapElement> bd2::Engine::DoubleTile::empty_ptr = null
 // ENGINE
 // ==============================================================================
 
-bd2::Engine::Engine(sf::RenderWindow &_window) : window_(_window) {}
+bd2::Engine::Engine(sf::RenderWindow &_window)
+    : window_(_window), end_game_(false), win_game_(false), pause_(false),
+      player_(nullptr), exit_(nullptr), picked_diamonds_(0) {}
 
 void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
@@ -127,6 +125,7 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
     exit_ = nullptr;
     clock_.restart();
     picked_diamonds_ = 0;
+    pause_ = false;
 
     // set map dimensions
     map_size_ = level->getMapSize();
@@ -148,6 +147,10 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 void bd2::Engine::processEngineOperations() {
 
     turn_elapsed_time_ = clock_.restart();
+
+    if (pause_) {
+        turn_elapsed_time_ = sf::seconds(0);
+    }
 
     // clear the list of newly created map elements from the previous turn
     new_objects_.clear();

@@ -5,7 +5,10 @@ bd2::Input::Input(sf::RenderWindow &_window) : Engine(_window) {}
 void bd2::Input::processInputOperations() {
 
     handleEvents();
-    handleControl();
+
+    if (!pause_) {
+        handleControl();
+    }
 }
 
 void bd2::Input::handleEvents() {
@@ -39,6 +42,10 @@ void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
     switch (key.code) {
     case sf::Keyboard::C: // exit the game
         end_game_ = true;
+        break;
+
+    case sf::Keyboard::Space: // pause the game
+        pause_ = !pause_;
         break;
 
     default:

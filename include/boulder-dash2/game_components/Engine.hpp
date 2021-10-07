@@ -72,6 +72,8 @@ class Engine {
 
     bool win_game_;
 
+    bool pause_;
+
     /** The list of newly created map elements. It cointains only the elements
      * which were created in a current turn so that other components
      * (Video, Input, Audio) could perform some operations on new elements
