@@ -13,10 +13,12 @@
 #include <ctime>
 #include <fstream>
 #include <functional>
+#include <iomanip>
 #include <iostream>
 #include <map>
 #include <memory>
 #include <set>
+#include <sstream>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -62,10 +64,23 @@ constexpr float INI_WINDOW_SCREEN_RATIO_Y = 0.7f;
 constexpr int INI_WINDOW_POS_X = 0;
 constexpr int INI_WINDOW_POS_Y = 0;
 
-constexpr int TILE_SIZE = 64;
+constexpr int TILE_SIZE = 32;
 constexpr int VERTICAL_TILES_NUM = 25;
-// constexpr float UPPER_BAR_RATIO = 0.05;
+constexpr float UPPER_BAR_TILE_RATIO = 2.0f;
 constexpr float VIEW_MARGIN_RATIO = 0.4f;
+constexpr float INTERFACE_FONT_RATIO = 0.6f;
+
+constexpr float UPPER_BAR_SIZE = TILE_SIZE * UPPER_BAR_TILE_RATIO;
+
+constexpr float UPPER_BAR_SCREEN_RATIO =
+    UPPER_BAR_SIZE / (TILE_SIZE * VERTICAL_TILES_NUM);
+
+constexpr int INTERFACE_FONT_SIZE =
+    static_cast<int>(UPPER_BAR_SIZE * INTERFACE_FONT_RATIO);
+
+constexpr float INTERFACE_TEXT_POS =
+    0.7f * ((UPPER_BAR_SIZE - INTERFACE_FONT_SIZE) / 2.f);
+
 
 // =============================================================================
 // DURATION SETTINGS

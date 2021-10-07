@@ -28,10 +28,31 @@ class Video : virtual public Engine {
 
     float getViewScale();
 
+    sf::View getMapView(float scale, sf::Vector2u window_size);
+
+    sf::View getInterfaceView(float scale, sf::Vector2u window_size);
+
+    void updateInterfaceData();
+
+    void moveInterfaceElementToColumn(sf::Transformable &element, int column);
+
+    //	void setInterfaceElementPosition();
+
+    MapElement interface_diamond_;
+    sf::Text diamonds_counter_text_;
+    sf::Text keys_info_text_;
+    sf::Text time_left_text_;
+    sf::Text score_text_;
+
     const ResourceHandler<sf::Texture> &textures_handler_;
     const ResourceHandler<sf::Font> &fonts_handler_;
 
-    sf::FloatRect view_area_;
+    sf::FloatRect map_view_area_;
+
+    float map_width_;
+    float map_height_;
+
+    sf::RectangleShape rect;
 };
 
 } // namespace bd2

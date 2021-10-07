@@ -129,7 +129,7 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
     // set map dimensions
     map_size_ = level->getMapSize();
-    time_limit_ = level->getTimeLimit();
+    time_limit_ = sf::seconds(static_cast<float>(level->getTimeLimit()));
     required_diamonds_ = level->getRequiredDiamonds();
 
     map_.resize(map_size_.r, std::vector<DoubleTile>(map_size_.c));
@@ -151,6 +151,8 @@ void bd2::Engine::processEngineOperations() {
     if (pause_) {
         turn_elapsed_time_ = sf::seconds(0);
     }
+
+    total_elapsed_time_ += turn_elapsed_time_;
 
     // clear the list of newly created map elements from the previous turn
     new_objects_.clear();

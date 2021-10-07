@@ -84,6 +84,8 @@ class Engine {
 
     sf::Time turn_elapsed_time_;
 
+    sf::Time total_elapsed_time_;
+
     // pointer to the player object
     std::shared_ptr<Player> player_;
     std::shared_ptr<Exit> exit_;
@@ -95,7 +97,7 @@ class Engine {
 
     int picked_diamonds_;
 
-    int time_limit_;
+    sf::Time time_limit_;
     int required_diamonds_;
 
   private:
