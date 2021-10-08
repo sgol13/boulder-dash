@@ -107,7 +107,8 @@ const std::shared_ptr<bd2::MapElement> bd2::Engine::DoubleTile::empty_ptr = null
 
 bd2::Engine::Engine(sf::RenderWindow &_window)
     : window_(_window), end_game_(false), exit_game_(false), win_game_(false),
-      pause_(false), player_(nullptr), exit_(nullptr), picked_diamonds_(0) {}
+      pause_(false), player_(nullptr), exit_(nullptr), picked_diamonds_(0),
+      score_(0) {}
 
 void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
@@ -126,6 +127,7 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
     exit_ = nullptr;
     clock_.restart();
     picked_diamonds_ = 0;
+    score_ = 0;
     pause_ = false;
 
     // set map dimensions
@@ -216,8 +218,25 @@ void bd2::Engine::processEngineOperations() {
             map_[map_position.r][map_position.c].remove(killed_object);
         }
 
-        if (killed_object->type_ == MapElement::Type::Player) {
+        switch (killed_object->type_) {
+        case MapElement::Type::Player:
             player_->die();
+            break;
+
+        case MapElement::Type::Diamond:
+            score_ += DIAMOND_POINTS;
+            break;
+
+        case MapElement::Type::Firefly:
+            score_ += FIREFLY_POINTS;
+            break;
+
+        case MapElement::Type::Butterfly:
+            score_ += BUTTERFLY_POINTS;
+            break;
+
+        default:
+            break;
         }
     }
     killed_objects_.clear();

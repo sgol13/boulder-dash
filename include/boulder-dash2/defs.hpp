@@ -81,6 +81,9 @@ constexpr int INTERFACE_FONT_SIZE =
 constexpr float INTERFACE_TEXT_POS =
     0.7f * ((UPPER_BAR_SIZE - INTERFACE_FONT_SIZE) / 2.f);
 
+constexpr int GAME_OVER_FONT_SIZE = 80;
+constexpr int VICTORY_TEXT_FONT_SIZE = 30;
+constexpr int GAME_OVER_SCORE_FONT_SIZE = 40;
 
 // =============================================================================
 // DURATION SETTINGS
@@ -104,7 +107,15 @@ const sf::Time EXPLOSION_DURATION = sf::milliseconds(720);
 // SOUNDS SETTINGS
 // =============================================================================
 constexpr float MUSIC_VOLUME = 100;
+constexpr float SOUNDS_VOLUME = 100;
 
+// =============================================================================
+// SCORE SETTINGS
+// =============================================================================
+constexpr int DIAMOND_POINTS = 5;
+constexpr int BUTTERFLY_POINTS = 10;
+constexpr int FIREFLY_POINTS = 10;
+constexpr int SECOND_LEFT_POINTS = 1;
 
 
 #endif

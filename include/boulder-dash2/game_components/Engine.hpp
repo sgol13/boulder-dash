@@ -101,6 +101,7 @@ class Engine {
 
     sf::Time time_limit_;
     int required_diamonds_;
+    int score_;
 
   private:
     std::vector<std::weak_ptr<Moveable>> moveable_objects_;

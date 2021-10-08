@@ -11,6 +11,10 @@ void bd2::Video::initialiseVideo() {
 
     // COLUMN 0 - diamonds counter
     interface_diamond_.loadTextures(textures_handler_);
+    float texture_height =
+        static_cast<float>(interface_diamond_.getTexture()->getSize().y);
+    float diamond_scale = 0.7f * UPPER_BAR_SIZE / texture_height;
+    interface_diamond_.setScale(diamond_scale, diamond_scale);
 
     diamonds_counter_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
     diamonds_counter_text_.setFillColor(sf::Color::White);
@@ -32,6 +36,26 @@ void bd2::Video::initialiseVideo() {
     score_text_.setFillColor(sf::Color::Yellow);
     score_text_.setCharacterSize(INTERFACE_FONT_SIZE);
 
+    // GAME OVER
+    game_over_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
+    game_over_text_.setFillColor(sf::Color::Magenta);
+    game_over_text_.setOutlineColor(sf::Color::White);
+    game_over_text_.setCharacterSize(GAME_OVER_FONT_SIZE);
+    game_over_text_.setOutlineThickness(3);
+
+    end_game_info_text_.setString("press enter to continue...");
+    end_game_info_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
+    end_game_info_text_.setFillColor(sf::Color::Magenta);
+    end_game_info_text_.setOutlineColor(sf::Color::White);
+    end_game_info_text_.setCharacterSize(VICTORY_TEXT_FONT_SIZE);
+    end_game_info_text_.setOutlineThickness(2);
+
+    victory_score_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
+    victory_score_text_.setFillColor(sf::Color::Magenta);
+    victory_score_text_.setOutlineColor(sf::Color::White);
+    victory_score_text_.setCharacterSize(GAME_OVER_SCORE_FONT_SIZE);
+    victory_score_text_.setOutlineThickness(2);
+
     // view area initialisation
     map_width_ = static_cast<float>(TILE_SIZE * map_size_.c);
     map_height_ = static_cast<float>(TILE_SIZE * map_size_.r);
@@ -47,7 +71,6 @@ void bd2::Video::initialiseVideo() {
         static_cast<float>(window_size.y) * scale - UPPER_BAR_SIZE;
     map_view_area_.left = player_center.x - 0.5f * map_view_area_.width;
     map_view_area_.top = player_center.y - 0.5f * map_view_area_.height;
-
 
     fitViewAreaToMap();
 
@@ -83,9 +106,11 @@ void bd2::Video::processVideoOperations() {
 
     window_.clear(sf::Color::Black);
 
-    auto map_view = getMapView(scale, window_size);
-    window_.setView(map_view);
+    window_.setView(getMapView(scale, window_size));
 
+    if (end_game_) {
+        setEndGameInterface();
+    }
 
     std::sort(map_objects_.begin(), map_objects_.end(), MapElement::Compare());
 
@@ -96,12 +121,20 @@ void bd2::Video::processVideoOperations() {
         }
     }
 
-    auto interface_view = getInterfaceView(scale, window_size);
-    window_.setView(interface_view);
+    if (end_game_) {
+
+        window_.draw(game_over_text_);
+        window_.draw(end_game_info_text_);
+
+        if (win_game_) {
+            window_.draw(victory_score_text_);
+        }
+    }
+
+    window_.setView(getInterfaceView(scale, window_size));
 
     updateInterface();
 
-    window_.draw(rect);
     window_.draw(interface_diamond_);
     window_.draw(diamonds_counter_text_);
     window_.draw(keys_info_text_);
@@ -192,14 +225,15 @@ void bd2::Video::updateInterface() {
 
     // COLUMN 0 - diamonds counter
     interface_diamond_.simulateAnimation(turn_elapsed_time_);
-    interface_diamond_.setPosition(0, 0);
+    interface_diamond_.setPosition(0.15f * UPPER_BAR_SIZE, 0.15f * UPPER_BAR_SIZE);
     moveInterfaceElementToColumn(interface_diamond_, 0);
 
     std::ostringstream oss;
-    oss << std::right << std::setfill(' ') << std::setw(3) << picked_diamonds_;
+    oss << std::right << std::setfill(' ') << std::setw(3);
+    oss << std::min(picked_diamonds_, required_diamonds_);
     oss << "/" << required_diamonds_;
     diamonds_counter_text_.setString(oss.str());
-    diamonds_counter_text_.setPosition(UPPER_BAR_SIZE, INTERFACE_TEXT_POS);
+    diamonds_counter_text_.setPosition(UPPER_BAR_SIZE * 0.8f, INTERFACE_TEXT_POS);
     moveInterfaceElementToColumn(diamonds_counter_text_, 0);
 
     // COLUMN 1 - keys info
@@ -207,23 +241,54 @@ void bd2::Video::updateInterface() {
     moveInterfaceElementToColumn(keys_info_text_, 1);
 
     // COLUMN 2 - timer
-    oss.str(std::string());
-    int time_left = static_cast<int>((time_limit_ - total_elapsed_time_).asSeconds());
-    oss << std::right << std::setfill('0') << std::setw(3) << time_left;
-    if (time_left_text_.getFillColor() == sf::Color::White && time_left < 10) {
-        time_left_text_.setFillColor(sf::Color::Red);
+    if (end_game_ == false) {
+        oss.str(std::string());
+        int time_left =
+            static_cast<int>((time_limit_ - total_elapsed_time_).asSeconds());
+        oss << std::right << std::setfill('0') << std::setw(3) << time_left;
+        time_left_text_.setString(oss.str());
+
+        if (time_left_text_.getFillColor() == sf::Color::White && time_left < 10) {
+            time_left_text_.setFillColor(sf::Color::Red);
+        }
     }
-    time_left_text_.setString(oss.str());
     time_left_text_.setPosition(0, INTERFACE_TEXT_POS);
     moveInterfaceElementToColumn(time_left_text_, 2);
 
     // COLUMN 3 - score
     oss.str(std::string());
-    int current_score = 57;
-    oss << std::right << std::setfill('0') << std::setw(3) << current_score;
+    oss << std::right << std::setfill('0') << std::setw(4) << score_;
     score_text_.setString(oss.str());
     score_text_.setPosition(0, INTERFACE_TEXT_POS);
     moveInterfaceElementToColumn(score_text_, 3);
+}
+
+void bd2::Video::setEndGameInterface() {
+
+    if (win_game_) {
+        game_over_text_.setString("VICTORY");
+
+    } else {
+        game_over_text_.setString("GAME OVER");
+    }
+
+    sf::Vector2f text_position;
+    text_position.x = map_view_area_.left + map_view_area_.width / 2 -
+                      game_over_text_.getLocalBounds().width / 2;
+    text_position.y = map_view_area_.top + map_view_area_.height / 4;
+    game_over_text_.setPosition(text_position);
+
+
+    victory_score_text_.setString("SCORE: " + std::to_string(score_));
+    text_position.x = map_view_area_.left + map_view_area_.width / 2 -
+                      victory_score_text_.getLocalBounds().width / 2;
+    text_position.y += 1.5f * GAME_OVER_FONT_SIZE;
+    victory_score_text_.setPosition(text_position);
+
+    text_position.x = map_view_area_.left + map_view_area_.width / 2 -
+                      end_game_info_text_.getLocalBounds().width / 2;
+    text_position.y += 2 * GAME_OVER_SCORE_FONT_SIZE;
+    end_game_info_text_.setPosition(text_position);
 }
 
 void bd2::Video::moveInterfaceElementToColumn(sf::Transformable &element,
