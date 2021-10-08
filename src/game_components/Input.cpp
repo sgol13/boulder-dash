@@ -40,11 +40,12 @@ void bd2::Input::handleEvents() {
 void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
 
     switch (key.code) {
-    case sf::Keyboard::C: // exit the game
-        end_game_ = true;
+    case sf::Keyboard::C:
+    case sf::Keyboard::Return: // exit the game - enter
+        exit_game_ = true;
         break;
 
-    case sf::Keyboard::Space: // pause the game
+    case sf::Keyboard::Space: // pause the game - space
         pause_ = !pause_;
         break;
 
@@ -58,7 +59,7 @@ void bd2::Input::handleControl() {
     MapCoordinates arrow_keys = {0, 0};
 
     // read the current states of the arrow keys
-    if (window_.hasFocus()) {
+    if (window_.hasFocus() && !end_game_) {
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             arrow_keys += DIR_UP;

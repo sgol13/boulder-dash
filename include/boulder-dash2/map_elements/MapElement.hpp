@@ -49,6 +49,8 @@ class MapElement : public sf::Sprite {
 
     virtual void simulateAnimation(sf::Time elapsed_time);
 
+    bool isAnimating() const;
+
     /* returns the current position on the map {row, column} */
     MapCoordinates getMapPosition() const;
 
@@ -61,9 +63,10 @@ class MapElement : public sf::Sprite {
     // current position on the map
     MapCoordinates map_position_;
 
-    void startAnimation(const sf::Texture &texture,
-                        sf::Time duration = sf::seconds(0),
-                        sf::Time initial_time = sf::seconds(0));
+    virtual void startAnimation(const sf::Texture &texture,
+                                sf::Time duration = sf::seconds(0),
+                                sf::Time initial_time = sf::seconds(0),
+                                bool looped = true);
 
 
     std::shared_ptr<const sf::Texture> basic_texture_;
@@ -71,6 +74,9 @@ class MapElement : public sf::Sprite {
   private:
     sf::Time animation_duration_;
     sf::Time animation_time_;
+
+    bool is_animating_;
+    bool is_looped_;
 };
 
 } // namespace bd2

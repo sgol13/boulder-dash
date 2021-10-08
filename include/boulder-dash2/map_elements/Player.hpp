@@ -30,6 +30,15 @@ class Player final : public Moveable {
 
     void setTempMoveDuration(sf::Time new_temporary_move_duration);
 
+    void die();
+
+    void startAnimation(const sf::Texture &texture,
+                        sf::Time duration = sf::seconds(0),
+                        sf::Time initial_time = sf::seconds(0),
+                        bool looped = true) override;
+
+    void simulateAnimation(sf::Time elapsed_time) override;
+
   private:
     /* Starts an animation proper for the current move direction. */
     void startMoveAnimation();
@@ -38,8 +47,12 @@ class Player final : public Moveable {
 
     std::shared_ptr<const sf::Texture> move_left_texture_;
     std::shared_ptr<const sf::Texture> move_right_texture_;
+    std::shared_ptr<const sf::Texture> death_texture_;
+    std::shared_ptr<const sf::Texture> start_texture_;
 
     bool previous_move_left_;
+
+    bool dead_;
 
     sf::Time temporary_move_duration_;
 };

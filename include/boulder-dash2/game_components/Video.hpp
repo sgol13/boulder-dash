@@ -32,7 +32,7 @@ class Video : virtual public Engine {
 
     sf::View getInterfaceView(float scale, sf::Vector2u window_size);
 
-    void updateInterfaceData();
+    void updateInterface();
 
     void moveInterfaceElementToColumn(sf::Transformable &element, int column);
 

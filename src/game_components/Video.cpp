@@ -20,6 +20,7 @@ void bd2::Video::initialiseVideo() {
     keys_info_text_.setString("enter - exit\nspace - pause");
     keys_info_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
     keys_info_text_.setFillColor(sf::Color::White);
+    keys_info_text_.setCharacterSize(INTERFACE_FONT_SIZE / 2);
 
     // COLUMN 2 - timer
     time_left_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
@@ -28,7 +29,7 @@ void bd2::Video::initialiseVideo() {
 
     // COLUMN 3 - score
     score_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
-    score_text_.setFillColor(sf::Color::White);
+    score_text_.setFillColor(sf::Color::Yellow);
     score_text_.setCharacterSize(INTERFACE_FONT_SIZE);
 
     // view area initialisation
@@ -88,15 +89,17 @@ void bd2::Video::processVideoOperations() {
 
     std::sort(map_objects_.begin(), map_objects_.end(), MapElement::Compare());
 
-    for (auto &object : map_objects_) {
+    for (auto &weak_object : map_objects_) {
 
-        window_.draw(*object.lock());
+        if (auto object = weak_object.lock()) {
+            window_.draw(*object);
+        }
     }
 
     auto interface_view = getInterfaceView(scale, window_size);
     window_.setView(interface_view);
 
-    updateInterfaceData();
+    updateInterface();
 
     window_.draw(rect);
     window_.draw(interface_diamond_);
@@ -170,8 +173,6 @@ sf::View bd2::Video::getMapView(float scale, sf::Vector2u window_size) {
 
 sf::View bd2::Video::getInterfaceView(float scale, sf::Vector2u window_size) {
 
-    (void)scale;
-
     sf::FloatRect interface_view_area;
     interface_view_area.left = 0.f;
     interface_view_area.top = map_height_;
@@ -187,8 +188,7 @@ sf::View bd2::Video::getInterfaceView(float scale, sf::Vector2u window_size) {
     return view;
 }
 
-void bd2::Video::updateInterfaceData() {
-
+void bd2::Video::updateInterface() {
 
     // COLUMN 0 - diamonds counter
     interface_diamond_.simulateAnimation(turn_elapsed_time_);
@@ -197,26 +197,30 @@ void bd2::Video::updateInterfaceData() {
 
     std::ostringstream oss;
     oss << std::right << std::setfill(' ') << std::setw(3) << picked_diamonds_;
-    oss << " / " << required_diamonds_;
+    oss << "/" << required_diamonds_;
     diamonds_counter_text_.setString(oss.str());
     diamonds_counter_text_.setPosition(UPPER_BAR_SIZE, INTERFACE_TEXT_POS);
     moveInterfaceElementToColumn(diamonds_counter_text_, 0);
 
     // COLUMN 1 - keys info
+    keys_info_text_.setPosition(0, INTERFACE_TEXT_POS);
     moveInterfaceElementToColumn(keys_info_text_, 1);
 
     // COLUMN 2 - timer
     oss.str(std::string());
     int time_left = static_cast<int>((time_limit_ - total_elapsed_time_).asSeconds());
     oss << std::right << std::setfill('0') << std::setw(3) << time_left;
+    if (time_left_text_.getFillColor() == sf::Color::White && time_left < 10) {
+        time_left_text_.setFillColor(sf::Color::Red);
+    }
     time_left_text_.setString(oss.str());
     time_left_text_.setPosition(0, INTERFACE_TEXT_POS);
     moveInterfaceElementToColumn(time_left_text_, 2);
 
     // COLUMN 3 - score
     oss.str(std::string());
-    int current_score = 257;
-    oss << std::right << std::setfill('0') << std::setw(5) << current_score;
+    int current_score = 57;
+    oss << std::right << std::setfill('0') << std::setw(3) << current_score;
     score_text_.setString(oss.str());
     score_text_.setPosition(0, INTERFACE_TEXT_POS);
     moveInterfaceElementToColumn(score_text_, 3);

@@ -106,8 +106,8 @@ const std::shared_ptr<bd2::MapElement> bd2::Engine::DoubleTile::empty_ptr = null
 // ==============================================================================
 
 bd2::Engine::Engine(sf::RenderWindow &_window)
-    : window_(_window), end_game_(false), win_game_(false), pause_(false),
-      player_(nullptr), exit_(nullptr), picked_diamonds_(0) {}
+    : window_(_window), end_game_(false), exit_game_(false), win_game_(false),
+      pause_(false), player_(nullptr), exit_(nullptr), picked_diamonds_(0) {}
 
 void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
@@ -120,6 +120,7 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
     explosions_.clear();
     sounds_to_play_.clear();
     end_game_ = false;
+    exit_game_ = false;
     win_game_ = false;
     player_ = nullptr;
     exit_ = nullptr;
@@ -157,6 +158,18 @@ void bd2::Engine::processEngineOperations() {
     // clear the list of newly created map elements from the previous turn
     new_objects_.clear();
     sounds_to_play_.clear();
+
+    eraseFromVectorIf<std::shared_ptr<MapElement>>(
+        explosions_, [](auto a) { return !a->isAnimating(); });
+
+    eraseFromVectorIf<std::vector<DoubleTile>::iterator>(
+        double_tiles_, [](auto a) { return a->size() < 2; });
+
+    eraseFromVectorIf<std::weak_ptr<MapElement>>(map_objects_,
+                                                 [](auto a) { return a.expired(); });
+
+    eraseFromVectorIf<std::weak_ptr<Moveable>>(moveable_objects_,
+                                               [](auto a) { return a.expired(); });
 
     // simulate and finish moves
     for (auto &weak_moveable_object : moveable_objects_) {
@@ -202,20 +215,12 @@ void bd2::Engine::processEngineOperations() {
         for (auto &map_position : killed_object->getAllMapPositions()) {
             map_[map_position.r][map_position.c].remove(killed_object);
         }
+
+        if (killed_object->type_ == MapElement::Type::Player) {
+            player_->die();
+        }
     }
     killed_objects_.clear();
-
-    eraseFromVectorIf<std::shared_ptr<Explosion>>(
-        explosions_, [](auto a) { return a->isFinished(); });
-
-    eraseFromVectorIf<std::vector<DoubleTile>::iterator>(
-        double_tiles_, [](auto a) { return a->size() < 2; });
-
-    eraseFromVectorIf<std::weak_ptr<MapElement>>(map_objects_,
-                                                 [](auto a) { return a.expired(); });
-
-    eraseFromVectorIf<std::weak_ptr<Moveable>>(moveable_objects_,
-                                               [](auto a) { return a.expired(); });
 }
 
 void bd2::Engine::addMapElement(MapElement::Type type,
@@ -268,9 +273,8 @@ void bd2::Engine::addMapElement(MapElement::Type type,
 
     case MapElement::Type::Explosion: { // 9 - EXPLOSION
 
-        auto new_explosion = std::make_shared<Explosion>(type, position);
-        explosions_.push_back(new_explosion);
-        new_element = std::dynamic_pointer_cast<Explosion>(new_explosion);
+        new_element = std::make_shared<MapElement>(type, position);
+        explosions_.push_back(new_element);
 
     } break;
     }
@@ -445,6 +449,7 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
 
 void bd2::Engine::gameOver() {
 
+    end_game_ = true;
     if (win_game_) {
         playSound(resources::Sounds::GAME_WIN);
 

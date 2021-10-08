@@ -35,6 +35,8 @@ enum class Textures {
     PLAYER_STANDING,
     PLAYER_MOVING_LEFT,
     PLAYER_MOVING_RIGHT,
+    PLAYER_DEATH,
+    PLAYER_START,
     EXPLOSION,
 
     // other textures
@@ -56,6 +58,8 @@ constexpr std::pair<Textures, const char *> texture_files[] = {
     {Textures::PLAYER_STANDING, "player_standing.png"},
     {Textures::PLAYER_MOVING_LEFT, "player_moving_left.png"},
     {Textures::PLAYER_MOVING_RIGHT, "player_moving_right.png"},
+    {Textures::PLAYER_DEATH, "player_death.png"},
+    {Textures::PLAYER_START, "player_start.png"},
     {Textures::EXPLOSION, "explosion.png"},
 
     // other textures

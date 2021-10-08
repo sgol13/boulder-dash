@@ -19,6 +19,14 @@ void bd2::Audio::initialiseAudio() { music_.play(); }
 
 void bd2::Audio::processAudioOperations() {
 
+    for (auto &sound_to_play : sounds_to_play_) {
+
+        auto sound_it = sounds_.find(sound_to_play);
+        if (sound_it != sounds_.end()) {
+            sound_it->second.play();
+        }
+    }
+
     if (pause_ && !previous_pause_) {
 
         music_.pause();
@@ -40,11 +48,7 @@ void bd2::Audio::processAudioOperations() {
         previous_pause_ = false;
     }
 
-    for (auto &sound_to_play : sounds_to_play_) {
-
-        auto sound_it = sounds_.find(sound_to_play);
-        if (sound_it != sounds_.end()) {
-            sound_it->second.play();
-        }
+    if (end_game_) {
+        music_.stop();
     }
 }

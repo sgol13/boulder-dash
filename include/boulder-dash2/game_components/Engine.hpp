@@ -6,7 +6,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/Boulder.hpp"
 #include "boulder-dash2/map_elements/Exit.hpp"
-#include "boulder-dash2/map_elements/Explosion.hpp"
+//#include "boulder-dash2/map_elements/Explosion.hpp"
 #include "boulder-dash2/map_elements/Flyable.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
 #include "boulder-dash2/map_elements/Moveable.hpp"
@@ -69,6 +69,8 @@ class Engine {
 
     // flag indicating if the game is going to be exited
     bool end_game_;
+
+    bool exit_game_;
 
     bool win_game_;
 
@@ -139,7 +141,7 @@ class Engine {
 
     std::set<std::shared_ptr<MapElement>, MapElement::Compare> killed_objects_;
 
-    std::vector<std::shared_ptr<Explosion>> explosions_;
+    std::vector<std::shared_ptr<MapElement>> explosions_;
 
     std::vector<std::vector<DoubleTile>> map_;
 

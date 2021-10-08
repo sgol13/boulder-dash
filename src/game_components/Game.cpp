@@ -14,7 +14,7 @@ int bd2::Game::play(const std::shared_ptr<const Level> level) {
     initialiseAudio();
 
     // game loop
-    while (end_game_ == false) {
+    while (exit_game_ == false) {
 
         processInputOperations();
         processEngineOperations();

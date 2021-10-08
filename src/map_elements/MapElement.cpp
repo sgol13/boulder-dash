@@ -54,7 +54,8 @@ const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers =
 };
 
 bd2::MapElement::MapElement(Type _type, const MapCoordinates &_map_position)
-    : type_(_type), map_position_(_map_position) {
+    : type_(_type), map_position_(_map_position), is_animating_(false),
+      is_looped_(false) {
 
     float x = static_cast<float>(map_position_.c * TILE_SIZE);
     float y = static_cast<float>(map_position_.r * TILE_SIZE);
@@ -88,7 +89,7 @@ void bd2::MapElement::loadTextures(
 
     case MapElement::Type::Explosion:
         basic_texture_ = textures_handler[resources::Textures::EXPLOSION];
-        startAnimation(*basic_texture_, EXPLOSION_DURATION);
+        startAnimation(*basic_texture_, EXPLOSION_DURATION, sf::seconds(0), false);
         break;
 
     default:
@@ -99,7 +100,10 @@ void bd2::MapElement::loadTextures(
 bd2::MapCoordinates bd2::MapElement::getMapPosition() const { return map_position_; }
 
 void bd2::MapElement::startAnimation(const sf::Texture &texture, sf::Time duration,
-                                     sf::Time initial_time) {
+                                     sf::Time initial_time, bool looped) {
+
+    is_animating_ = true;
+    is_looped_ = looped;
 
     animation_duration_ = duration;
     animation_time_ = initial_time;
@@ -113,9 +117,15 @@ void bd2::MapElement::startAnimation(const sf::Texture &texture, sf::Time durati
 
 void bd2::MapElement::simulateAnimation(sf::Time elapsed_time) {
 
-    if (animation_duration_ > sf::seconds(0)) {
+    if (is_animating_ && animation_duration_ > sf::seconds(0)) {
 
         animation_time_ += elapsed_time;
+
+        if (animation_time_ > animation_duration_ && !is_looped_) {
+            is_animating_ = false;
+            return;
+        }
+
         animation_time_ %= animation_duration_;
 
         auto texture_size = getTexture()->getSize();
@@ -134,6 +144,8 @@ void bd2::MapElement::simulateAnimation(sf::Time elapsed_time) {
         setTextureRect(frame_rectangle);
     }
 }
+
+bool bd2::MapElement::isAnimating() const { return is_animating_; }
 
 std::vector<bd2::MapCoordinates> bd2::MapElement::getAllMapPositions() const {
 

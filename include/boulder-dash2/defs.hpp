@@ -88,6 +88,8 @@ constexpr float INTERFACE_TEXT_POS =
 const sf::Time PLAYER_MOVE_DURATION = sf::milliseconds(120);
 const sf::Time PLAYER_MOVING_ANIMATION_DURATION = sf::milliseconds(240);
 const sf::Time PLAYER_STANDING_ANIMATION_DURATION = sf::milliseconds(1400);
+const sf::Time PLAYER_DEATH_ANIMATION_DURATION = sf::milliseconds(500);
+const sf::Time PLAYER_START_ANIMATION_DURATION = sf::milliseconds(500);
 
 const sf::Time FLYABLE_MOVE_DURATION = sf::milliseconds(195);
 const sf::Time FLYABLE_ANIMATION_DURATION = sf::milliseconds(195);

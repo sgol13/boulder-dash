@@ -10,14 +10,7 @@ class Explosion final : public MapElement {
   public:
     Explosion(Type _type, const MapCoordinates &_map_position);
 
-    void simulateAnimation(sf::Time elapsed_time);
-
-    bool isFinished() const;
-
-  private:
-    bool is_finished;
-
-    sf::Time explosion_time_;
+    void simulateAnimation(sf::Time elapsed_time) override;
 };
 
 } // namespace bd2
