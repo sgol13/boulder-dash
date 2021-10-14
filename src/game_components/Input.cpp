@@ -46,7 +46,9 @@ void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
         break;
 
     case sf::Keyboard::Space: // pause the game - space
-        pause_ = !pause_;
+        if (!end_game_) {
+            pause_ = !pause_;
+        }
         break;
 
     default:

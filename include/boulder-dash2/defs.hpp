@@ -88,6 +88,7 @@ constexpr float INTERFACE_TEXT_POS =
 constexpr int GAME_OVER_FONT_SIZE = 80;
 constexpr int VICTORY_TEXT_FONT_SIZE = 30;
 constexpr int GAME_OVER_SCORE_FONT_SIZE = 40;
+constexpr int PAUSE_TEXT_FONT_SIZE = 80;
 
 // =============================================================================
 // DURATION SETTINGS

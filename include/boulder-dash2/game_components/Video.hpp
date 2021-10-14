@@ -36,6 +36,8 @@ class Video : virtual public Engine {
 
     void setEndGameInterface();
 
+    void setPauseInterface();
+
     void moveInterfaceElementToColumn(sf::Transformable &element, int column);
 
     //	void setInterfaceElementPosition();
@@ -57,6 +59,7 @@ class Video : virtual public Engine {
     sf::Text game_over_text_;
     sf::Text victory_score_text_;
     sf::Text end_game_info_text_;
+    sf::Text pause_text_;
 };
 
 } // namespace bd2

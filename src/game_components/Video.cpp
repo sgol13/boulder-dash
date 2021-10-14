@@ -56,6 +56,12 @@ void bd2::Video::initialiseVideo() {
     victory_score_text_.setCharacterSize(GAME_OVER_SCORE_FONT_SIZE);
     victory_score_text_.setOutlineThickness(2);
 
+    // PAUSE
+    pause_text_.setString("PAUSE");
+    pause_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
+    pause_text_.setFillColor(sf::Color::White);
+    pause_text_.setCharacterSize(PAUSE_TEXT_FONT_SIZE);
+
     // view area initialisation
     map_width_ = static_cast<float>(TILE_SIZE * map_size_.c);
     map_height_ = static_cast<float>(TILE_SIZE * map_size_.r);
@@ -112,10 +118,6 @@ void bd2::Video::processVideoOperations() {
 
     window_.setView(getMapView(scale, window_size));
 
-    if (end_game_) {
-        setEndGameInterface();
-    }
-
     std::sort(map_objects_.begin(), map_objects_.end(), MapElement::Compare());
 
     for (auto &weak_object : map_objects_) {
@@ -125,7 +127,15 @@ void bd2::Video::processVideoOperations() {
         }
     }
 
+    if (pause_) {
+
+        setPauseInterface();
+        window_.draw(pause_text_);
+    }
+
     if (end_game_) {
+
+        setEndGameInterface();
 
         window_.draw(game_over_text_);
         window_.draw(end_game_info_text_);
@@ -293,6 +303,15 @@ void bd2::Video::setEndGameInterface() {
                       end_game_info_text_.getLocalBounds().width / 2;
     text_position.y += 2 * GAME_OVER_SCORE_FONT_SIZE;
     end_game_info_text_.setPosition(text_position);
+}
+
+void bd2::Video::setPauseInterface() {
+
+    sf::Vector2f text_position;
+    text_position.x = map_view_area_.left + map_view_area_.width / 2 -
+                      pause_text_.getLocalBounds().width / 2;
+    text_position.y = map_view_area_.top + map_view_area_.height / 4;
+    pause_text_.setPosition(text_position);
 }
 
 void bd2::Video::moveInterfaceElementToColumn(sf::Transformable &element,

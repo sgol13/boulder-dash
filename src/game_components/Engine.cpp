@@ -218,25 +218,27 @@ void bd2::Engine::processEngineOperations() {
             map_[map_position.r][map_position.c].remove(killed_object);
         }
 
-        switch (killed_object->type_) {
-        case MapElement::Type::Player:
-            player_->die();
-            break;
+        if (end_game_ == false) {
+            switch (killed_object->type_) {
+            case MapElement::Type::Player:
+                player_->die();
+                break;
 
-        case MapElement::Type::Diamond:
-            score_ += DIAMOND_POINTS;
-            break;
+            case MapElement::Type::Diamond:
+                score_ += DIAMOND_POINTS;
+                break;
 
-        case MapElement::Type::Firefly:
-            score_ += FIREFLY_POINTS;
-            break;
+            case MapElement::Type::Firefly:
+                score_ += FIREFLY_POINTS;
+                break;
 
-        case MapElement::Type::Butterfly:
-            score_ += BUTTERFLY_POINTS;
-            break;
+            case MapElement::Type::Butterfly:
+                score_ += BUTTERFLY_POINTS;
+                break;
 
-        default:
-            break;
+            default:
+                break;
+            }
         }
     }
     killed_objects_.clear();
