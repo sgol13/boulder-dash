@@ -64,6 +64,10 @@ constexpr float INI_WINDOW_SCREEN_RATIO_Y = 0.7f;
 constexpr int INI_WINDOW_POS_X = 0;
 constexpr int INI_WINDOW_POS_Y = 0;
 
+// minimal window dimensions
+constexpr unsigned int MIN_WINDOW_WIDTH = 800;
+constexpr unsigned int MIN_WINDOW_HEIGHT = 600;
+
 constexpr int TILE_SIZE = 32;
 constexpr int VERTICAL_TILES_NUM = 25;
 constexpr float UPPER_BAR_TILE_RATIO = 2.0f;

@@ -102,6 +102,10 @@ void bd2::Video::processVideoOperations() {
 
     // SETTING VIEW
     auto window_size = window_.getSize();
+    window_size.x = std::max(window_size.x, MIN_WINDOW_WIDTH);
+    window_size.y = std::max(window_size.y, MIN_WINDOW_HEIGHT);
+    window_.setSize(window_size);
+
     float scale = getViewScale();
 
     window_.clear(sf::Color::Black);
