@@ -2,6 +2,7 @@
 #include "boulder-dash2/ResourceHandler.hpp"
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/game_components/Game.hpp"
+#include "boulder-dash2/game_components/Menu.hpp"
 #include "boulder-dash2/resources.hpp"
 
 int main() {
@@ -37,14 +38,14 @@ int main() {
     // CREATING WINDOW
     //=========================================================================
 
-    auto video_mode = sf::VideoMode::getDesktopMode();
-    video_mode.width = static_cast<unsigned int>(
-        static_cast<float>(video_mode.width) * INI_WINDOW_SCREEN_RATIO_X);
+    auto window_mode = sf::VideoMode::getDesktopMode();
+    window_mode.width = static_cast<unsigned int>(
+        static_cast<float>(window_mode.width) * INI_WINDOW_SCREEN_RATIO_X);
 
-    video_mode.height = static_cast<unsigned int>(
-        static_cast<float>(video_mode.height) * INI_WINDOW_SCREEN_RATIO_Y);
+    window_mode.height = static_cast<unsigned int>(
+        static_cast<float>(window_mode.height) * INI_WINDOW_SCREEN_RATIO_Y);
 
-    sf::RenderWindow window(video_mode, WINDOW_NAME);
+    sf::RenderWindow window(window_mode, WINDOW_NAME);
     window.setPosition(sf::Vector2i(INI_WINDOW_POS_X, INI_WINDOW_POS_Y));
     window.setVerticalSyncEnabled(true);
 
@@ -55,8 +56,25 @@ int main() {
         window.setIcon(icon_size.x, icon_size.y, icon_image.getPixelsPtr());
     }
 
+    bd2::Menu menu(window, textures_handler, fonts_handler, sounds_handler,
+                   bd2::resources::level_files_num);
     bd2::Game game(window, textures_handler, fonts_handler, sounds_handler);
-    game.play(levels_handler[bd2::resources::Levels::TEST_LEVEL]);
+
+    while (window.isOpen()) {
+
+        int menu_option = menu.open();
+
+        if (menu_option == 0) {
+            window.close();
+            break;
+        }
+
+        auto level_label = bd2::resources::level_files[menu_option - 1].first;
+        int score = game.play(levels_handler[level_label]);
+
+        if (score > 0) {
+        }
+    }
 
     return 0;
 }

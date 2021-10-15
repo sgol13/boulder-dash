@@ -95,8 +95,7 @@ void bd2::Player::die() {
 void bd2::Player::simulateAnimation(sf::Time elapsed_time) {
 
     if (isAnimating() == false) {
-        startAnimation(*basic_texture_, PLAYER_STANDING_ANIMATION_DURATION,
-                       sf::seconds(0), true);
+        startAnimation(*basic_texture_, PLAYER_STANDING_ANIMATION_DURATION);
     }
 
     MapElement::simulateAnimation(elapsed_time);

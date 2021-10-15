@@ -126,6 +126,8 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
     player_ = nullptr;
     exit_ = nullptr;
     clock_.restart();
+    total_elapsed_time_ = sf::seconds(0);
+    turn_elapsed_time_ = sf::seconds(0);
     picked_diamonds_ = 0;
     score_ = 0;
     time_score_ = 0;
@@ -722,3 +724,5 @@ void bd2::Engine::collideObjectsInMove(std::shared_ptr<MapElement> object_1,
 void bd2::Engine::playSound(resources::Sounds sound) {
     sounds_to_play_.push_back(sound);
 }
+
+void bd2::Engine::finaliseEngine() { score_ += time_score_; }

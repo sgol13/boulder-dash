@@ -61,6 +61,8 @@ class Engine {
     /* Creates an initial state of the map on the basis of level object */
     void initialiseEngine(const std::shared_ptr<const Level> level);
 
+    void finaliseEngine();
+
     /* Processes all game engine operations - to be called once a turn*/
     void processEngineOperations();
 
@@ -87,7 +89,6 @@ class Engine {
     sf::Time turn_elapsed_time_;
     sf::Time total_elapsed_time_;
 
-    sf::Clock time_score_transfer_clock_;
 
     // pointer to the player object
     std::shared_ptr<Player> player_;
@@ -103,10 +104,11 @@ class Engine {
     sf::Time time_limit_;
     int required_diamonds_;
     int score_;
-    int time_score_;
 
   private:
+    sf::Clock time_score_transfer_clock_;
     std::vector<std::weak_ptr<Moveable>> moveable_objects_;
+    int time_score_;
 
     /* Creates a new map element of given type on [row, column] position */
     void addMapElement(MapElement::Type type, const MapCoordinates &position);
@@ -139,6 +141,7 @@ class Engine {
     template <class T>
     void eraseFromVectorIf(std::vector<T> &vector,
                            std::function<bool(const T &)> predicate);
+
 
     std::vector<std::vector<DoubleTile>::iterator> double_tiles_;
 

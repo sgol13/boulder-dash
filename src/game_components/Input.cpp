@@ -41,6 +41,10 @@ void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
 
     switch (key.code) {
     case sf::Keyboard::C:
+        exit_game_ = true;
+        window_.close();
+        break;
+
     case sf::Keyboard::Return: // exit the game - enter
         exit_game_ = true;
         break;

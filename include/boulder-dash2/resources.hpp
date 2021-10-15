@@ -93,6 +93,7 @@ enum class Sounds {
     DIAMOND,
     GAME_OVER,
     GAME_WIN,
+    MENU_SOUND,
 };
 
 constexpr std::pair<Sounds, const char *> sound_files[] = {
@@ -104,6 +105,7 @@ constexpr std::pair<Sounds, const char *> sound_files[] = {
     {Sounds::DIAMOND, "diamond.wav"},
     {Sounds::GAME_OVER, "game_over.wav"},
     {Sounds::GAME_WIN, "game_win.wav"},
+    {Sounds::MENU_SOUND, "menu_sound.wav"},
 };
 
 constexpr int sound_files_num =
@@ -112,10 +114,15 @@ constexpr int sound_files_num =
 //=============================================================================
 // LEVELS
 //=============================================================================
-enum class Levels { TEST_LEVEL };
+enum class Levels { LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7 };
 
 constexpr std::pair<Levels, const char *> level_files[] = {
-    {Levels::TEST_LEVEL, "level1"}};
+
+    {Levels::LEVEL_1, "level1"}, {Levels::LEVEL_2, "level2"},
+    {Levels::LEVEL_3, "level3"}, {Levels::LEVEL_4, "level4"},
+    {Levels::LEVEL_5, "level5"}, {Levels::LEVEL_6, "level6"},
+    {Levels::LEVEL_7, "level7"},
+};
 
 constexpr int level_files_num =
     sizeof(level_files) / sizeof(std::pair<Levels, const char *>);

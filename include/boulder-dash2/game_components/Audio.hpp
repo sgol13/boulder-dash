@@ -14,6 +14,8 @@ class Audio : virtual public Engine {
   protected:
     void initialiseAudio();
 
+    void finaliseAudio();
+
     void processAudioOperations();
 
   private:

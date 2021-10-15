@@ -14,7 +14,7 @@ int bd2::Game::play(const std::shared_ptr<const Level> level) {
     initialiseAudio();
 
     // game loop
-    while (exit_game_ == false) {
+    while (window_.isOpen() && exit_game_ == false) {
 
         processInputOperations();
         processEngineOperations();
@@ -22,5 +22,11 @@ int bd2::Game::play(const std::shared_ptr<const Level> level) {
         processAudioOperations();
     }
 
-    return 0;
+    finaliseEngine();
+    finaliseAudio();
+
+    if (!win_game_)
+        score_ = 0;
+
+    return score_;
 }

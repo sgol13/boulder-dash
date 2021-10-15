@@ -40,8 +40,6 @@ class Video : virtual public Engine {
 
     void moveInterfaceElementToColumn(sf::Transformable &element, int column);
 
-    //	void setInterfaceElementPosition();
-
     MapElement interface_diamond_;
     sf::Text diamonds_counter_text_;
     sf::Text keys_info_text_;

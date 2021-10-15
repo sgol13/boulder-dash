@@ -91,6 +91,21 @@ constexpr int GAME_OVER_SCORE_FONT_SIZE = 40;
 constexpr int PAUSE_TEXT_FONT_SIZE = 80;
 
 // =============================================================================
+// MENU SETTINGS
+// =============================================================================
+constexpr int MENU_WIDTH = 1800;
+constexpr int MENU_GAME_NAME_FONT_SIZE = 150;
+constexpr int MENU_OPTIONS_TEXTS_SIZE = 75;
+constexpr int MENU_OPTIONS_TEXTS_POSITION_X = 785;
+constexpr int MENU_ABOVE_GAME_NAME_GAP_HEIGHT = 150;
+constexpr int MENU_BELOW_GAME_NAME_GAP_HEIGHT = 150;
+constexpr int MENU_BETWEEN_OPTIONS_TEXT_GAP_HEIGHT = 50;
+constexpr int MENU_BELOW_OPTIONS_TEXTS_GAP_HEIGHT = 150;
+constexpr int MENU_PLAYER_SIZE = 100;
+
+const sf::Color GREY_COLOR(180, 180, 180);
+
+// =============================================================================
 // DURATION SETTINGS
 // =============================================================================
 const sf::Time PLAYER_MOVE_DURATION = sf::milliseconds(120);

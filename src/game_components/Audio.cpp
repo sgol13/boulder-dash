@@ -17,6 +17,14 @@ bd2::Audio::Audio(sf::RenderWindow &_window,
 
 void bd2::Audio::initialiseAudio() { music_.play(); }
 
+void bd2::Audio::finaliseAudio() {
+
+    music_.stop();
+    for (auto &sound : sounds_) {
+        sound.second.stop();
+    }
+}
+
 void bd2::Audio::processAudioOperations() {
 
     for (auto &sound_to_play : sounds_to_play_) {

@@ -30,6 +30,7 @@ src/game_components/Video.cpp
 src/game_components/Audio.cpp
 src/game_components/Input.cpp
 src/game_components/Game.cpp
+src/game_components/Menu.cpp
 
 # map elements
 src/map_elements/MapElement.cpp
@@ -38,7 +39,6 @@ src/map_elements/Moveable.cpp
 src/map_elements/Boulder.cpp
 src/map_elements/Player.cpp
 src/map_elements/Flyable.cpp
-#src/map_elements/Explosion.cpp
 
 # other files
 src/Level.cpp
