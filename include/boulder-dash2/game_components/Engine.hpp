@@ -85,8 +85,9 @@ class Engine {
     std::vector<resources::Sounds> sounds_to_play_;
 
     sf::Time turn_elapsed_time_;
-
     sf::Time total_elapsed_time_;
+
+    sf::Clock time_score_transfer_clock_;
 
     // pointer to the player object
     std::shared_ptr<Player> player_;
@@ -102,6 +103,7 @@ class Engine {
     sf::Time time_limit_;
     int required_diamonds_;
     int score_;
+    int time_score_;
 
   private:
     std::vector<std::weak_ptr<Moveable>> moveable_objects_;

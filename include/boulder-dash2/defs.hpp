@@ -65,8 +65,8 @@ constexpr int INI_WINDOW_POS_X = 0;
 constexpr int INI_WINDOW_POS_Y = 0;
 
 // minimal window dimensions
-constexpr unsigned int MIN_WINDOW_WIDTH = 800;
-constexpr unsigned int MIN_WINDOW_HEIGHT = 600;
+constexpr int MIN_WINDOW_WIDTH = 800;
+constexpr int MIN_WINDOW_HEIGHT = 600;
 
 constexpr int TILE_SIZE = 32;
 constexpr int VERTICAL_TILES_NUM = 25;
@@ -107,6 +107,8 @@ const sf::Time BOULDER_MOVE_DURATION = sf::milliseconds(150);
 const sf::Time DIAMOND_ANIMATION_DURATION = sf::milliseconds(240);
 
 const sf::Time EXPLOSION_DURATION = sf::milliseconds(720);
+
+const sf::Time TIME_SCORE_TRANSFER_DURATION = sf::milliseconds(15);
 
 // =============================================================================
 // SOUNDS SETTINGS

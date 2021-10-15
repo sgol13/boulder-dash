@@ -108,8 +108,10 @@ void bd2::Video::processVideoOperations() {
 
     // SETTING VIEW
     auto window_size = window_.getSize();
-    window_size.x = std::max(window_size.x, MIN_WINDOW_WIDTH);
-    window_size.y = std::max(window_size.y, MIN_WINDOW_HEIGHT);
+    window_size.x =
+        std::max(window_size.x, static_cast<unsigned int>(MIN_WINDOW_WIDTH));
+    window_size.y =
+        std::max(window_size.y, static_cast<unsigned int>(MIN_WINDOW_HEIGHT));
     window_.setSize(window_size);
 
     float scale = getViewScale();
@@ -255,17 +257,20 @@ void bd2::Video::updateInterface() {
     moveInterfaceElementToColumn(keys_info_text_, 1);
 
     // COLUMN 2 - timer
-    if (end_game_ == false) {
-        oss.str(std::string());
+    oss.str(std::string());
+    if (!end_game_ || win_game_) {
         int time_left =
             static_cast<int>((time_limit_ - total_elapsed_time_).asSeconds());
+        time_left = std::max(0, time_left);
         oss << std::right << std::setfill('0') << std::setw(3) << time_left;
         time_left_text_.setString(oss.str());
 
-        if (time_left_text_.getFillColor() == sf::Color::White && time_left < 10) {
+        if (time_left_text_.getFillColor() == sf::Color::White && time_left < 10 &&
+            !end_game_) {
             time_left_text_.setFillColor(sf::Color::Red);
         }
     }
+
     time_left_text_.setPosition(0, INTERFACE_TEXT_POS);
     moveInterfaceElementToColumn(time_left_text_, 2);
 

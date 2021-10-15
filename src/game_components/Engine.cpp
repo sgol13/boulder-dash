@@ -107,8 +107,8 @@ const std::shared_ptr<bd2::MapElement> bd2::Engine::DoubleTile::empty_ptr = null
 
 bd2::Engine::Engine(sf::RenderWindow &_window)
     : window_(_window), end_game_(false), exit_game_(false), win_game_(false),
-      pause_(false), player_(nullptr), exit_(nullptr), picked_diamonds_(0),
-      score_(0) {}
+      pause_(false), player_(nullptr), exit_(nullptr), picked_diamonds_(0), score_(0),
+      time_score_(0) {}
 
 void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
@@ -128,6 +128,7 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
     clock_.restart();
     picked_diamonds_ = 0;
     score_ = 0;
+    time_score_ = 0;
     pause_ = false;
 
     // set map dimensions
@@ -154,6 +155,16 @@ void bd2::Engine::processEngineOperations() {
     if (pause_) {
         turn_elapsed_time_ = sf::seconds(0);
     }
+
+    if (time_score_ &&
+        time_score_transfer_clock_.getElapsedTime() > TIME_SCORE_TRANSFER_DURATION) {
+
+        time_score_transfer_clock_.restart();
+        total_elapsed_time_ += sf::seconds(1);
+        time_score_--;
+        score_++;
+    }
+
 
     total_elapsed_time_ += turn_elapsed_time_;
 
@@ -222,6 +233,7 @@ void bd2::Engine::processEngineOperations() {
             switch (killed_object->type_) {
             case MapElement::Type::Player:
                 player_->die();
+                gameOver();
                 break;
 
             case MapElement::Type::Diamond:
@@ -388,10 +400,6 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
     killed_objects_.insert(object);
 
     switch (object->type_) {
-    case MapElement::Type::Player: {
-        gameOver();
-    } break;
-
     case MapElement::Type::Butterfly: {
 
         playSound(resources::Sounds::BUTTERFLY_DESTROY);
@@ -473,6 +481,9 @@ void bd2::Engine::gameOver() {
     end_game_ = true;
     if (win_game_) {
         playSound(resources::Sounds::GAME_WIN);
+        time_score_ +=
+            static_cast<int>((time_limit_ - total_elapsed_time_).asSeconds()) *
+            SECOND_LEFT_POINTS;
 
     } else {
         playSound(resources::Sounds::GAME_OVER);
