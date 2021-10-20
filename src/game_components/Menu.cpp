@@ -198,5 +198,8 @@ int bd2::Menu::open() {
         window_.display();
     }
 
+    if (!window_.isOpen())
+        return 0;
+
     return current_menu_option_;
 }

@@ -76,10 +76,8 @@ int main() {
         int score = game.play(level);
 
         if (score > 0) {
+            ranking.open(*level, menu_option, score);
         }
-
-        score = 9;
-        ranking.open(*level, menu_option, score);
     }
 
     return 0;

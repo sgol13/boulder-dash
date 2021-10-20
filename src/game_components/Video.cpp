@@ -43,7 +43,7 @@ void bd2::Video::initialiseVideo() {
     game_over_text_.setCharacterSize(GAME_OVER_FONT_SIZE);
     game_over_text_.setOutlineThickness(3);
 
-    end_game_info_text_.setString("press enter to continue...");
+    end_game_info_text_.setString("Press enter to continue...");
     end_game_info_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
     end_game_info_text_.setFillColor(sf::Color::Magenta);
     end_game_info_text_.setOutlineColor(sf::Color::White);

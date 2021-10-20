@@ -112,15 +112,17 @@ const sf::Color GREY_COLOR(180, 180, 180);
 // =============================================================================
 constexpr int TOP_RESULTS_NUM = 5;
 
-constexpr int RANKING_WIDTH = 1800;
-constexpr int RANKING_SCORE_TEXTS_POSITION_X = 885;
-constexpr int RANKING_NICKNAME_TEXTS_POSITION_X = 915;
+constexpr int RANKING_WIDTH = 1600;
+constexpr int RANKING_SCORE_TEXTS_POSITION_X = 785;
+constexpr int RANKING_NICKNAME_TEXTS_POSITION_X = 815;
 constexpr int RANKING_LEVEL_NAME_FONT_SIZE = 100;
 constexpr int RANKING_SCORES_TEXTS_FONT_SIZE = 50;
 constexpr int RANKING_ABOVE_LEVEL_NAME_GAP_HEIGHT = 150;
 constexpr int RANKING_BELOW_LEVEL_NAME_GAP_HEIGHT = 150;
 constexpr int RANKING_BETWEEN_SCORES_TEXT_GAP_HEIGHT = 25;
 constexpr int RANKING_BELOW_SCORES_TEXTS_GAP_HEIGHT = 300;
+constexpr int RANKING_TOP5_INFO_POSITION_Y = 800;
+constexpr int RANKING_TOP5_INFO_FONT_SIZE = 40;
 constexpr int RANKING_HEIGHT =
     RANKING_ABOVE_LEVEL_NAME_GAP_HEIGHT + RANKING_LEVEL_NAME_FONT_SIZE +
     RANKING_BELOW_LEVEL_NAME_GAP_HEIGHT +
@@ -146,7 +148,7 @@ const sf::Time FLYABLE_ANIMATION_DURATION = sf::milliseconds(195);
 const sf::Time BOULDER_MOVE_DURATION = sf::milliseconds(150);
 
 const sf::Time DIAMOND_ANIMATION_DURATION = sf::milliseconds(240);
-
+const sf::Time RANKING_INITIAL_BLOCK_DURATION = sf::milliseconds(1200);
 const sf::Time EXPLOSION_DURATION = sf::milliseconds(720);
 
 const sf::Time TIME_SCORE_TRANSFER_DURATION = sf::milliseconds(15);

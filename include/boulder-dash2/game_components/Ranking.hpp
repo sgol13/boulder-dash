@@ -32,10 +32,9 @@ class Ranking {
 
     sf::Text level_name_text_;
     sf::Text top5_info_text_;
+    sf::Text press_enter_info_text_;
     std::array<sf::Text, TOP_RESULTS_NUM> score_texts_;
     std::array<sf::Text, TOP_RESULTS_NUM> nickname_texts_;
-
-    sf::RectangleShape rect;
 
     bool started_typing_;
     bool typing_nickname_;
@@ -43,6 +42,7 @@ class Ranking {
     std::string typed_string_;
 
     sf::Clock blinking_nickname_clock_;
+    sf::Clock ranking_initial_block_clock_;
 };
 
 } // namespace bd2

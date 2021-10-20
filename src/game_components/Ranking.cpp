@@ -5,14 +5,6 @@ bd2::Ranking::Ranking(sf::RenderWindow &_window,
     : window_(_window), fonts_handler_(_fonts_handler), exit_ranking_(false),
       started_typing_(false), typing_nickname_(false) {
 
-    // temp
-    rect.setSize(sf::Vector2f(RANKING_WIDTH - 6, RANKING_HEIGHT - 6));
-    rect.setPosition(3, 3);
-    rect.setFillColor(sf::Color::Transparent);
-    rect.setOutlineColor(sf::Color::Blue);
-    rect.setOutlineThickness(3);
-    // temp
-
     sf::Vector2f text_position;
     level_name_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
     level_name_text_.setFillColor(GREY_COLOR);
@@ -41,6 +33,24 @@ bd2::Ranking::Ranking(sf::RenderWindow &_window,
         nickname_text.setFillColor(GREY_COLOR);
         nickname_text.setCharacterSize(RANKING_SCORES_TEXTS_FONT_SIZE);
     }
+
+    top5_info_text_.setString(
+        "Your score is in TOP5.\nPlease, enter your nickname and press enter.");
+    top5_info_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
+    top5_info_text_.setFillColor(GREY_COLOR);
+    top5_info_text_.setCharacterSize(RANKING_TOP5_INFO_FONT_SIZE);
+    text_position.x = RANKING_WIDTH / 2 - top5_info_text_.getLocalBounds().width / 2;
+    text_position.y = RANKING_TOP5_INFO_POSITION_Y;
+    top5_info_text_.setPosition(text_position);
+
+    press_enter_info_text_.setString("Press enter to continue...");
+    press_enter_info_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
+    press_enter_info_text_.setFillColor(GREY_COLOR);
+    press_enter_info_text_.setCharacterSize(RANKING_TOP5_INFO_FONT_SIZE);
+    text_position.x =
+        RANKING_WIDTH / 2 - press_enter_info_text_.getLocalBounds().width / 2;
+    text_position.y = RANKING_TOP5_INFO_POSITION_Y;
+    press_enter_info_text_.setPosition(text_position);
 }
 
 void bd2::Ranking::open(Level &level, int level_index, int score) {
@@ -51,7 +61,6 @@ void bd2::Ranking::open(Level &level, int level_index, int score) {
 
     while (window_.isOpen() && !exit_ranking_) {
 
-        handleEvents();
 
         if (typing_nickname_) {
             nickname_texts_[ranking_index_].setString(typed_string_);
@@ -70,11 +79,19 @@ void bd2::Ranking::open(Level &level, int level_index, int score) {
             }
         }
 
+        handleEvents();
+
         window_.clear(sf::Color::Black);
         window_.setView(getRankingView());
 
-        window_.draw(rect);
         window_.draw(level_name_text_);
+
+        if (typing_nickname_) {
+            window_.draw(top5_info_text_);
+
+        } else {
+            window_.draw(press_enter_info_text_);
+        }
 
         for (auto &score_text : score_texts_) {
             window_.draw(score_text);
@@ -105,7 +122,13 @@ void bd2::Ranking::handleEvents() {
 
             if (event.key.code == sf::Keyboard::Return) {
 
-                nickname_texts_[ranking_index_].setFillColor(GREY_COLOR);
+                if (ranking_initial_block_clock_.getElapsedTime() >
+                    RANKING_INITIAL_BLOCK_DURATION) {
+
+                    if (ranking_index_ >= 0 && ranking_index_ < TOP_RESULTS_NUM) {
+                        nickname_texts_[ranking_index_].setFillColor(GREY_COLOR);
+                    }
+                }
                 exit_ranking_ = true;
             }
 
@@ -181,6 +204,7 @@ sf::View bd2::Ranking::getRankingView() {
 
 void bd2::Ranking::initialiseLevelRanking(Level &level, int level_index, int score) {
 
+    ranking_initial_block_clock_.restart();
     typing_nickname_ = false;
     started_typing_ = false;
 
@@ -225,7 +249,9 @@ void bd2::Ranking::initialiseLevelRanking(Level &level, int level_index, int sco
 
 void bd2::Ranking::finaliseLevelRanking(Level &level) {
 
-    if (ranking_index_ >= 0 && ranking_index_ < TOP_RESULTS_NUM) {
+    if ((started_typing_ || typing_nickname_) && window_.isOpen()) {
+
         level.ranking_[ranking_index_].first = typed_string_;
+        level.updateRankingInFile();
     }
 }

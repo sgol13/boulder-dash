@@ -3,6 +3,7 @@
 bool bd2::Level::loadFromFile(const std::string &filename) {
 
     bool correct = true;
+    filename_ = filename;
 
     std::ifstream file(filename, std::ios::in);
     if (file.is_open()) {
@@ -38,22 +39,17 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
             correct = false;
         }
 
-        if (!file.good()) {
+        if (!file.good() || row.size() < 2) {
             correct = false;
         }
 
-        // print error information
-        if (!correct) {
-            std::cerr << "Failed to load level file \"" << filename << "\". ";
-            std::cerr << "Reason: incorrect file format" << std::endl;
-
-        } else {
+        if (correct) {
 
             // read level results
             std::istringstream records_stream(row.substr(1));
             std::string name;
             int score;
-            for (int i = 0; i < TOP_RESULTS_NUM && !file.eof(); i++) {
+            for (int i = 0; i < TOP_RESULTS_NUM; i++) {
 
                 std::string record;
                 getline(records_stream, record, ';');
@@ -68,6 +64,12 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
                     ranking_[i] = std::make_pair("", 0);
                 }
             }
+        }
+
+        // print error information
+        if (!correct) {
+            std::cerr << "Failed to load level file \"" << filename << "\". ";
+            std::cerr << "Reason: incorrect file format" << std::endl;
         }
 
         file.close();
@@ -159,4 +161,27 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
 /* Checks if a given char is a border tile = is a wall or an exit */
 bool bd2::Level::isBorderTile(MapElement::Type tile_type) {
     return tile_type == MapElement::Type::Wall || tile_type == MapElement::Type::Exit;
+}
+
+void bd2::Level::updateRankingInFile() {
+
+    std::fstream file(filename_, std::ios::in | std::ios::out);
+
+    if (file.is_open()) {
+
+        for (int c; c != EOF && c != ';';) {
+            c = file.get();
+        }
+
+        for (auto &record : ranking_) {
+
+            if (record.second > 0) {
+                file << record.first << " " << record.second;
+            }
+            file << ";";
+        }
+
+        file << std::endl;
+        file.close();
+    }
 }

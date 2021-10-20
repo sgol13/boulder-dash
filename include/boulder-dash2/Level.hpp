@@ -27,6 +27,8 @@ class Level {
 
     std::array<std::pair<std::string, int>, TOP_RESULTS_NUM> ranking_;
 
+    void updateRankingInFile();
+
   private:
     /* Interprets a vector of string as a level map. Returns true of the map is
      * correct or false otherwise */
@@ -35,11 +37,14 @@ class Level {
     /* Checks if a given char is a border tile = is a wall or an exit */
     bool isBorderTile(MapElement::Type tile_type);
 
+
     std::vector<std::vector<MapElement::Type>> map_;
     MapCoordinates map_size_;
 
     int time_limit_;
     int required_diamonds_;
+
+    std::string filename_;
 };
 
 } // namespace bd2
