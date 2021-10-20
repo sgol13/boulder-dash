@@ -3,6 +3,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/game_components/Game.hpp"
 #include "boulder-dash2/game_components/Menu.hpp"
+#include "boulder-dash2/game_components/Ranking.hpp"
 #include "boulder-dash2/resources.hpp"
 
 int main() {
@@ -58,6 +59,7 @@ int main() {
 
     bd2::Menu menu(window, textures_handler, fonts_handler, sounds_handler,
                    bd2::resources::level_files_num);
+    bd2::Ranking ranking(window, fonts_handler);
     bd2::Game game(window, textures_handler, fonts_handler, sounds_handler);
 
     while (window.isOpen()) {
@@ -70,10 +72,14 @@ int main() {
         }
 
         auto level_label = bd2::resources::level_files[menu_option - 1].first;
-        int score = game.play(levels_handler[level_label]);
+        auto level = levels_handler[level_label];
+        int score = game.play(level);
 
         if (score > 0) {
         }
+
+        score = 9;
+        ranking.open(*level, menu_option, score);
     }
 
     return 0;

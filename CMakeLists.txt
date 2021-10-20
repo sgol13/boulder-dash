@@ -31,6 +31,7 @@ src/game_components/Audio.cpp
 src/game_components/Input.cpp
 src/game_components/Game.cpp
 src/game_components/Menu.cpp
+src/game_components/Ranking.cpp
 
 # map elements
 src/map_elements/MapElement.cpp

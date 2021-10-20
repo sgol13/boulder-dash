@@ -16,9 +16,6 @@ class Level {
      * {number of rows, number of columns}*/
     MapCoordinates getMapSize() const;
 
-    /* Returns the level's name */
-    std::string getName() const;
-
     /* Returns the time limit for the level */
     int getTimeLimit() const;
 
@@ -28,6 +25,8 @@ class Level {
     /* Returns a const reference for the level map */
     const std::vector<std::vector<MapElement::Type>> &getMap() const;
 
+    std::array<std::pair<std::string, int>, TOP_RESULTS_NUM> ranking_;
+
   private:
     /* Interprets a vector of string as a level map. Returns true of the map is
      * correct or false otherwise */
@@ -35,8 +34,6 @@ class Level {
 
     /* Checks if a given char is a border tile = is a wall or an exit */
     bool isBorderTile(MapElement::Type tile_type);
-
-    std::string name_;
 
     std::vector<std::vector<MapElement::Type>> map_;
     MapCoordinates map_size_;

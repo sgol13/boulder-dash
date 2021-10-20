@@ -7,9 +7,6 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
     std::ifstream file(filename, std::ios::in);
     if (file.is_open()) {
 
-        // read level name
-        getline(file, name_);
-
         // read time limit and required diamonds
         file >> time_limit_ >> required_diamonds_;
         file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -21,12 +18,14 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
         getline(file, row);
         map_size_.c = static_cast<int>(row.size());
 
-        while (static_cast<int>(row.size()) == map_size_.c && row.front() != ';') {
+        while (static_cast<int>(row.size()) == map_size_.c && map_size_.c > 0 &&
+               row.front() != ';') {
             rows.push_back(row);
             getline(file, row);
         }
 
         map_size_.r = static_cast<int>(rows.size());
+
 
         // interpret level map and check if it's correct
         if (map_size_.r > 2 && map_size_.c > 2) {
@@ -47,6 +46,28 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
         if (!correct) {
             std::cerr << "Failed to load level file \"" << filename << "\". ";
             std::cerr << "Reason: incorrect file format" << std::endl;
+
+        } else {
+
+            // read level results
+            std::istringstream records_stream(row.substr(1));
+            std::string name;
+            int score;
+            for (int i = 0; i < TOP_RESULTS_NUM && !file.eof(); i++) {
+
+                std::string record;
+                getline(records_stream, record, ';');
+                record.push_back(' ');
+
+                std::istringstream record_stream(record);
+                record_stream >> name >> score;
+                if (record_stream.good()) {
+                    ranking_[i] = std::make_pair(name, score);
+
+                } else {
+                    ranking_[i] = std::make_pair("", 0);
+                }
+            }
         }
 
         file.close();
@@ -62,8 +83,6 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
 }
 
 bd2::MapCoordinates bd2::Level::getMapSize() const { return map_size_; }
-
-std::string bd2::Level::getName() const { return name_; }
 
 int bd2::Level::getTimeLimit() const { return time_limit_; }
 

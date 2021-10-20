@@ -38,14 +38,14 @@ template <class T> class ResourceHandler {
 
     /* Returns a pointer to the resource of a given name (or label).
     Returns nullptr if no resource with this name was loaded */
-    template <class S> std::shared_ptr<const T> operator[](S resource_label) const;
+    template <class S> std::shared_ptr<T> operator[](S resource_label) const;
 
 
     /* Returns the list of resources that were not loaded correctly */
     std::vector<std::string> getMissingResources() const;
 
   private:
-    std::unordered_map<std::string, std::shared_ptr<const T>> resources_;
+    std::unordered_map<std::string, std::shared_ptr<T>> resources_;
 
     std::vector<std::string> missing_resources_;
 };
@@ -115,7 +115,7 @@ bool bd2::ResourceHandler<T>::loadResources(
 
 template <class T>
 template <class S>
-std::shared_ptr<const T> bd2::ResourceHandler<T>::operator[](S resource_label) const {
+std::shared_ptr<T> bd2::ResourceHandler<T>::operator[](S resource_label) const {
 
     const char *resource_name = resources::getFilename(resource_label);
 

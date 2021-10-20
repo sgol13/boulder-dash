@@ -31,7 +31,7 @@ void bd2::Audio::processAudioOperations() {
 
         auto sound_it = sounds_.find(sound_to_play);
         if (sound_it != sounds_.end()) {
-            sound_it->second.setVolume(SOUNDS_VOLUME);
+            sound_it->second.setVolume(IN_GAME_SOUNDS_VOLUME);
             sound_it->second.play();
         }
     }
