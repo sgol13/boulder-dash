@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/game_components/Input.hpp"
 
 bd2::Input::Input(sf::RenderWindow &_window) : Engine(_window) {}
@@ -6,7 +9,7 @@ void bd2::Input::processInputOperations() {
 
     handleEvents();
 
-    if (!pause_) {
+    if (!pause_game_) {
         handleControl();
     }
 }
@@ -40,7 +43,7 @@ void bd2::Input::handleEvents() {
 void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
 
     switch (key.code) {
-    case sf::Keyboard::C:
+    case sf::Keyboard::C: // exit the game using C
         exit_game_ = true;
         window_.close();
         break;
@@ -51,7 +54,7 @@ void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
 
     case sf::Keyboard::Space: // pause the game - space
         if (!end_game_) {
-            pause_ = !pause_;
+            pause_game_ = !pause_game_;
         }
         break;
 

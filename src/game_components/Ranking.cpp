@@ -1,9 +1,15 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/game_components/Ranking.hpp"
 
 bd2::Ranking::Ranking(sf::RenderWindow &_window,
                       const ResourceHandler<sf::Font> &_fonts_handler)
-    : window_(_window), fonts_handler_(_fonts_handler), exit_ranking_(false),
-      started_typing_(false), typing_nickname_(false) {
+    : window_(_window),
+      fonts_handler_(_fonts_handler),
+      exit_ranking_(false),
+      started_typing_(false),
+      typing_nickname_(false) {
 
     sf::Vector2f text_position;
     level_name_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
@@ -107,6 +113,60 @@ void bd2::Ranking::open(Level &level, int level_index, int score) {
     finaliseLevelRanking(level);
 }
 
+void bd2::Ranking::initialiseLevelRanking(Level &level, int level_index, int score) {
+
+    ranking_initial_block_clock_.restart();
+    typing_nickname_ = false;
+    started_typing_ = false;
+
+    // update score
+    ranking_index_ = TOP_RESULTS_NUM;
+    while (ranking_index_ > 0 && level.ranking_[ranking_index_ - 1].second < score) {
+        ranking_index_--;
+    }
+
+    if (ranking_index_ < TOP_RESULTS_NUM) {
+
+        for (int i = TOP_RESULTS_NUM - 1; i > ranking_index_; i--) {
+            level.ranking_[i] = level.ranking_[i - 1];
+        }
+        level.ranking_[ranking_index_] = std::make_pair(std::string(), score);
+        typing_nickname_ = true;
+        started_typing_ = false;
+        typed_string_ = "you";
+    }
+
+    // initialise visible elements
+    level_name_text_.setString("LEVEL" + std::to_string(level_index));
+    auto text_position = level_name_text_.getPosition();
+    text_position.x = RANKING_WIDTH / 2 - level_name_text_.getLocalBounds().width / 2;
+    level_name_text_.setPosition(text_position);
+
+    for (int i = 0; i < TOP_RESULTS_NUM; i++) {
+
+        if (level.ranking_[i].second > 0) {
+            score_texts_[i].setString(std::to_string(level.ranking_[i].second));
+            text_position.y = score_texts_[i].getPosition().y;
+            text_position.x = RANKING_SCORE_TEXTS_POSITION_X -
+                              score_texts_[i].getLocalBounds().width;
+            score_texts_[i].setPosition(text_position);
+
+            nickname_texts_[i].setString(level.ranking_[i].first);
+            text_position.x = RANKING_NICKNAME_TEXTS_POSITION_X;
+            nickname_texts_[i].setPosition(text_position);
+        }
+    }
+}
+
+void bd2::Ranking::finaliseLevelRanking(Level &level) {
+
+    if ((started_typing_ || typing_nickname_) && window_.isOpen()) {
+
+        level.ranking_[ranking_index_].first = typed_string_;
+        level.updateRankingInFile();
+    }
+}
+
 void bd2::Ranking::handleEvents() {
 
     sf::Event event;
@@ -200,58 +260,4 @@ sf::View bd2::Ranking::getRankingView() {
 
     view.setViewport(viewport);
     return view;
-}
-
-void bd2::Ranking::initialiseLevelRanking(Level &level, int level_index, int score) {
-
-    ranking_initial_block_clock_.restart();
-    typing_nickname_ = false;
-    started_typing_ = false;
-
-    // update score
-    ranking_index_ = TOP_RESULTS_NUM;
-    while (ranking_index_ > 0 && level.ranking_[ranking_index_ - 1].second < score) {
-        ranking_index_--;
-    }
-
-    if (ranking_index_ < TOP_RESULTS_NUM) {
-
-        for (int i = TOP_RESULTS_NUM - 1; i > ranking_index_; i--) {
-            level.ranking_[i] = level.ranking_[i - 1];
-        }
-        level.ranking_[ranking_index_] = std::make_pair(std::string(), score);
-        typing_nickname_ = true;
-        started_typing_ = false;
-        typed_string_ = "you";
-    }
-
-    // initialise visible elements
-    level_name_text_.setString("LEVEL" + std::to_string(level_index));
-    auto text_position = level_name_text_.getPosition();
-    text_position.x = RANKING_WIDTH / 2 - level_name_text_.getLocalBounds().width / 2;
-    level_name_text_.setPosition(text_position);
-
-    for (int i = 0; i < TOP_RESULTS_NUM; i++) {
-
-        if (level.ranking_[i].second > 0) {
-            score_texts_[i].setString(std::to_string(level.ranking_[i].second));
-            text_position.y = score_texts_[i].getPosition().y;
-            text_position.x = RANKING_SCORE_TEXTS_POSITION_X -
-                              score_texts_[i].getLocalBounds().width;
-            score_texts_[i].setPosition(text_position);
-
-            nickname_texts_[i].setString(level.ranking_[i].first);
-            text_position.x = RANKING_NICKNAME_TEXTS_POSITION_X;
-            nickname_texts_[i].setPosition(text_position);
-        }
-    }
-}
-
-void bd2::Ranking::finaliseLevelRanking(Level &level) {
-
-    if ((started_typing_ || typing_nickname_) && window_.isOpen()) {
-
-        level.ranking_[ranking_index_].first = typed_string_;
-        level.updateRankingInFile();
-    }
 }

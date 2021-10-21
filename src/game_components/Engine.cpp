@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/game_components/Engine.hpp"
 
 // ==============================================================================
@@ -110,7 +113,7 @@ bd2::Engine::Engine(sf::RenderWindow &_window)
       end_game_(false),
       exit_game_(false),
       win_game_(false),
-      pause_(false),
+      pause_game_(false),
       player_(nullptr),
       exit_(nullptr),
       picked_diamonds_(0),
@@ -138,7 +141,7 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
     picked_diamonds_ = 0;
     score_ = 0;
     time_score_ = 0;
-    pause_ = false;
+    pause_game_ = false;
 
     // set map dimensions
     map_size_ = level->getMapSize();
@@ -161,7 +164,7 @@ void bd2::Engine::processEngineOperations() {
 
     turn_elapsed_time_ = clock_.restart();
 
-    if (pause_) {
+    if (pause_game_) {
         turn_elapsed_time_ = sf::seconds(0);
     }
 
@@ -219,6 +222,7 @@ void bd2::Engine::processEngineOperations() {
         }
     }
 
+    // check all double tiles if the objects collided
     for (auto &double_tile : double_tiles_) {
         if (double_tile->size() == 2) {
 
@@ -231,7 +235,7 @@ void bd2::Engine::processEngineOperations() {
         }
     }
 
-
+    // remove all objects killed during the current turn
     for (auto &killed_object : killed_objects_) {
 
         for (auto &map_position : killed_object->getAllMapPositions()) {
@@ -264,6 +268,8 @@ void bd2::Engine::processEngineOperations() {
     }
     killed_objects_.clear();
 }
+
+void bd2::Engine::finaliseEngine() { score_ += time_score_; }
 
 void bd2::Engine::addMapElement(MapElement::Type type,
                                 const MapCoordinates &position) {
@@ -485,20 +491,6 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
     }
 }
 
-void bd2::Engine::gameOver() {
-
-    end_game_ = true;
-    if (win_game_) {
-        playSound(resources::Sounds::GAME_WIN);
-        time_score_ +=
-            static_cast<int>((time_limit_ - total_elapsed_time_).asSeconds()) *
-            SECOND_LEFT_POINTS;
-
-    } else {
-        playSound(resources::Sounds::GAME_OVER);
-    }
-}
-
 bool bd2::Engine::checkCollision(const std::shared_ptr<Moveable> &moveable_object,
                                  const MapCoordinates &move) {
 
@@ -581,6 +573,65 @@ bool bd2::Engine::collideObjects(const std::shared_ptr<Moveable> &moveable_objec
     }
 
     return is_move_possible;
+}
+
+void bd2::Engine::collideObjectsInMove(std::shared_ptr<MapElement> object_1,
+                                       std::shared_ptr<MapElement> object_2) {
+
+    // swap if needed
+    if (object_1->type_ == MapElement::Type::Boulder &&
+        object_2->type_ == MapElement::Type::Player) {
+
+        std::swap(object_1, object_2);
+    }
+
+    if (object_1->type_ == MapElement::Type::Boulder &&
+        (object_2->type_ == MapElement::Type::Butterfly ||
+         object_2->type_ == MapElement::Type::Firefly)) {
+
+        std::swap(object_1, object_2);
+    }
+
+    if ((object_1->type_ == MapElement::Type::Butterfly ||
+         object_1->type_ == MapElement::Type::Firefly) &&
+        object_2->type_ == MapElement::Type::Player) {
+
+        std::swap(object_1, object_2);
+    }
+
+    // collide
+    switch (object_1->type_) {
+    case MapElement::Type::Player: {
+
+        if (object_2->type_ == MapElement::Type::Boulder) {
+
+            if (object_2->getPosition().y < object_1->getPosition().y) {
+                killObject(object_1);
+            }
+
+        } else if (object_2->type_ == MapElement::Type::Butterfly ||
+                   object_2->type_ == MapElement::Type::Firefly) {
+
+            killObject(object_1);
+        }
+
+    } break;
+
+    case MapElement::Type::Butterfly:
+    case MapElement::Type::Firefly: {
+
+        if (object_2->type_ == MapElement::Type::Boulder) {
+            killObject(object_1);
+
+        } else if (object_2->type_ == MapElement::Type::Player) {
+            killObject(object_1);
+        }
+
+    } break;
+
+    default:
+        break;
+    }
 }
 
 bool bd2::Engine::collidePlayer(const std::shared_ptr<Player> &player,
@@ -669,67 +720,20 @@ bool bd2::Engine::collidePlayer(const std::shared_ptr<Player> &player,
     return is_move_possible;
 }
 
-void bd2::Engine::collideObjectsInMove(std::shared_ptr<MapElement> object_1,
-                                       std::shared_ptr<MapElement> object_2) {
-
-    // swap if needed
-    if (object_1->type_ == MapElement::Type::Boulder &&
-        object_2->type_ == MapElement::Type::Player) {
-
-        std::swap(object_1, object_2);
-    }
-
-    if (object_1->type_ == MapElement::Type::Boulder &&
-        (object_2->type_ == MapElement::Type::Butterfly ||
-         object_2->type_ == MapElement::Type::Firefly)) {
-
-        std::swap(object_1, object_2);
-    }
-
-    if ((object_1->type_ == MapElement::Type::Butterfly ||
-         object_1->type_ == MapElement::Type::Firefly) &&
-        object_2->type_ == MapElement::Type::Player) {
-
-        std::swap(object_1, object_2);
-    }
-
-    // collide
-    switch (object_1->type_) {
-    case MapElement::Type::Player: {
-
-        if (object_2->type_ == MapElement::Type::Boulder) {
-
-            if (object_2->getPosition().y < object_1->getPosition().y) {
-                killObject(object_1);
-            }
-
-        } else if (object_2->type_ == MapElement::Type::Butterfly ||
-                   object_2->type_ == MapElement::Type::Firefly) {
-
-            killObject(object_1);
-        }
-
-    } break;
-
-    case MapElement::Type::Butterfly:
-    case MapElement::Type::Firefly: {
-
-        if (object_2->type_ == MapElement::Type::Boulder) {
-            killObject(object_1);
-
-        } else if (object_2->type_ == MapElement::Type::Player) {
-            killObject(object_1);
-        }
-
-    } break;
-
-    default:
-        break;
-    }
-}
-
 void bd2::Engine::playSound(resources::Sounds sound) {
     sounds_to_play_.push_back(sound);
 }
 
-void bd2::Engine::finaliseEngine() { score_ += time_score_; }
+void bd2::Engine::gameOver() {
+
+    end_game_ = true;
+    if (win_game_) {
+        playSound(resources::Sounds::GAME_WIN);
+        time_score_ +=
+            static_cast<int>((time_limit_ - total_elapsed_time_).asSeconds()) *
+            SECOND_LEFT_POINTS;
+
+    } else {
+        playSound(resources::Sounds::GAME_OVER);
+    }
+}

@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/game_components/Audio.hpp"
 
 bd2::Audio::Audio(sf::RenderWindow &_window,
@@ -17,14 +20,6 @@ bd2::Audio::Audio(sf::RenderWindow &_window,
 
 void bd2::Audio::initialiseAudio() { music_.play(); }
 
-void bd2::Audio::finaliseAudio() {
-
-    music_.stop();
-    for (auto &sound : sounds_) {
-        sound.second.stop();
-    }
-}
-
 void bd2::Audio::processAudioOperations() {
 
     for (auto &sound_to_play : sounds_to_play_) {
@@ -36,7 +31,7 @@ void bd2::Audio::processAudioOperations() {
         }
     }
 
-    if (pause_ && !previous_pause_) {
+    if (pause_game_ && !previous_pause_) {
 
         music_.pause();
         for (auto &sound : sounds_) {
@@ -46,7 +41,7 @@ void bd2::Audio::processAudioOperations() {
         }
         previous_pause_ = true;
 
-    } else if (!pause_ && previous_pause_) {
+    } else if (!pause_game_ && previous_pause_) {
 
         music_.play();
         for (auto &sound : sounds_) {
@@ -59,5 +54,13 @@ void bd2::Audio::processAudioOperations() {
 
     if (end_game_) {
         music_.stop();
+    }
+}
+
+void bd2::Audio::finaliseAudio() {
+
+    music_.stop();
+    for (auto &sound : sounds_) {
+        sound.second.stop();
     }
 }

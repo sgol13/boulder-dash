@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/game_components/Video.hpp"
 
 bd2::Video::Video(sf::RenderWindow &_window,
@@ -5,7 +8,8 @@ bd2::Video::Video(sf::RenderWindow &_window,
                   const ResourceHandler<sf::Font> &_fonts_handler)
     : Engine(_window),
       interface_diamond_(MapElement::Type::Diamond, MapCoordinates(0, 0)),
-      textures_handler_(_textures_handler), fonts_handler_(_fonts_handler) {}
+      textures_handler_(_textures_handler),
+      fonts_handler_(_fonts_handler) {}
 
 void bd2::Video::initialiseVideo() {
 
@@ -129,7 +133,7 @@ void bd2::Video::processVideoOperations() {
         }
     }
 
-    if (pause_) {
+    if (pause_game_) {
 
         setPauseInterface();
         window_.draw(pause_text_);
@@ -282,6 +286,17 @@ void bd2::Video::updateInterface() {
     moveInterfaceElementToColumn(score_text_, 3);
 }
 
+void bd2::Video::moveInterfaceElementToColumn(sf::Transformable &element,
+                                              int column) {
+
+    sf::Vector2f offset;
+    offset.x =
+        static_cast<float>(column) * (static_cast<float>(window_.getSize().x) / 4.f);
+    offset.y = map_height_;
+
+    element.move(offset);
+}
+
 void bd2::Video::setEndGameInterface() {
 
     if (win_game_) {
@@ -317,15 +332,4 @@ void bd2::Video::setPauseInterface() {
                       pause_text_.getLocalBounds().width / 2;
     text_position.y = map_view_area_.top + map_view_area_.height / 4;
     pause_text_.setPosition(text_position);
-}
-
-void bd2::Video::moveInterfaceElementToColumn(sf::Transformable &element,
-                                              int column) {
-
-    sf::Vector2f offset;
-    offset.x =
-        static_cast<float>(column) * (static_cast<float>(window_.getSize().x) / 4.f);
-    offset.y = map_height_;
-
-    element.move(offset);
 }

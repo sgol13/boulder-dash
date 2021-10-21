@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_RANKING_HPP
 #define BD2_RANKING_HPP
 
@@ -15,15 +18,13 @@ class Ranking {
     void open(Level &level, int level_index, int score);
 
   private:
-    void handleEvents();
-
-    void handleKeyPressed(const sf::Event::KeyEvent &key);
-
-    sf::View getRankingView();
-
     void initialiseLevelRanking(Level &level, int level_index, int score);
 
     void finaliseLevelRanking(Level &level);
+
+    void handleEvents();
+
+    sf::View getRankingView();
 
     sf::RenderWindow &window_;
     const ResourceHandler<sf::Font> &fonts_handler_;

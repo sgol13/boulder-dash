@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_INPUT_HPP
 #define BD2_INPUT_HPP
 
@@ -8,7 +11,6 @@ namespace bd2 {
 
 class Input : virtual public Engine {
   public:
-    /* Constructor*/
     Input(sf::RenderWindow &_window);
 
   protected:
@@ -16,10 +18,8 @@ class Input : virtual public Engine {
     void processInputOperations();
 
   private:
-    /* Processes window events */
     void handleEvents();
 
-    /* Processes KeyPressed event */
     void handleKeyPressed(const sf::Event::KeyEvent &key);
 
     /* Processes game control - arrow keys */

@@ -39,14 +39,11 @@ class Menu {
 
     sf::Text game_name_text_;
     std::vector<sf::Text> options_texts_;
-
-    sf::Clock clock_;
-
     Player player_;
-
+    sf::Sound change_option_sound_;
     sf::Vector2u menu_size_;
 
-    sf::Sound change_option_sound_;
+    sf::Clock clock_;
 };
 
 } // namespace bd2

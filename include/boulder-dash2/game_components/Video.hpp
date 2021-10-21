@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_VIDEO_HPP
 #define BD2_VIDEO_HPP
 
@@ -10,13 +13,11 @@ namespace bd2 {
 
 class Video : virtual public Engine {
   public:
-    /* Constructor */
     Video(sf::RenderWindow &_window,
           const ResourceHandler<sf::Texture> &_textures_handler,
           const ResourceHandler<sf::Font> &_fonts_handler);
 
   protected:
-    /* Initial graphic settings */
     void initialiseVideo();
 
     /* Processes all video operations - to be called once a turn */
@@ -34,17 +35,21 @@ class Video : virtual public Engine {
 
     void updateInterface();
 
+    void moveInterfaceElementToColumn(sf::Transformable &element, int column);
+
     void setEndGameInterface();
 
     void setPauseInterface();
-
-    void moveInterfaceElementToColumn(sf::Transformable &element, int column);
 
     MapElement interface_diamond_;
     sf::Text diamonds_counter_text_;
     sf::Text keys_info_text_;
     sf::Text time_left_text_;
     sf::Text score_text_;
+    sf::Text game_over_text_;
+    sf::Text victory_score_text_;
+    sf::Text end_game_info_text_;
+    sf::Text pause_text_;
 
     const ResourceHandler<sf::Texture> &textures_handler_;
     const ResourceHandler<sf::Font> &fonts_handler_;
@@ -53,11 +58,6 @@ class Video : virtual public Engine {
 
     float map_width_;
     float map_height_;
-
-    sf::Text game_over_text_;
-    sf::Text victory_score_text_;
-    sf::Text end_game_info_text_;
-    sf::Text pause_text_;
 };
 
 } // namespace bd2

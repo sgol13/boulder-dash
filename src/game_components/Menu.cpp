@@ -6,9 +6,13 @@ bd2::Menu::Menu(sf::RenderWindow &_window,
                 const ResourceHandler<sf::Font> &_fonts_handler,
                 const ResourceHandler<sf::SoundBuffer> &_sounds_handler,
                 const int _levels_num)
-    : window_(_window), textures_handler_(_textures_handler),
-      fonts_handler_(_fonts_handler), sounds_handler_(_sounds_handler),
-      levels_num_(_levels_num), exit_menu_(false), current_menu_option_(1),
+    : window_(_window),
+      textures_handler_(_textures_handler),
+      fonts_handler_(_fonts_handler),
+      sounds_handler_(_sounds_handler),
+      levels_num_(_levels_num),
+      exit_menu_(false),
+      current_menu_option_(1),
       player_(MapElement::Type::Player, MapCoordinates(0, 0)) {
 
     menu_size_.x = MENU_WIDTH;
@@ -53,18 +57,37 @@ bd2::Menu::Menu(sf::RenderWindow &_window,
     change_option_sound_.setVolume(50.f);
 }
 
-void bd2::Menu::setPlayerPosition() {
+int bd2::Menu::open() {
 
-    sf::Vector2f position;
-    position.x = MENU_OPTIONS_TEXTS_POSITION_X -
-                 MENU_BETWEEN_OPTIONS_TEXT_GAP_HEIGHT - MENU_PLAYER_SIZE;
-    position.y = MENU_ABOVE_GAME_NAME_GAP_HEIGHT + MENU_GAME_NAME_FONT_SIZE;
-    position.y += MENU_BELOW_GAME_NAME_GAP_HEIGHT;
-    position.y += static_cast<float>(
-        current_menu_option_ *
-        (MENU_OPTIONS_TEXTS_SIZE + MENU_BETWEEN_OPTIONS_TEXT_GAP_HEIGHT));
+    exit_menu_ = false;
 
-    player_.setPosition(position);
+    while (window_.isOpen() && !exit_menu_) {
+
+        handleEvents();
+
+        auto elapsed_time = clock_.restart();
+        player_.simulateAnimation(elapsed_time);
+        setPlayerPosition();
+        float scale = static_cast<float>(MENU_PLAYER_SIZE) /
+                      static_cast<float>(player_.getTexture()->getSize().y);
+        player_.setScale(sf::Vector2f(scale, scale));
+
+        window_.clear(sf::Color::Black);
+        window_.setView(getMenuView());
+
+        window_.draw(game_name_text_);
+        window_.draw(player_);
+        for (auto &text : options_texts_) {
+            window_.draw(text);
+        }
+
+        window_.display();
+    }
+
+    if (!window_.isOpen())
+        return 0;
+
+    return current_menu_option_;
 }
 
 void bd2::Menu::handleEvents() {
@@ -128,6 +151,21 @@ void bd2::Menu::handleKeyPressed(const sf::Event::KeyEvent &key) {
     }
 }
 
+void bd2::Menu::setPlayerPosition() {
+
+    sf::Vector2f position;
+    position.x = MENU_OPTIONS_TEXTS_POSITION_X -
+                 MENU_BETWEEN_OPTIONS_TEXT_GAP_HEIGHT - MENU_PLAYER_SIZE;
+    position.y = MENU_ABOVE_GAME_NAME_GAP_HEIGHT + MENU_GAME_NAME_FONT_SIZE;
+    position.y += MENU_BELOW_GAME_NAME_GAP_HEIGHT;
+    position.y += static_cast<float>(
+        current_menu_option_ *
+        (MENU_OPTIONS_TEXTS_SIZE + MENU_BETWEEN_OPTIONS_TEXT_GAP_HEIGHT));
+
+    player_.setPosition(position);
+}
+
+
 sf::View bd2::Menu::getMenuView() {
 
     sf::FloatRect view_area;
@@ -169,37 +207,4 @@ sf::View bd2::Menu::getMenuView() {
 
     view.setViewport(viewport);
     return view;
-}
-
-int bd2::Menu::open() {
-
-    exit_menu_ = false;
-
-    while (window_.isOpen() && !exit_menu_) {
-
-        handleEvents();
-
-        auto elapsed_time = clock_.restart();
-        player_.simulateAnimation(elapsed_time);
-        setPlayerPosition();
-        float scale = static_cast<float>(MENU_PLAYER_SIZE) /
-                      static_cast<float>(player_.getTexture()->getSize().y);
-        player_.setScale(sf::Vector2f(scale, scale));
-
-        window_.clear(sf::Color::Black);
-        window_.setView(getMenuView());
-
-        window_.draw(game_name_text_);
-        window_.draw(player_);
-        for (auto &text : options_texts_) {
-            window_.draw(text);
-        }
-
-        window_.display();
-    }
-
-    if (!window_.isOpen())
-        return 0;
-
-    return current_menu_option_;
 }

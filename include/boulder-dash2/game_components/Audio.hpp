@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef AUDIO_HPP
 #define AUDIO_HPP
 
@@ -14,15 +17,14 @@ class Audio : virtual public Engine {
   protected:
     void initialiseAudio();
 
-    void finaliseAudio();
-
     void processAudioOperations();
+
+    void finaliseAudio();
 
   private:
     const ResourceHandler<sf::SoundBuffer> &sounds_handler_;
 
     sf::Sound music_;
-
     std::map<resources::Sounds, sf::Sound> sounds_;
 
     bool previous_pause_;
