@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_RESOURCE_HANDLER_HPP
 #define BD2_RESOURCE_HANDLER_HPP
 
@@ -6,26 +9,8 @@
 
 namespace bd2 {
 
-//=============================================================================
-// RESOURCE HANDLER
-//=============================================================================
-/** In the project, there are ResourceHandlers of various types: Textures,
- * Fonts, Sounds, Levels. There is only one instance of the ResourceHandler
- * for a given type of resources. Each ResourceHandler should load its resources
- * from files using loadResources() function which takes as a parameter a list
- * of needed resources. If some resource cannot be properly loaded, its name
- * is added to the common (static class member) list missing_resources_.
- * The constant references to ResourceHandlers are passed to various components
- * of the game, thus providing an access to loaded resources.
- * An access to a particular resource can be demanded from ResourceHandler
- * by resource's name or its label (namespace resource::). Then, a shared pointer
- * to the demanded resource is returned. */
-//=============================================================================
-
 template <class T> class ResourceHandler {
   public:
-    /* Loads all resources from a given list. Returns true if all resources were
-    correctly loaded, false otherwise. */
     bool loadResources(const std::vector<std::string> &files_list,
                        const std::string &resources_dir);
 
@@ -40,7 +25,6 @@ template <class T> class ResourceHandler {
     Returns nullptr if no resource with this name was loaded */
     template <class S> std::shared_ptr<T> operator[](S resource_label) const;
 
-
     /* Returns the list of resources that were not loaded correctly */
     std::vector<std::string> getMissingResources() const;
 
@@ -52,9 +36,7 @@ template <class T> class ResourceHandler {
 
 } // namespace bd2
 
-//=============================================================================
-// ResourceHandler::loadResources()
-//=============================================================================
+
 /** Basic loadResources() that actually loads the resources from files.
  * Other loadResources() overloads which differ due to the way how list of files
  * is passed only create a std::vector<std::string> of filenames
@@ -79,7 +61,7 @@ bool bd2::ResourceHandler<T>::loadResources(
     return correct_loading;
 }
 
-// create std::vector of resources names and call another function overload
+// creates std::vector of resources names and calls another function overload
 template <class T>
 bool bd2::ResourceHandler<T>::loadResources(const char *files_list[],
                                             const int files_num,
@@ -93,7 +75,7 @@ bool bd2::ResourceHandler<T>::loadResources(const char *files_list[],
     return loadResources(resources_vector, resources_dir);
 }
 
-// create std::vector of resources names and call another function overload
+// creates std::vector of resources names and calls another function overload
 template <class T>
 template <class S>
 bool bd2::ResourceHandler<T>::loadResources(
@@ -107,11 +89,6 @@ bool bd2::ResourceHandler<T>::loadResources(
 
     return loadResources(resources_vector, resources_dir);
 }
-
-//=============================================================================
-/** Returns a shared pointer to a resource whose label is passed as a parameter.
- * It uses resources::getFilename() to get the name of the file in which the
- * resource is saved. */
 
 template <class T>
 template <class S>
@@ -127,7 +104,6 @@ std::shared_ptr<T> bd2::ResourceHandler<T>::operator[](S resource_label) const {
     return it->second;
 }
 
-//=============================================================================
 template <class T>
 std::vector<std::string> bd2::ResourceHandler<T>::getMissingResources() const {
     return missing_resources_;

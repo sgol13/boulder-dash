@@ -1,8 +1,13 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/map_elements/Moveable.hpp"
 
 bd2::Moveable::Moveable(Type _type, const MapCoordinates &_map_position)
-    : MapElement(_type, _map_position), move_duration_(sf::seconds(0)),
-      move_time_(sf::seconds(0)), move_phase_(MovePhase::STANDING) {}
+    : MapElement(_type, _map_position),
+      move_duration_(sf::seconds(0)),
+      move_time_(sf::seconds(0)),
+      move_phase_(MovePhase::STANDING) {}
 
 void bd2::Moveable::startMove(const MapCoordinates &new_move,
                               sf::Time new_move_duration) {
@@ -18,10 +23,6 @@ void bd2::Moveable::startMove(const MapCoordinates &new_move,
     move_time_ %= move_duration_;
     current_move_ = new_move;
 }
-
-bd2::Moveable::MovePhase bd2::Moveable::getMovePhase() const { return move_phase_; }
-
-bd2::MapCoordinates bd2::Moveable::getCurrentMove() const { return current_move_; }
 
 void bd2::Moveable::finishMove() {
 
@@ -64,6 +65,10 @@ void bd2::Moveable::simulateMovement(sf::Time elapsed_time) {
         setPosition(x, y);
     }
 }
+
+bd2::Moveable::MovePhase bd2::Moveable::getMovePhase() const { return move_phase_; }
+
+bd2::MapCoordinates bd2::Moveable::getCurrentMove() const { return current_move_; }
 
 std::vector<bd2::MapCoordinates> bd2::Moveable::getAllMapPositions() const {
 

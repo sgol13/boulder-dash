@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_PLAYER_HPP
 #define BD2_PLAYER_HPP
 
@@ -8,16 +11,10 @@ namespace bd2 {
 
 class Player final : public Moveable {
   public:
-    /** Constructor - as an argument takes the real type of the element
-     * and its initial position (row and column) */
     Player(Type _type, const MapCoordinates &_map_position);
 
-    /** Loads needed textures from the ResourceHandler given as a pararameter.
-     * The second parameter describes the expected size of the sprite tile after
-     * scaling.*/
     void loadTextures(const ResourceHandler<sf::Texture> &textures_handler) override;
 
-    MapCoordinates getPlannedMove(const Map3x3 &map3x3) override;
 
     void startMove(const MapCoordinates &new_move,
                    sf::Time new_move_duration) override;
@@ -26,32 +23,37 @@ class Player final : public Moveable {
 
     void reverseMove() override;
 
+    void simulateAnimation(sf::Time elapsed_time) override;
+
+    MapCoordinates getPlannedMove(const Map3x3 &map3x3) override;
+
+    /* Passes the next move (used by Input module) */
     void setPlannedMove(const MapCoordinates &new_planned_move);
 
+    /* Temporarily changes move duration (until the end of the current move) */
     void setTempMoveDuration(sf::Time new_temporary_move_duration);
 
+    /* Initiates dying animation */
     void die();
 
+  private:
     void startAnimation(const sf::Texture &texture,
                         sf::Time duration = sf::seconds(0),
                         sf::Time initial_time = sf::seconds(0),
                         bool looped = true) override;
 
-    void simulateAnimation(sf::Time elapsed_time) override;
-
-  private:
     /* Starts an animation proper for the current move direction. */
     void startMoveAnimation();
 
-    MapCoordinates planned_move_;
 
     std::shared_ptr<const sf::Texture> move_left_texture_;
     std::shared_ptr<const sf::Texture> move_right_texture_;
     std::shared_ptr<const sf::Texture> death_texture_;
     std::shared_ptr<const sf::Texture> start_texture_;
 
-    bool previous_move_left_;
+    MapCoordinates planned_move_;
 
+    bool previous_move_left_;
     bool dead_;
 
     sf::Time temporary_move_duration_;

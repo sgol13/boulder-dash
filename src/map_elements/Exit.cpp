@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/map_elements/Exit.hpp"
 
 bd2::Exit::Exit(Type _type, const MapCoordinates &_map_position)

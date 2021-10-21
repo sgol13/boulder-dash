@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/map_elements/MapElement.hpp"
 
 bool bd2::MapElement::Compare::operator()(const std::weak_ptr<MapElement> &el1,
@@ -54,7 +57,9 @@ const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers =
 };
 
 bd2::MapElement::MapElement(Type _type, const MapCoordinates &_map_position)
-    : type_(_type), map_position_(_map_position), is_animating_(false),
+    : type_(_type),
+      map_position_(_map_position),
+      is_animating_(false),
       is_looped_(false) {
 
     float x = static_cast<float>(map_position_.c * TILE_SIZE);
@@ -97,24 +102,6 @@ void bd2::MapElement::loadTextures(
     }
 }
 
-bd2::MapCoordinates bd2::MapElement::getMapPosition() const { return map_position_; }
-
-void bd2::MapElement::startAnimation(const sf::Texture &texture, sf::Time duration,
-                                     sf::Time initial_time, bool looped) {
-
-    is_animating_ = true;
-    is_looped_ = looped;
-
-    animation_duration_ = duration;
-    animation_time_ = initial_time;
-
-    setTexture(texture);
-
-    float texture_height = static_cast<float>(texture.getSize().y);
-    float scale = static_cast<float>(TILE_SIZE) / texture_height;
-    setScale(scale, scale);
-}
-
 void bd2::MapElement::simulateAnimation(sf::Time elapsed_time) {
 
     if (is_animating_ && animation_duration_ > sf::seconds(0)) {
@@ -147,9 +134,27 @@ void bd2::MapElement::simulateAnimation(sf::Time elapsed_time) {
 
 bool bd2::MapElement::isAnimating() const { return is_animating_; }
 
+bd2::MapCoordinates bd2::MapElement::getMapPosition() const { return map_position_; }
+
 std::vector<bd2::MapCoordinates> bd2::MapElement::getAllMapPositions() const {
 
     std::vector<MapCoordinates> all_map_positions;
     all_map_positions.push_back(map_position_);
     return all_map_positions;
+}
+
+void bd2::MapElement::startAnimation(const sf::Texture &texture, sf::Time duration,
+                                     sf::Time initial_time, bool looped) {
+
+    is_animating_ = true;
+    is_looped_ = looped;
+
+    animation_duration_ = duration;
+    animation_time_ = initial_time;
+
+    setTexture(texture);
+
+    float texture_height = static_cast<float>(texture.getSize().y);
+    float scale = static_cast<float>(TILE_SIZE) / texture_height;
+    setScale(scale, scale);
 }

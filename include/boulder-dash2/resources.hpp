@@ -1,18 +1,10 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_RESOURCES_HPP
 #define BD2_RESOURCES_HPP
 
 #include "boulder-dash2/defs.hpp"
-
-//=============================================================================
-// RESOURCE LISTS
-//=============================================================================
-/** Each resource type has its own enum class that contains labels for
- * all the resources of this type. Moreover, for each resource type, there is
- * an array that stores pairs of resource labels and names of the files
- * in which they are saved.
- * All resources which appear on the lists are indispensable. The game will not
- * start if one of them is missing or cannot be loaded correctly. */
-//=============================================================================
 
 namespace bd2 {
 namespace resources {
@@ -36,11 +28,11 @@ enum class Textures {
     PLAYER_MOVING_LEFT,
     PLAYER_MOVING_RIGHT,
     PLAYER_DEATH,
-    PLAYER_START,
+    PLAYER_BORNING,
     EXPLOSION,
 
     // other textures
-    ICON,
+    PROGRAM_ICON,
 };
 
 constexpr std::pair<Textures, const char *> texture_files[] = {
@@ -59,11 +51,11 @@ constexpr std::pair<Textures, const char *> texture_files[] = {
     {Textures::PLAYER_MOVING_LEFT, "player_moving_left.png"},
     {Textures::PLAYER_MOVING_RIGHT, "player_moving_right.png"},
     {Textures::PLAYER_DEATH, "player_death.png"},
-    {Textures::PLAYER_START, "player_start.png"},
+    {Textures::PLAYER_BORNING, "player_start.png"},
     {Textures::EXPLOSION, "explosion.png"},
 
     // other textures
-    {Textures::ICON, "icon.png"},
+    {Textures::PROGRAM_ICON, "icon.png"},
 };
 
 constexpr int texture_files_num =
@@ -118,10 +110,10 @@ enum class Levels { LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_
 
 constexpr std::pair<Levels, const char *> level_files[] = {
 
-    {Levels::LEVEL_1, "level1"}, {Levels::LEVEL_2, "level2"},
+    {Levels::LEVEL_1, "level1"}, /*{Levels::LEVEL_2, "level2"},
     {Levels::LEVEL_3, "level3"}, {Levels::LEVEL_4, "level4"},
     {Levels::LEVEL_5, "level5"}, {Levels::LEVEL_6, "level6"},
-    {Levels::LEVEL_7, "level7"},
+    {Levels::LEVEL_7, "level7"},*/
 };
 
 constexpr int level_files_num =

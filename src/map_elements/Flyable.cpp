@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/map_elements/Flyable.hpp"
 
 bd2::Flyable::Flyable(Type _type, const MapCoordinates &_map_position)

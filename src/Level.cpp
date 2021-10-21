@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/Level.hpp"
 
 bool bd2::Level::loadFromFile(const std::string &filename) {
@@ -26,7 +29,6 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
         }
 
         map_size_.r = static_cast<int>(rows.size());
-
 
         // interpret level map and check if it's correct
         if (map_size_.r > 2 && map_size_.c > 2) {
@@ -94,6 +96,29 @@ const std::vector<std::vector<bd2::MapElement::Type>> &bd2::Level::getMap() cons
     return map_;
 }
 
+void bd2::Level::updateRankingInFile() {
+
+    std::fstream file(filename_, std::ios::in | std::ios::out);
+
+    if (file.is_open()) {
+
+        for (int c; c != EOF && c != ';';) {
+            c = file.get();
+        }
+
+        for (auto &record : ranking_) {
+
+            if (record.second > 0) {
+                file << record.first << " " << record.second;
+            }
+            file << ";";
+        }
+
+        file << std::endl;
+        file.close();
+    }
+}
+
 bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
 
     if (rows.size() < 2)
@@ -158,30 +183,6 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
     return true;
 }
 
-/* Checks if a given char is a border tile = is a wall or an exit */
 bool bd2::Level::isBorderTile(MapElement::Type tile_type) {
     return tile_type == MapElement::Type::Wall || tile_type == MapElement::Type::Exit;
-}
-
-void bd2::Level::updateRankingInFile() {
-
-    std::fstream file(filename_, std::ios::in | std::ios::out);
-
-    if (file.is_open()) {
-
-        for (int c; c != EOF && c != ';';) {
-            c = file.get();
-        }
-
-        for (auto &record : ranking_) {
-
-            if (record.second > 0) {
-                file << record.first << " " << record.second;
-            }
-            file << ";";
-        }
-
-        file << std::endl;
-        file.close();
-    }
 }

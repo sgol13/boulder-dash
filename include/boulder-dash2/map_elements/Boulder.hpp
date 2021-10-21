@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_BOULDER_HPP
 #define BD2_BOULDER_HPP
 
@@ -10,12 +13,12 @@ class Boulder final : public Moveable {
   public:
     Boulder(Type _type, const MapCoordinates &_map_position);
 
-    MapCoordinates getPlannedMove(const Map3x3 &map3x3) override;
-
     void startMove(const MapCoordinates &new_move,
                    sf::Time new_move_duration) override;
 
     void pushSide(const MapCoordinates &direction);
+
+    MapCoordinates getPlannedMove(const Map3x3 &map3x3) override;
 
   private:
     sf::Time left_fall_time_;

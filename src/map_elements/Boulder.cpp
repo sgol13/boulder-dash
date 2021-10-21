@@ -1,9 +1,28 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/map_elements/Boulder.hpp"
 
 bd2::Boulder::Boulder(Type _type, const MapCoordinates &_map_position)
-    : Moveable(_type, _map_position), left_fall_time_(sf::seconds(0)),
-      center_fall_time_(sf::seconds(0)), right_fall_time_(sf::seconds(0)),
-      is_falling_(false), pushed_direction_(0, 0) {}
+    : Moveable(_type, _map_position),
+      left_fall_time_(sf::seconds(0)),
+      center_fall_time_(sf::seconds(0)),
+      right_fall_time_(sf::seconds(0)),
+      is_falling_(false),
+      pushed_direction_(0, 0) {}
+
+void bd2::Boulder::startMove(const MapCoordinates &new_move,
+                             sf::Time new_move_duration) {
+
+    if (new_move_duration == sf::seconds(0)) {
+        new_move_duration = BOULDER_MOVE_DURATION;
+    }
+    Moveable::startMove(new_move, new_move_duration);
+}
+
+void bd2::Boulder::pushSide(const MapCoordinates &direction) {
+    pushed_direction_ = direction;
+}
 
 bd2::MapCoordinates bd2::Boulder::getPlannedMove(const Map3x3 &map3x3) {
 
@@ -59,17 +78,4 @@ bd2::MapCoordinates bd2::Boulder::getPlannedMove(const Map3x3 &map3x3) {
     is_falling_ = planned_move.r;
 
     return planned_move;
-}
-
-void bd2::Boulder::startMove(const MapCoordinates &new_move,
-                             sf::Time new_move_duration) {
-
-    if (new_move_duration == sf::seconds(0)) {
-        new_move_duration = BOULDER_MOVE_DURATION;
-    }
-    Moveable::startMove(new_move, new_move_duration);
-}
-
-void bd2::Boulder::pushSide(const MapCoordinates &direction) {
-    pushed_direction_ = direction;
 }

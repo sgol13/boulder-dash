@@ -1,3 +1,6 @@
+# Szymon Golebiowski
+# Boulder Dash 2, 2021
+
 cmake_minimum_required(VERSION 3.10.2)
 
 project(boulder-dash2)
@@ -22,6 +25,7 @@ add_definitions(-DBD2_LEVEL_RESOURCES_DIR="${LEVEL_RESOURCES_DIR}")
 
 # list of source files
 set(sources
+
 src/main.cpp
 
 # game components

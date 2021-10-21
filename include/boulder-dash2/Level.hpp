@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_LEVEL_HPP
 #define BD2_LEVEL_HPP
 
@@ -9,34 +12,26 @@ namespace bd2 {
 
 class Level {
   public:
-    /* Loads a level from a given file. Returns true if loaded correctly */
     bool loadFromFile(const std::string &filename);
 
-    /** Returns the std::pair indicating sizes of the level map:
-     * {number of rows, number of columns}*/
     MapCoordinates getMapSize() const;
 
-    /* Returns the time limit for the level */
     int getTimeLimit() const;
 
-    /* Returns the required number of diamonds for this level */
     int getRequiredDiamonds() const;
 
-    /* Returns a const reference for the level map */
     const std::vector<std::vector<MapElement::Type>> &getMap() const;
+
+    /* Updates score ranking in the file from which the level was loaded */
+    void updateRankingInFile();
 
     std::array<std::pair<std::string, int>, TOP_RESULTS_NUM> ranking_;
 
-    void updateRankingInFile();
-
   private:
-    /* Interprets a vector of string as a level map. Returns true of the map is
-     * correct or false otherwise */
     bool interpretMap(const std::vector<std::string> &rows);
 
-    /* Checks if a given char is a border tile = is a wall or an exit */
+    /* Check if the tile is an exit or a wall */
     bool isBorderTile(MapElement::Type tile_type);
-
 
     std::vector<std::vector<MapElement::Type>> map_;
     MapCoordinates map_size_;

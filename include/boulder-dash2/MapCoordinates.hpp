@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_MAP_COORDINATES_HPP
 #define BD2_MAP_COORDINATES_HPP
 
@@ -5,17 +8,12 @@
 
 namespace bd2 {
 
-// ==============================================================================
 /** Class representing coordinates of a tile (map element) on the game map.
  * Coordinates can be negative if they describe object's movement.
- * The first coordinate indicates the row numberand the second - the column number.
+ * The first coordinate indicates the row number and the second - the column number.
  * Left-upper corner of the map has coordinates [0, 0]. */
-// ==============================================================================
 class MapCoordinates {
   public:
-    // ==========================================================================
-    // CONSTRUCTORS
-    // ==========================================================================
     constexpr MapCoordinates() : r(0), c(0) {}
 
     constexpr MapCoordinates(int _r, int _c) : r(_r), c(_c) {}

@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_EXIT_HPP
 #define BD2_EXIT_HPP
 
@@ -8,8 +11,6 @@ namespace bd2 {
 
 class Exit final : public MapElement {
   public:
-    /** Constructor - as an argument takes the real type of the element
-     * and its initial position (row and column) */
     Exit(Type _type, const MapCoordinates &_map_position);
 
     void loadTextures(const ResourceHandler<sf::Texture> &textures_handler) override;

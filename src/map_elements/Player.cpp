@@ -1,14 +1,25 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #include "boulder-dash2/map_elements/Player.hpp"
 
 bd2::Player::Player(Type _type, const MapCoordinates &_map_position)
-    : Moveable(_type, _map_position), planned_move_(MapCoordinates(0, 0)),
-      previous_move_left_(true), dead_(false),
+    : Moveable(_type, _map_position),
+      planned_move_(MapCoordinates(0, 0)),
+      previous_move_left_(true),
+      dead_(false),
       temporary_move_duration_(sf::seconds(0)) {}
 
-bd2::MapCoordinates bd2::Player::getPlannedMove(const Map3x3 &map3x3) {
+void bd2::Player::loadTextures(const ResourceHandler<sf::Texture> &textures_handler) {
 
-    (void)map3x3;
-    return planned_move_;
+    basic_texture_ = textures_handler[resources::Textures::PLAYER_STANDING];
+    move_left_texture_ = textures_handler[resources::Textures::PLAYER_MOVING_LEFT];
+    move_right_texture_ = textures_handler[resources::Textures::PLAYER_MOVING_RIGHT];
+    death_texture_ = textures_handler[resources::Textures::PLAYER_DEATH];
+    start_texture_ = textures_handler[resources::Textures::PLAYER_BORNING];
+
+    startAnimation(*start_texture_, PLAYER_BORNING_ANIMATION_DURATION, sf::seconds(0),
+                   false);
 }
 
 void bd2::Player::startMove(const MapCoordinates &new_move,
@@ -43,16 +54,19 @@ void bd2::Player::reverseMove() {
     startMoveAnimation();
 }
 
-void bd2::Player::loadTextures(const ResourceHandler<sf::Texture> &textures_handler) {
+void bd2::Player::simulateAnimation(sf::Time elapsed_time) {
 
-    basic_texture_ = textures_handler[resources::Textures::PLAYER_STANDING];
-    move_left_texture_ = textures_handler[resources::Textures::PLAYER_MOVING_LEFT];
-    move_right_texture_ = textures_handler[resources::Textures::PLAYER_MOVING_RIGHT];
-    death_texture_ = textures_handler[resources::Textures::PLAYER_DEATH];
-    start_texture_ = textures_handler[resources::Textures::PLAYER_START];
+    if (isAnimating() == false) {
+        startAnimation(*basic_texture_, PLAYER_STANDING_ANIMATION_DURATION);
+    }
 
-    startAnimation(*start_texture_, PLAYER_START_ANIMATION_DURATION, sf::seconds(0),
-                   false);
+    MapElement::simulateAnimation(elapsed_time);
+}
+
+bd2::MapCoordinates bd2::Player::getPlannedMove(const Map3x3 &map3x3) {
+
+    (void)map3x3;
+    return planned_move_;
 }
 
 void bd2::Player::setPlannedMove(const MapCoordinates &new_planned_move) {
@@ -61,6 +75,21 @@ void bd2::Player::setPlannedMove(const MapCoordinates &new_planned_move) {
 
 void bd2::Player::setTempMoveDuration(sf::Time new_temporary_move_duration) {
     temporary_move_duration_ = new_temporary_move_duration;
+}
+
+void bd2::Player::die() {
+
+    startAnimation(*death_texture_, PLAYER_DEATH_ANIMATION_DURATION, sf::seconds(0),
+                   false);
+    dead_ = true;
+}
+
+void bd2::Player::startAnimation(const sf::Texture &texture, sf::Time duration,
+                                 sf::Time initial_time, bool looped) {
+
+    if (!dead_) {
+        MapElement::startAnimation(texture, duration, initial_time, looped);
+    }
 }
 
 void bd2::Player::startMoveAnimation() {
@@ -82,29 +111,5 @@ void bd2::Player::startMoveAnimation() {
     } else {
         startAnimation(*move_right_texture_, PLAYER_MOVE_DURATION, sf::seconds(0),
                        false);
-    }
-}
-
-void bd2::Player::die() {
-
-    startAnimation(*death_texture_, PLAYER_DEATH_ANIMATION_DURATION, sf::seconds(0),
-                   false);
-    dead_ = true;
-}
-
-void bd2::Player::simulateAnimation(sf::Time elapsed_time) {
-
-    if (isAnimating() == false) {
-        startAnimation(*basic_texture_, PLAYER_STANDING_ANIMATION_DURATION);
-    }
-
-    MapElement::simulateAnimation(elapsed_time);
-}
-
-void bd2::Player::startAnimation(const sf::Texture &texture, sf::Time duration,
-                                 sf::Time initial_time, bool looped) {
-
-    if (!dead_) {
-        MapElement::startAnimation(texture, duration, initial_time, looped);
     }
 }

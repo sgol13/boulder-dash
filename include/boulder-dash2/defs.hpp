@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_DEFS_HPP
 #define BD2_DEFS_HPP
 
@@ -31,8 +34,7 @@
 #include <SFML/Window.hpp>
 
 // =============================================================================
-// RESOURCES
-// paths to resource directories (default if not set by cmake)
+// RESOURCES - default paths to resource directories (used if not set by cmake)
 // =============================================================================
 
 #ifndef BD2_GRAPHIC_RESOURCES_DIR
@@ -65,24 +67,25 @@ constexpr float INI_WINDOW_SCREEN_RATIO_Y = 0.7f;
 constexpr int INI_WINDOW_POS_X = 0;
 constexpr int INI_WINDOW_POS_Y = 0;
 
-// minimal window dimensions
+// minimal window dimensions (rescaling below them is blocked)
 constexpr int MIN_WINDOW_WIDTH = 800;
 constexpr int MIN_WINDOW_HEIGHT = 600;
 
+// =============================================================================
+// GAME INTERFACE
+// =============================================================================
+
 constexpr int TILE_SIZE = 32;
 constexpr int VERTICAL_TILES_NUM = 25;
+
 constexpr float UPPER_BAR_TILE_RATIO = 2.0f;
 constexpr float VIEW_MARGIN_RATIO = 0.4f;
 constexpr float INTERFACE_FONT_RATIO = 0.6f;
-
 constexpr float UPPER_BAR_SIZE = TILE_SIZE * UPPER_BAR_TILE_RATIO;
-
 constexpr float UPPER_BAR_SCREEN_RATIO =
     UPPER_BAR_SIZE / (TILE_SIZE * VERTICAL_TILES_NUM);
-
 constexpr int INTERFACE_FONT_SIZE =
     static_cast<int>(UPPER_BAR_SIZE * INTERFACE_FONT_RATIO);
-
 constexpr float INTERFACE_TEXT_POS =
     0.7f * ((UPPER_BAR_SIZE - INTERFACE_FONT_SIZE) / 2.f);
 
@@ -95,6 +98,8 @@ constexpr int PAUSE_TEXT_FONT_SIZE = 80;
 // MENU SETTINGS
 // =============================================================================
 
+const sf::Color GREY_COLOR(180, 180, 180);
+
 constexpr int MENU_WIDTH = 1800;
 constexpr int MENU_GAME_NAME_FONT_SIZE = 150;
 constexpr int MENU_OPTIONS_TEXTS_SIZE = 75;
@@ -105,13 +110,11 @@ constexpr int MENU_BETWEEN_OPTIONS_TEXT_GAP_HEIGHT = 50;
 constexpr int MENU_BELOW_OPTIONS_TEXTS_GAP_HEIGHT = 150;
 constexpr int MENU_PLAYER_SIZE = 100;
 
-const sf::Color GREY_COLOR(180, 180, 180);
-
 // =============================================================================
 // RANKING SETTINGS
 // =============================================================================
-constexpr int TOP_RESULTS_NUM = 5;
 
+constexpr int TOP_RESULTS_NUM = 5;
 constexpr int RANKING_WIDTH = 1600;
 constexpr int RANKING_SCORE_TEXTS_POSITION_X = 785;
 constexpr int RANKING_NICKNAME_TEXTS_POSITION_X = 815;
@@ -123,12 +126,7 @@ constexpr int RANKING_BETWEEN_SCORES_TEXT_GAP_HEIGHT = 25;
 constexpr int RANKING_BELOW_SCORES_TEXTS_GAP_HEIGHT = 300;
 constexpr int RANKING_TOP5_INFO_POSITION_Y = 800;
 constexpr int RANKING_TOP5_INFO_FONT_SIZE = 40;
-constexpr int RANKING_HEIGHT =
-    RANKING_ABOVE_LEVEL_NAME_GAP_HEIGHT + RANKING_LEVEL_NAME_FONT_SIZE +
-    RANKING_BELOW_LEVEL_NAME_GAP_HEIGHT +
-    TOP_RESULTS_NUM *
-        (RANKING_SCORES_TEXTS_FONT_SIZE + RANKING_BETWEEN_SCORES_TEXT_GAP_HEIGHT) +
-    RANKING_BELOW_SCORES_TEXTS_GAP_HEIGHT;
+constexpr int RANKING_HEIGHT = 1075;
 
 constexpr int NICKNAME_LENGTH_LIMIT = 20;
 
@@ -140,19 +138,16 @@ const sf::Time PLAYER_MOVE_DURATION = sf::milliseconds(120);
 const sf::Time PLAYER_MOVING_ANIMATION_DURATION = sf::milliseconds(240);
 const sf::Time PLAYER_STANDING_ANIMATION_DURATION = sf::milliseconds(1400);
 const sf::Time PLAYER_DEATH_ANIMATION_DURATION = sf::milliseconds(500);
-const sf::Time PLAYER_START_ANIMATION_DURATION = sf::milliseconds(500);
+const sf::Time PLAYER_BORNING_ANIMATION_DURATION = sf::milliseconds(500);
 
 const sf::Time FLYABLE_MOVE_DURATION = sf::milliseconds(195);
 const sf::Time FLYABLE_ANIMATION_DURATION = sf::milliseconds(195);
-
 const sf::Time BOULDER_MOVE_DURATION = sf::milliseconds(150);
-
 const sf::Time DIAMOND_ANIMATION_DURATION = sf::milliseconds(240);
-const sf::Time RANKING_INITIAL_BLOCK_DURATION = sf::milliseconds(1200);
 const sf::Time EXPLOSION_DURATION = sf::milliseconds(720);
 
 const sf::Time TIME_SCORE_TRANSFER_DURATION = sf::milliseconds(15);
-
+const sf::Time RANKING_INITIAL_BLOCK_DURATION = sf::milliseconds(1200);
 const sf::Time BLINKING_NICKNAME_CYCLE_DURATION = sf::milliseconds(300);
 
 // =============================================================================

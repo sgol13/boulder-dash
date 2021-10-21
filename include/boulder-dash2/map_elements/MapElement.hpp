@@ -1,3 +1,6 @@
+// Szymon Golebiowski
+// Boulder Dash 2, 2021
+
 #ifndef BD2_MAP_ELEMENT_HPP
 #define BD2_MAP_ELEMENT_HPP
 
@@ -41,8 +44,7 @@ class MapElement : public sf::Sprite {
     };
 
     //==========================================================================
-    /** Constructor - as an argument takes the real type of the element
-     * and its initial position (row and column) */
+
     MapElement(Type _type, const MapCoordinates &_map_position);
 
     virtual void loadTextures(const ResourceHandler<sf::Texture> &textures_handler);
@@ -51,25 +53,24 @@ class MapElement : public sf::Sprite {
 
     bool isAnimating() const;
 
-    /* returns the current position on the map {row, column} */
     MapCoordinates getMapPosition() const;
 
+    /* Returns the vector containing the current map position or two positions
+    if the object is currently in move between two tiles */
     virtual std::vector<MapCoordinates> getAllMapPositions() const;
 
     /* Const member indicating the type of the map element */
     const Type type_;
 
   protected:
-    // current position on the map
-    MapCoordinates map_position_;
-
     virtual void startAnimation(const sf::Texture &texture,
                                 sf::Time duration = sf::seconds(0),
                                 sf::Time initial_time = sf::seconds(0),
                                 bool looped = true);
 
-
     std::shared_ptr<const sf::Texture> basic_texture_;
+
+    MapCoordinates map_position_;
 
   private:
     sf::Time animation_duration_;
