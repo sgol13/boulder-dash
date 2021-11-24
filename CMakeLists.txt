@@ -9,7 +9,7 @@ project(boulder-dash2)
 set (CMAKE_CXX_STANDARD 14)
 
 #set g++ compilation flags
-set(CMAKE_CXX_FLAGS "-Wall -Wconversion -Wextra -Wshadow -Werror")
+set(CMAKE_CXX_FLAGS "-Wall -Wconversion -Wextra -Wshadow -Werror -g")
 
 # relative paths to resources directory
 set(RESOURCES_DIR "../res/")

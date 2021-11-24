@@ -277,18 +277,18 @@ void bd2::Engine::addMapElement(MapElement::Type type,
     std::shared_ptr<MapElement> new_element = nullptr;
 
     switch (type) {
-    case MapElement::Type::Empty: // 0 - EMPTY
+    case MapElement::Type::Empty: // EMPTY
         break;
 
-    case MapElement::Type::Wall:      // 1 - WALL
-    case MapElement::Type::Ground:    // 2 - GROUND
-    case MapElement::Type::Diamond: { // 3 - DIAMOND
+    case MapElement::Type::Wall:      //  WALL
+    case MapElement::Type::Ground:    //  GROUND
+    case MapElement::Type::Diamond: { //  DIAMOND
 
         new_element = std::make_shared<MapElement>(type, position);
 
     } break;
 
-    case MapElement::Type::Exit: { // 6 - EXIT
+    case MapElement::Type::Exit: { //  EXIT
 
         auto new_exit = std::make_shared<Exit>(type, position);
         exit_ = new_exit;
@@ -296,22 +296,22 @@ void bd2::Engine::addMapElement(MapElement::Type type,
 
     } break;
 
-    case MapElement::Type::Boulder: { // 5 - BOULDER
+    case MapElement::Type::Boulder: { //  BOULDER
 
         auto new_boulder = std::make_shared<Boulder>(type, position);
         new_element = std::dynamic_pointer_cast<MapElement>(new_boulder);
 
     } break;
 
-    case MapElement::Type::Butterfly: // 6 - BUTTERFLY
-    case MapElement::Type::Firefly: { // 7 - FIREFLY
+    case MapElement::Type::Butterfly: // BUTTERFLY
+    case MapElement::Type::Firefly: { // FIREFLY
 
         auto new_moveable = std::make_shared<Flyable>(type, position);
         new_element = std::dynamic_pointer_cast<MapElement>(new_moveable);
 
     } break;
 
-    case MapElement::Type::Player: { // 8 - PLAYER
+    case MapElement::Type::Player: { // PLAYER
 
         auto new_player = std::make_shared<Player>(type, position);
         player_ = new_player;
@@ -319,7 +319,7 @@ void bd2::Engine::addMapElement(MapElement::Type type,
 
     } break;
 
-    case MapElement::Type::Explosion: { // 9 - EXPLOSION
+    case MapElement::Type::Explosion: { // EXPLOSION
 
         new_element = std::make_shared<MapElement>(type, position);
         explosions_.push_back(new_element);

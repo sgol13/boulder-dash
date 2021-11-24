@@ -110,10 +110,11 @@ enum class Levels { LEVEL_1, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_
 
 constexpr std::pair<Levels, const char *> level_files[] = {
 
-    {Levels::LEVEL_1, "level1"}, /*{Levels::LEVEL_2, "level2"},
-    {Levels::LEVEL_3, "level3"}, {Levels::LEVEL_4, "level4"},
-    {Levels::LEVEL_5, "level5"}, {Levels::LEVEL_6, "level6"},
-    {Levels::LEVEL_7, "level7"},*/
+    {Levels::LEVEL_1, "level1"}, {Levels::LEVEL_2, "level2"} //,
+    /*
+    {Levels::LEVEL_3, "level3"} , {Levels::LEVEL_4, "level4"},
+     {Levels::LEVEL_5, "level5"}, {Levels::LEVEL_6, "level6"},
+     {Levels::LEVEL_7, "level7"},*/
 };
 
 constexpr int level_files_num =

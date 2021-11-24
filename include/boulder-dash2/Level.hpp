@@ -39,6 +39,7 @@ class Level {
     int time_limit_;
     int required_diamonds_;
 
+  public:
     std::string filename_;
 };
 

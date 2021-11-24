@@ -49,7 +49,6 @@ bool bd2::ResourceHandler<T>::loadResources(
 
     T resource;
     for (auto &filename : files_list) {
-
         if (resource.loadFromFile(resources_dir + filename)) {
             resources_[filename] = std::make_shared<T>(resource);
         } else {

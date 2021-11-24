@@ -5,9 +5,10 @@
 
 bool bd2::Level::loadFromFile(const std::string &filename) {
 
+    map_.clear();
+
     bool correct = true;
     filename_ = filename;
-
     std::ifstream file(filename, std::ios::in);
     if (file.is_open()) {
 
@@ -136,7 +137,6 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
         return false;
 
 
-
     // count players and exists to check if there is only one of one type
     int players_counter = 0;
     int exits_counter = 0;
@@ -147,7 +147,6 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
         map_.push_back(std::vector<MapElement::Type>());
 
         for (const auto &c : row) {
-
             map_.back().push_back(MapElement::Type(c - '0'));
 
             if (map_.back().back() == MapElement::Type::Exit)
@@ -167,7 +166,6 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
     for (const auto &row : map_) {
 
         if (!isBorderTile(row.front()) || !isBorderTile(row.back())) {
-            map_.clear();
             return false;
         }
     }
@@ -175,7 +173,6 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
     for (int i = 0; i < map_size_.c; i++) {
 
         if (!isBorderTile(map_.front()[i]) || !isBorderTile(map_.back()[i])) {
-            map_.clear();
             return false;
         }
     }
