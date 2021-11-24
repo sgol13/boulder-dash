@@ -130,6 +130,7 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
     double_tiles_.clear();
     explosions_.clear();
     sounds_to_play_.clear();
+    diamonds_to_add_.clear();
     end_game_ = false;
     exit_game_ = false;
     win_game_ = false;
@@ -267,6 +268,12 @@ void bd2::Engine::processEngineOperations() {
         }
     }
     killed_objects_.clear();
+
+    // add new diamonds
+    for (auto &map_position : diamonds_to_add_) {
+        addMapElement(MapElement::Type::Diamond, map_position);
+    }
+    diamonds_to_add_.clear();
 }
 
 void bd2::Engine::finaliseEngine() { score_ += time_score_; }
@@ -401,7 +408,8 @@ void bd2::Engine::finishObjectMove(const std::shared_ptr<Moveable> &object) {
     object->finishMove();
 }
 
-void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
+void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object,
+                             const std::shared_ptr<MapElement> &killer) {
 
     if (object->type_ == MapElement::Type::Wall ||
         object->type_ == MapElement::Type::Exit) {
@@ -419,10 +427,16 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
 
         playSound(resources::Sounds::BUTTERFLY_DESTROY);
 
-        for (auto &dir : DIR_AROUND5) {
+        auto object_position = object->getMapPosition();
+        if (killer) {
+            auto killer_position = killer->getMapPosition();
+            object_position.c = killer_position.c;
+        }
+
+        for (auto &dir : DIR_AROUND4) {
 
             bool add_diamond = false;
-            auto map_position = object->getMapPosition() + dir;
+            auto map_position = object_position + dir;
 
             if (map_[map_position.r][map_position.c].size() == 0) {
                 add_diamond = true;
@@ -432,7 +446,8 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
                 if (auto object_1 = map_[map_position.r][map_position.c][0]) {
 
                     if (object_1->type_ == MapElement::Type::Ground ||
-                        object_1->type_ == MapElement::Type::Boulder) {
+                        object_1->type_ == MapElement::Type::Boulder ||
+                        object_1 == object) {
                         killObject(map_[map_position.r][map_position.c][0]);
                         add_diamond = true;
                     }
@@ -440,7 +455,8 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
 
                 if (auto object_2 = map_[map_position.r][map_position.c][1]) {
 
-                    if (object_2->type_ == MapElement::Type::Boulder) {
+                    if (object_2->type_ == MapElement::Type::Boulder ||
+                        object_2 == object) {
                         killObject(map_[map_position.r][map_position.c][1]);
                         add_diamond = true;
                     }
@@ -448,7 +464,7 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object) {
             }
 
             if (add_diamond) {
-                addMapElement(MapElement::Type::Diamond, map_position);
+                diamonds_to_add_.push_back(map_position);
             }
         }
     } break;
@@ -552,7 +568,7 @@ bool bd2::Engine::collideObjects(const std::shared_ptr<Moveable> &moveable_objec
 
     case MapElement::Type::Boulder: {
 
-        killObject(target_object);
+        killObject(target_object, moveable_object);
         is_move_possible = true;
 
     } break;

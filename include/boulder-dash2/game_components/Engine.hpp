@@ -116,7 +116,8 @@ class Engine {
 
     void finishObjectMove(const std::shared_ptr<Moveable> &object);
 
-    void killObject(const std::shared_ptr<MapElement> &object);
+    void killObject(const std::shared_ptr<MapElement> &object,
+                    const std::shared_ptr<MapElement> &killer = nullptr);
 
 
     bool checkCollision(const std::shared_ptr<Moveable> &moveable_object,
@@ -159,6 +160,8 @@ class Engine {
     /** List of objects that wered killed during the current turn
      * and should be removed */
     std::set<std::shared_ptr<MapElement>, MapElement::Compare> killed_objects_;
+
+    std::vector<MapCoordinates> diamonds_to_add_;
 
     std::vector<std::shared_ptr<MapElement>> explosions_;
 
