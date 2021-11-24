@@ -129,21 +129,17 @@ void bd2::Menu::handleKeyPressed(const sf::Event::KeyEvent &key) {
     case sf::Keyboard::Up:
 
         if (--current_menu_option_ < 0) {
-            current_menu_option_ = 0;
-
-        } else {
-            change_option_sound_.play();
+            current_menu_option_ = levels_num_;
         }
+        change_option_sound_.play();
         break;
 
     case sf::Keyboard::Down:
 
         if (++current_menu_option_ > levels_num_) {
-            current_menu_option_--;
-
-        } else {
-            change_option_sound_.play();
+            current_menu_option_ = 0;
         }
+        change_option_sound_.play();
         break;
 
     default:

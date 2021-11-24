@@ -94,7 +94,7 @@ int main() {
             window.close();
             break;
         }
-        menu_option = 3;
+
         auto level_label = bd2::resources::level_files[menu_option - 1].first;
         auto level = levels_handler[level_label];
 
