@@ -178,8 +178,11 @@ void bd2::Engine::processEngineOperations() {
         score_++;
     }
 
-
     total_elapsed_time_ += turn_elapsed_time_;
+
+    if (total_elapsed_time_ > time_limit_) {
+        killObject(player_);
+    }
 
     // clear the list of newly created map elements from the previous turn
     new_objects_.clear();
