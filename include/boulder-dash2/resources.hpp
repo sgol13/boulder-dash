@@ -112,9 +112,10 @@ constexpr std::pair<Levels, const char *> level_files[] = {
 
     {Levels::LEVEL_1, "level1"},
     {Levels::LEVEL_2, "level2"},
-    {Levels::LEVEL_3, "level3"} /*, {Levels::LEVEL_4, "level4"},
-     {Levels::LEVEL_5, "level5"}, {Levels::LEVEL_6, "level6"},
-     {Levels::LEVEL_7, "level7"},*/
+    {Levels::LEVEL_3, "level3"},
+    {Levels::LEVEL_4, "level4"} /*,
+{Levels::LEVEL_5, "level5"}, {Levels::LEVEL_6, "level6"},
+{Levels::LEVEL_7, "level7"},*/
 };
 
 constexpr int level_files_num =

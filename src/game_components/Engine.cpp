@@ -484,7 +484,8 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object,
             if (auto object_1 = map_[map_position.r][map_position.c][0]) {
 
                 if (object_1->type_ != MapElement::Type::Wall &&
-                    object_1->type_ != MapElement::Type::Exit) {
+                    object_1->type_ != MapElement::Type::Exit &&
+                    object_1->type_ != MapElement::Type::Firefly) {
                     killObject(object_1);
                     add_explosion = true;
                 }
@@ -493,7 +494,8 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object,
             if (auto object_2 = map_[map_position.r][map_position.c][1]) {
 
                 if (object_2->type_ != MapElement::Type::Wall &&
-                    object_2->type_ != MapElement::Type::Exit) {
+                    object_2->type_ != MapElement::Type::Exit &&
+                    object_2->type_ != MapElement::Type::Firefly) {
                     killObject(object_2);
                     add_explosion = true;
                 }
