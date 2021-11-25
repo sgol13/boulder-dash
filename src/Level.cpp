@@ -1,7 +1,7 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#include "boulder-dash2/Level.hpp"
+#include "boulder-dash/Level.hpp"
 
 bool bd::Level::loadFromFile(const std::string &filename) {
 

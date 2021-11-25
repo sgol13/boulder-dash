@@ -1,7 +1,7 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#include "boulder-dash2/game_components/Engine.hpp"
+#include "boulder-dash/game_components/Engine.hpp"
 
 // ==============================================================================
 // DOUBLE TILE

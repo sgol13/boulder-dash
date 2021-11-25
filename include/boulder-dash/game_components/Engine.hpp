@@ -1,18 +1,18 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#ifndef BD2_ENGINE_HPP
-#define BD2_ENGINE_HPP
+#ifndef BD_ENGINE_HPP
+#define BD_ENGINE_HPP
 
-#include "boulder-dash2/Level.hpp"
-#include "boulder-dash2/MapCoordinates.hpp"
-#include "boulder-dash2/defs.hpp"
-#include "boulder-dash2/map_elements/Boulder.hpp"
-#include "boulder-dash2/map_elements/Exit.hpp"
-#include "boulder-dash2/map_elements/Flyable.hpp"
-#include "boulder-dash2/map_elements/MapElement.hpp"
-#include "boulder-dash2/map_elements/Moveable.hpp"
-#include "boulder-dash2/map_elements/Player.hpp"
+#include "boulder-dash/Level.hpp"
+#include "boulder-dash/MapCoordinates.hpp"
+#include "boulder-dash/defs.hpp"
+#include "boulder-dash/map_elements/Boulder.hpp"
+#include "boulder-dash/map_elements/Exit.hpp"
+#include "boulder-dash/map_elements/Flyable.hpp"
+#include "boulder-dash/map_elements/MapElement.hpp"
+#include "boulder-dash/map_elements/Moveable.hpp"
+#include "boulder-dash/map_elements/Player.hpp"
 
 namespace bd {
 

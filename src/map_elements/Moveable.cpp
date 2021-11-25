@@ -1,7 +1,7 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#include "boulder-dash2/map_elements/Moveable.hpp"
+#include "boulder-dash/map_elements/Moveable.hpp"
 
 bd::Moveable::Moveable(Type _type, const MapCoordinates &_map_position)
     : MapElement(_type, _map_position),

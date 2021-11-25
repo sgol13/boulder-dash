@@ -1,11 +1,11 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#ifndef BD2_FLYABLE_HPP
-#define BD2_FLYABLE_HPP
+#ifndef BD_FLYABLE_HPP
+#define BD_FLYABLE_HPP
 
-#include "boulder-dash2/defs.hpp"
-#include "boulder-dash2/map_elements/Moveable.hpp"
+#include "boulder-dash/defs.hpp"
+#include "boulder-dash/map_elements/Moveable.hpp"
 
 namespace bd {
 

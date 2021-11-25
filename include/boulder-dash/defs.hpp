@@ -1,8 +1,8 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#ifndef BD2_DEFS_HPP
-#define BD2_DEFS_HPP
+#ifndef BD_DEFS_HPP
+#define BD_DEFS_HPP
 
 //==============================================================================
 // LIBRARIES
@@ -37,20 +37,20 @@
 // RESOURCES - default paths to resource directories (used if not set by cmake)
 // =============================================================================
 
-#ifndef BD2_GRAPHIC_RESOURCES_DIR
-#define BD2_GRAPHIC_RESOURCES_DIR "res/textures/"
+#ifndef BD_GRAPHIC_RESOURCES_DIR
+#define BD_GRAPHIC_RESOURCES_DIR "res/textures/"
 #endif
 
-#ifndef BD2_FONT_RESOURCES_DIR
-#define BD2_FONT_RESOURCES_DIR "res/fonts/"
+#ifndef BD_FONT_RESOURCES_DIR
+#define BD_FONT_RESOURCES_DIR "res/fonts/"
 #endif
 
-#ifndef BD2_AUDIO_RESOURCES_DIR
-#define BD2_AUDIO_RESOURCES_DIR "res/sounds/"
+#ifndef BD_AUDIO_RESOURCES_DIR
+#define BD_AUDIO_RESOURCES_DIR "res/sounds/"
 #endif
 
-#ifndef BD2_LEVEL_RESOURCES_DIR
-#define BD2_LEVEL_RESOURCES_DIR "res/levels/"
+#ifndef BD_LEVEL_RESOURCES_DIR
+#define BD_LEVEL_RESOURCES_DIR "res/levels/"
 #endif
 
 // =============================================================================

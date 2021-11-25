@@ -1,7 +1,7 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#include "boulder-dash2/game_components/Ranking.hpp"
+#include "boulder-dash/game_components/Ranking.hpp"
 
 bd::Ranking::Ranking(sf::RenderWindow &_window,
                      const ResourceHandler<sf::Font> &_fonts_handler)

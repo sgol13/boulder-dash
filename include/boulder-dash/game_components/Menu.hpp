@@ -1,11 +1,14 @@
-#ifndef BD2_MENU_HPP
-#define BD2_MENU_HPP
+// Szymon Golebiowski
+// Boulder Dash
 
-#include "boulder-dash2/Level.hpp"
-#include "boulder-dash2/MapCoordinates.hpp"
-#include "boulder-dash2/ResourceHandler.hpp"
-#include "boulder-dash2/defs.hpp"
-#include "boulder-dash2/map_elements/Player.hpp"
+#ifndef BD_MENU_HPP
+#define BD_MENU_HPP
+
+#include "boulder-dash/Level.hpp"
+#include "boulder-dash/MapCoordinates.hpp"
+#include "boulder-dash/ResourceHandler.hpp"
+#include "boulder-dash/defs.hpp"
+#include "boulder-dash/map_elements/Player.hpp"
 
 namespace bd {
 

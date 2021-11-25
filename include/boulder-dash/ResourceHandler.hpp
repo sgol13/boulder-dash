@@ -1,11 +1,11 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#ifndef BD2_RESOURCE_HANDLER_HPP
-#define BD2_RESOURCE_HANDLER_HPP
+#ifndef BD_RESOURCE_HANDLER_HPP
+#define BD_RESOURCE_HANDLER_HPP
 
-#include "boulder-dash2/defs.hpp"
-#include "boulder-dash2/resources.hpp"
+#include "boulder-dash/defs.hpp"
+#include "boulder-dash/resources.hpp"
 
 namespace bd {
 

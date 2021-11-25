@@ -1,7 +1,7 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#include "boulder-dash2/game_components/Input.hpp"
+#include "boulder-dash/game_components/Input.hpp"
 
 bd::Input::Input(sf::RenderWindow &_window) : Engine(_window) {}
 

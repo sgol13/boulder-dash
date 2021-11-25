@@ -1,9 +1,9 @@
 # Szymon Golebiowski
-# Boulder Dash 2, 2021
+# Boulder Dash
 
 cmake_minimum_required(VERSION 3.10.2)
 
-project(boulder-dash2)
+project(boulder-dash)
 
 #set c++ standard (C++14 is required to build the project)
 set (CMAKE_CXX_STANDARD 14)
@@ -18,10 +18,10 @@ set(FONT_RESOURCES_DIR "${RESOURCES_DIR}fonts/")
 set(AUDIO_RESOURCES_DIR "${RESOURCES_DIR}sounds/")
 set(LEVEL_RESOURCES_DIR "${RESOURCES_DIR}levels/")
 
-add_definitions(-DBD2_GRAPHIC_RESOURCES_DIR="${GRAPHIC_RESOURCES_DIR}")
-add_definitions(-DBD2_FONT_RESOURCES_DIR="${FONT_RESOURCES_DIR}")
-add_definitions(-DBD2_AUDIO_RESOURCES_DIR="${AUDIO_RESOURCES_DIR}")
-add_definitions(-DBD2_LEVEL_RESOURCES_DIR="${LEVEL_RESOURCES_DIR}")
+add_definitions(-DBD_GRAPHIC_RESOURCES_DIR="${GRAPHIC_RESOURCES_DIR}")
+add_definitions(-DBD_FONT_RESOURCES_DIR="${FONT_RESOURCES_DIR}")
+add_definitions(-DBD_AUDIO_RESOURCES_DIR="${AUDIO_RESOURCES_DIR}")
+add_definitions(-DBD_LEVEL_RESOURCES_DIR="${LEVEL_RESOURCES_DIR}")
 
 # list of source files
 set(sources

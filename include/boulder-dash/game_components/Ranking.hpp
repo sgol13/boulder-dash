@@ -1,12 +1,12 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#ifndef BD2_RANKING_HPP
-#define BD2_RANKING_HPP
+#ifndef BD_RANKING_HPP
+#define BD_RANKING_HPP
 
-#include "boulder-dash2/Level.hpp"
-#include "boulder-dash2/ResourceHandler.hpp"
-#include "boulder-dash2/defs.hpp"
+#include "boulder-dash/Level.hpp"
+#include "boulder-dash/ResourceHandler.hpp"
+#include "boulder-dash/defs.hpp"
 
 namespace bd {
 

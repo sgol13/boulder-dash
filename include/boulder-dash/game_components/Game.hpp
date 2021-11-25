@@ -1,17 +1,19 @@
-#ifndef BD2_GAME_HPP
-#define BD2_GAME_HPP
+// Szymon Golebiowski
+// Boulder Dash
 
-#include "boulder-dash2/ResourceHandler.hpp"
-#include "boulder-dash2/defs.hpp"
-#include "boulder-dash2/game_components/Audio.hpp"
-#include "boulder-dash2/game_components/Input.hpp"
-#include "boulder-dash2/game_components/Video.hpp"
+#ifndef BD_GAME_HPP
+#define BD_GAME_HPP
+
+#include "boulder-dash/ResourceHandler.hpp"
+#include "boulder-dash/defs.hpp"
+#include "boulder-dash/game_components/Audio.hpp"
+#include "boulder-dash/game_components/Input.hpp"
+#include "boulder-dash/game_components/Video.hpp"
 
 namespace bd {
 
 class Game : private Video, private Audio, private Input {
   public:
-    /* Constructor */
     Game(sf::RenderWindow &_window,
          const ResourceHandler<sf::Texture> &_textures_handler,
          const ResourceHandler<sf::Font> &_fonts_handler,

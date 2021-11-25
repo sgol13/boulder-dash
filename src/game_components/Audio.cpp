@@ -1,7 +1,7 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#include "boulder-dash2/game_components/Audio.hpp"
+#include "boulder-dash/game_components/Audio.hpp"
 
 bd::Audio::Audio(sf::RenderWindow &_window,
                  const ResourceHandler<sf::SoundBuffer> &_sounds_handler)

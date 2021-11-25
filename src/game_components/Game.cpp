@@ -1,4 +1,7 @@
-#include "boulder-dash2/game_components/Game.hpp"
+// Szymon Golebiowski
+// Boulder Dash
+
+#include "boulder-dash/game_components/Game.hpp"
 
 bd::Game::Game(sf::RenderWindow &_window,
                const ResourceHandler<sf::Texture> &_textures_handler,

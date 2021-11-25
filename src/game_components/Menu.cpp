@@ -1,5 +1,7 @@
-#include "boulder-dash2/game_components/Menu.hpp"
+// Szymon Golebiowski
+// Boulder Dash
 
+#include "boulder-dash/game_components/Menu.hpp"
 
 bd::Menu::Menu(sf::RenderWindow &_window,
                const ResourceHandler<sf::Texture> &_textures_handler,

@@ -1,7 +1,7 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#include "boulder-dash2/map_elements/MapElement.hpp"
+#include "boulder-dash/map_elements/MapElement.hpp"
 
 bool bd::MapElement::Compare::operator()(const std::weak_ptr<MapElement> &el1,
                                          const std::weak_ptr<MapElement> &el2) {

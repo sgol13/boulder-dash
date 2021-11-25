@@ -1,10 +1,10 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#ifndef BD2_MAP_COORDINATES_HPP
-#define BD2_MAP_COORDINATES_HPP
+#ifndef BD_MAP_COORDINATES_HPP
+#define BD_MAP_COORDINATES_HPP
 
-#include "boulder-dash2/defs.hpp"
+#include "boulder-dash/defs.hpp"
 
 namespace bd {
 

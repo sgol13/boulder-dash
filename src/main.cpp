@@ -1,13 +1,13 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#include "boulder-dash2/Level.hpp"
-#include "boulder-dash2/ResourceHandler.hpp"
-#include "boulder-dash2/defs.hpp"
-#include "boulder-dash2/game_components/Game.hpp"
-#include "boulder-dash2/game_components/Menu.hpp"
-#include "boulder-dash2/game_components/Ranking.hpp"
-#include "boulder-dash2/resources.hpp"
+#include "boulder-dash/Level.hpp"
+#include "boulder-dash/ResourceHandler.hpp"
+#include "boulder-dash/defs.hpp"
+#include "boulder-dash/game_components/Game.hpp"
+#include "boulder-dash/game_components/Menu.hpp"
+#include "boulder-dash/game_components/Ranking.hpp"
+#include "boulder-dash/resources.hpp"
 
 int main() {
 
@@ -22,19 +22,19 @@ int main() {
 
     bool loading_flag1 = textures_handler.loadResources(
         bd::resources::texture_files, bd::resources::texture_files_num,
-        BD2_GRAPHIC_RESOURCES_DIR);
+        BD_GRAPHIC_RESOURCES_DIR);
 
     bool loading_flag2 = fonts_handler.loadResources(bd::resources::font_files,
                                                      bd::resources::font_files_num,
-                                                     BD2_FONT_RESOURCES_DIR);
+                                                     BD_FONT_RESOURCES_DIR);
 
     bool loading_flag3 = sounds_handler.loadResources(bd::resources::sound_files,
                                                       bd::resources::sound_files_num,
-                                                      BD2_AUDIO_RESOURCES_DIR);
+                                                      BD_AUDIO_RESOURCES_DIR);
 
     bool loading_flag4 = levels_handler.loadResources(bd::resources::level_files,
                                                       bd::resources::level_files_num,
-                                                      BD2_LEVEL_RESOURCES_DIR);
+                                                      BD_LEVEL_RESOURCES_DIR);
 
     if (!loading_flag1 || !loading_flag2 || !loading_flag3 || !loading_flag4) {
 

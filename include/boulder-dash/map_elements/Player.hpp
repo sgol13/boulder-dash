@@ -1,11 +1,11 @@
 // Szymon Golebiowski
-// Boulder Dash 2, 2021
+// Boulder Dash
 
-#ifndef BD2_PLAYER_HPP
-#define BD2_PLAYER_HPP
+#ifndef BD_PLAYER_HPP
+#define BD_PLAYER_HPP
 
-#include "boulder-dash2/defs.hpp"
-#include "boulder-dash2/map_elements/Moveable.hpp"
+#include "boulder-dash/defs.hpp"
+#include "boulder-dash/map_elements/Moveable.hpp"
 
 namespace bd {
 
