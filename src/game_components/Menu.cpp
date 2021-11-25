@@ -28,7 +28,7 @@ bd::Menu::Menu(sf::RenderWindow &_window,
 
 
     sf::Vector2f text_position;
-    game_name_text_.setString("BOULDER DASH 2");
+    game_name_text_.setString("BOULDER DASH");
     game_name_text_.setFont(*fonts_handler_[resources::Fonts::PIXEL_FONT]);
     game_name_text_.setFillColor(GREY_COLOR);
     game_name_text_.setCharacterSize(MENU_GAME_NAME_FONT_SIZE);
