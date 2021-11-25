@@ -7,7 +7,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/game_components/Engine.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Audio : virtual public Engine {
   public:
@@ -30,6 +30,6 @@ class Audio : virtual public Engine {
     bool previous_pause_;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

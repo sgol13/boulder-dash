@@ -7,7 +7,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/Moveable.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Boulder final : public Moveable {
   public:
@@ -29,6 +29,6 @@ class Boulder final : public Moveable {
     MapCoordinates pushed_direction_;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

@@ -7,7 +7,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Moveable : public MapElement {
   public:
@@ -57,6 +57,6 @@ class Moveable : public MapElement {
     MovePhase move_phase_;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

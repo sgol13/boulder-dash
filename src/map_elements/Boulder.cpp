@@ -3,7 +3,7 @@
 
 #include "boulder-dash2/map_elements/Boulder.hpp"
 
-bd2::Boulder::Boulder(Type _type, const MapCoordinates &_map_position)
+bd::Boulder::Boulder(Type _type, const MapCoordinates &_map_position)
     : Moveable(_type, _map_position),
       left_fall_time_(sf::seconds(0)),
       center_fall_time_(sf::seconds(0)),
@@ -11,8 +11,8 @@ bd2::Boulder::Boulder(Type _type, const MapCoordinates &_map_position)
       is_falling_(false),
       pushed_direction_(0, 0) {}
 
-void bd2::Boulder::startMove(const MapCoordinates &new_move,
-                             sf::Time new_move_duration) {
+void bd::Boulder::startMove(const MapCoordinates &new_move,
+                            sf::Time new_move_duration) {
 
     if (new_move_duration == sf::seconds(0)) {
         new_move_duration = BOULDER_MOVE_DURATION;
@@ -20,11 +20,11 @@ void bd2::Boulder::startMove(const MapCoordinates &new_move,
     Moveable::startMove(new_move, new_move_duration);
 }
 
-void bd2::Boulder::pushSide(const MapCoordinates &direction) {
+void bd::Boulder::pushSide(const MapCoordinates &direction) {
     pushed_direction_ = direction;
 }
 
-bd2::MapCoordinates bd2::Boulder::getPlannedMove(const Map3x3 &map3x3) {
+bd::MapCoordinates bd::Boulder::getPlannedMove(const Map3x3 &map3x3) {
 
     bool left_free = false;
     bool center_free = false;

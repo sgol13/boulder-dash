@@ -7,17 +7,17 @@
 // DOUBLE TILE
 // ==============================================================================
 
-bd2::Engine::DoubleTile::DoubleTile() : ptr0_(nullptr), ptr1_(nullptr) {}
+bd::Engine::DoubleTile::DoubleTile() : ptr0_(nullptr), ptr1_(nullptr) {}
 
-bd2::Engine::DoubleTile::DoubleTile(const std::shared_ptr<MapElement> &_ptr0)
+bd::Engine::DoubleTile::DoubleTile(const std::shared_ptr<MapElement> &_ptr0)
     : ptr0_(_ptr0) {}
 
-bd2::Engine::DoubleTile::DoubleTile(const std::shared_ptr<MapElement> &_ptr0,
-                                    const std::shared_ptr<MapElement> &_ptr1)
+bd::Engine::DoubleTile::DoubleTile(const std::shared_ptr<MapElement> &_ptr0,
+                                   const std::shared_ptr<MapElement> &_ptr1)
     : ptr0_(_ptr0), ptr1_(_ptr1) {}
 
-std::shared_ptr<bd2::MapElement> &
-bd2::Engine::DoubleTile::operator=(const std::shared_ptr<MapElement> &ptr) {
+std::shared_ptr<bd::MapElement> &
+bd::Engine::DoubleTile::operator=(const std::shared_ptr<MapElement> &ptr) {
 
     add(ptr);
 
@@ -30,7 +30,7 @@ bd2::Engine::DoubleTile::operator=(const std::shared_ptr<MapElement> &ptr) {
     return const_cast<std::shared_ptr<MapElement> &>(empty_ptr);
 }
 
-std::shared_ptr<bd2::MapElement> &bd2::Engine::DoubleTile::operator[](int n) {
+std::shared_ptr<bd::MapElement> &bd::Engine::DoubleTile::operator[](int n) {
 
     if (n == 0)
         return ptr0_;
@@ -41,7 +41,7 @@ std::shared_ptr<bd2::MapElement> &bd2::Engine::DoubleTile::operator[](int n) {
     return const_cast<std::shared_ptr<MapElement> &>(empty_ptr);
 }
 
-int bd2::Engine::DoubleTile::size() const {
+int bd::Engine::DoubleTile::size() const {
 
     if (ptr0_ == nullptr) {
         return 0;
@@ -54,7 +54,7 @@ int bd2::Engine::DoubleTile::size() const {
     return 2;
 }
 
-void bd2::Engine::DoubleTile::remove(int n) {
+void bd::Engine::DoubleTile::remove(int n) {
 
     if (n == 0) {
         ptr0_ = ptr1_;
@@ -65,7 +65,7 @@ void bd2::Engine::DoubleTile::remove(int n) {
     }
 }
 
-void bd2::Engine::DoubleTile::remove(const std::shared_ptr<MapElement> &ptr_remove) {
+void bd::Engine::DoubleTile::remove(const std::shared_ptr<MapElement> &ptr_remove) {
 
     if (ptr_remove == ptr0_) {
         remove(0);
@@ -75,7 +75,7 @@ void bd2::Engine::DoubleTile::remove(const std::shared_ptr<MapElement> &ptr_remo
     }
 }
 
-void bd2::Engine::DoubleTile::remove(const MapElement &object_remove) {
+void bd::Engine::DoubleTile::remove(const MapElement &object_remove) {
 
     if (&object_remove == ptr0_.get()) {
         remove(0);
@@ -85,7 +85,7 @@ void bd2::Engine::DoubleTile::remove(const MapElement &object_remove) {
     }
 }
 
-bool bd2::Engine::DoubleTile::add(const std::shared_ptr<MapElement> &ptr_add) {
+bool bd::Engine::DoubleTile::add(const std::shared_ptr<MapElement> &ptr_add) {
 
     if (ptr0_ == nullptr) {
         ptr0_ = ptr_add;
@@ -100,15 +100,15 @@ bool bd2::Engine::DoubleTile::add(const std::shared_ptr<MapElement> &ptr_add) {
     return true;
 }
 
-bd2::Engine::DoubleTile::operator std::shared_ptr<MapElement> &() { return ptr0_; }
+bd::Engine::DoubleTile::operator std::shared_ptr<MapElement> &() { return ptr0_; }
 
-const std::shared_ptr<bd2::MapElement> bd2::Engine::DoubleTile::empty_ptr = nullptr;
+const std::shared_ptr<bd::MapElement> bd::Engine::DoubleTile::empty_ptr = nullptr;
 
 // ==============================================================================
 // ENGINE
 // ==============================================================================
 
-bd2::Engine::Engine(sf::RenderWindow &_window)
+bd::Engine::Engine(sf::RenderWindow &_window)
     : window_(_window),
       end_game_(false),
       exit_game_(false),
@@ -120,7 +120,7 @@ bd2::Engine::Engine(sf::RenderWindow &_window)
       score_(0),
       time_score_(0) {}
 
-void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
+void bd::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
 
     // restart all members
     map_.clear();
@@ -161,7 +161,7 @@ void bd2::Engine::initialiseEngine(const std::shared_ptr<const Level> level) {
     }
 }
 
-void bd2::Engine::processEngineOperations() {
+void bd::Engine::processEngineOperations() {
 
     turn_elapsed_time_ = clock_.restart();
 
@@ -279,10 +279,10 @@ void bd2::Engine::processEngineOperations() {
     diamonds_to_add_.clear();
 }
 
-void bd2::Engine::finaliseEngine() { score_ += time_score_; }
+void bd::Engine::finaliseEngine() { score_ += time_score_; }
 
-void bd2::Engine::addMapElement(MapElement::Type type,
-                                const MapCoordinates &position) {
+void bd::Engine::addMapElement(MapElement::Type type,
+                               const MapCoordinates &position) {
 
     std::shared_ptr<MapElement> new_element = nullptr;
 
@@ -354,7 +354,7 @@ void bd2::Engine::addMapElement(MapElement::Type type,
     }
 }
 
-bd2::Moveable::Map3x3 bd2::Engine::getMap3x3(const MapCoordinates &center) {
+bd::Moveable::Map3x3 bd::Engine::getMap3x3(const MapCoordinates &center) {
 
     Moveable::Map3x3 map3x3 = {};
 
@@ -388,8 +388,8 @@ bd2::Moveable::Map3x3 bd2::Engine::getMap3x3(const MapCoordinates &center) {
     return map3x3;
 }
 
-void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object,
-                                  const MapCoordinates &planned_move) {
+void bd::Engine::startObjectMove(const std::shared_ptr<Moveable> &object,
+                                 const MapCoordinates &planned_move) {
 
     if (planned_move) {
 
@@ -404,15 +404,15 @@ void bd2::Engine::startObjectMove(const std::shared_ptr<Moveable> &object,
     }
 }
 
-void bd2::Engine::finishObjectMove(const std::shared_ptr<Moveable> &object) {
+void bd::Engine::finishObjectMove(const std::shared_ptr<Moveable> &object) {
 
     auto position = object->getMapPosition();
     map_[position.r][position.c].remove(object);
     object->finishMove();
 }
 
-void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object,
-                             const std::shared_ptr<MapElement> &killer) {
+void bd::Engine::killObject(const std::shared_ptr<MapElement> &object,
+                            const std::shared_ptr<MapElement> &killer) {
 
     if (object->type_ == MapElement::Type::Wall ||
         object->type_ == MapElement::Type::Exit) {
@@ -512,8 +512,8 @@ void bd2::Engine::killObject(const std::shared_ptr<MapElement> &object,
     }
 }
 
-bool bd2::Engine::checkCollision(const std::shared_ptr<Moveable> &moveable_object,
-                                 const MapCoordinates &move) {
+bool bd::Engine::checkCollision(const std::shared_ptr<Moveable> &moveable_object,
+                                const MapCoordinates &move) {
 
     bool is_move_possible = false;
 
@@ -558,8 +558,8 @@ bool bd2::Engine::checkCollision(const std::shared_ptr<Moveable> &moveable_objec
     return is_move_possible;
 }
 
-bool bd2::Engine::collideObjects(const std::shared_ptr<Moveable> &moveable_object,
-                                 const std::shared_ptr<MapElement> &target_object) {
+bool bd::Engine::collideObjects(const std::shared_ptr<Moveable> &moveable_object,
+                                const std::shared_ptr<MapElement> &target_object) {
 
     bool is_move_possible = false;
 
@@ -596,8 +596,8 @@ bool bd2::Engine::collideObjects(const std::shared_ptr<Moveable> &moveable_objec
     return is_move_possible;
 }
 
-void bd2::Engine::collideObjectsInMove(std::shared_ptr<MapElement> object_1,
-                                       std::shared_ptr<MapElement> object_2) {
+void bd::Engine::collideObjectsInMove(std::shared_ptr<MapElement> object_1,
+                                      std::shared_ptr<MapElement> object_2) {
 
     // swap if needed
     if (object_1->type_ == MapElement::Type::Boulder &&
@@ -655,8 +655,8 @@ void bd2::Engine::collideObjectsInMove(std::shared_ptr<MapElement> object_1,
     }
 }
 
-bool bd2::Engine::collidePlayer(const std::shared_ptr<Player> &player,
-                                const std::shared_ptr<MapElement> &target_object) {
+bool bd::Engine::collidePlayer(const std::shared_ptr<Player> &player,
+                               const std::shared_ptr<MapElement> &target_object) {
 
     bool is_move_possible = false;
 
@@ -741,11 +741,11 @@ bool bd2::Engine::collidePlayer(const std::shared_ptr<Player> &player,
     return is_move_possible;
 }
 
-void bd2::Engine::playSound(resources::Sounds sound) {
+void bd::Engine::playSound(resources::Sounds sound) {
     sounds_to_play_.push_back(sound);
 }
 
-void bd2::Engine::gameOver() {
+void bd::Engine::gameOver() {
 
     end_game_ = true;
     if (win_game_) {

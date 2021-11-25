@@ -9,7 +9,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/resources.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class MapElement : public sf::Sprite {
   public:
@@ -80,6 +80,6 @@ class MapElement : public sf::Sprite {
     bool is_looped_;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

@@ -3,14 +3,14 @@
 
 #include "boulder-dash2/map_elements/Moveable.hpp"
 
-bd2::Moveable::Moveable(Type _type, const MapCoordinates &_map_position)
+bd::Moveable::Moveable(Type _type, const MapCoordinates &_map_position)
     : MapElement(_type, _map_position),
       move_duration_(sf::seconds(0)),
       move_time_(sf::seconds(0)),
       move_phase_(MovePhase::STANDING) {}
 
-void bd2::Moveable::startMove(const MapCoordinates &new_move,
-                              sf::Time new_move_duration) {
+void bd::Moveable::startMove(const MapCoordinates &new_move,
+                             sf::Time new_move_duration) {
 
     move_phase_ = MovePhase::STARTED_MOVE;
 
@@ -24,7 +24,7 @@ void bd2::Moveable::startMove(const MapCoordinates &new_move,
     current_move_ = new_move;
 }
 
-void bd2::Moveable::finishMove() {
+void bd::Moveable::finishMove() {
 
     move_phase_ = MovePhase::STANDING;
     map_position_ += current_move_;
@@ -34,14 +34,14 @@ void bd2::Moveable::finishMove() {
     setPosition(x, y);
 }
 
-void bd2::Moveable::reverseMove() {
+void bd::Moveable::reverseMove() {
 
     move_time_ = move_duration_ - move_time_;
     map_position_ += current_move_;
     current_move_ = -current_move_;
 }
 
-void bd2::Moveable::simulateMovement(sf::Time elapsed_time) {
+void bd::Moveable::simulateMovement(sf::Time elapsed_time) {
 
     if (move_phase_ == MovePhase::STARTED_MOVE) {
         move_phase_ = MovePhase::MOVING;
@@ -66,11 +66,11 @@ void bd2::Moveable::simulateMovement(sf::Time elapsed_time) {
     }
 }
 
-bd2::Moveable::MovePhase bd2::Moveable::getMovePhase() const { return move_phase_; }
+bd::Moveable::MovePhase bd::Moveable::getMovePhase() const { return move_phase_; }
 
-bd2::MapCoordinates bd2::Moveable::getCurrentMove() const { return current_move_; }
+bd::MapCoordinates bd::Moveable::getCurrentMove() const { return current_move_; }
 
-std::vector<bd2::MapCoordinates> bd2::Moveable::getAllMapPositions() const {
+std::vector<bd::MapCoordinates> bd::Moveable::getAllMapPositions() const {
 
     auto all_map_positions = MapElement::getAllMapPositions();
 
@@ -82,7 +82,7 @@ std::vector<bd2::MapCoordinates> bd2::Moveable::getAllMapPositions() const {
     return all_map_positions;
 }
 
-sf::Vector2f bd2::Moveable::getCenterPosition() const {
+sf::Vector2f bd::Moveable::getCenterPosition() const {
 
     sf::Vector2f position = getPosition();
     position.x += TILE_SIZE / 2;

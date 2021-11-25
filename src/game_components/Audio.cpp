@@ -3,7 +3,7 @@
 
 #include "boulder-dash2/game_components/Audio.hpp"
 
-bd2::Audio::Audio(sf::RenderWindow &_window,
+bd::Audio::Audio(sf::RenderWindow &_window,
                   const ResourceHandler<sf::SoundBuffer> &_sounds_handler)
     : Engine(_window), sounds_handler_(_sounds_handler), previous_pause_(false) {
 
@@ -18,9 +18,9 @@ bd2::Audio::Audio(sf::RenderWindow &_window,
     }
 }
 
-void bd2::Audio::initialiseAudio() { music_.play(); }
+void bd::Audio::initialiseAudio() { music_.play(); }
 
-void bd2::Audio::processAudioOperations() {
+void bd::Audio::processAudioOperations() {
 
     for (auto &sound_to_play : sounds_to_play_) {
 
@@ -57,7 +57,7 @@ void bd2::Audio::processAudioOperations() {
     }
 }
 
-void bd2::Audio::finaliseAudio() {
+void bd::Audio::finaliseAudio() {
 
     music_.stop();
     for (auto &sound : sounds_) {

@@ -8,7 +8,7 @@
 #include "boulder-dash2/ResourceHandler.hpp"
 #include "boulder-dash2/defs.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Ranking {
   public:
@@ -46,6 +46,6 @@ class Ranking {
     sf::Clock ranking_initial_block_clock_;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

@@ -6,7 +6,7 @@
 
 #include "boulder-dash2/defs.hpp"
 
-namespace bd2 {
+namespace bd {
 namespace resources {
 
 //=============================================================================
@@ -177,6 +177,6 @@ template <class T> constexpr const char *getFilename(T name) {
 }
 
 } // namespace resources
-} // namespace bd2
+} // namespace bd
 
 #endif

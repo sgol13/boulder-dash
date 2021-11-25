@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.10.2)
 
-project(boulder-dash2)
+project(boulder-dash)
 
 #set c++ standard (C++14 is required to build the project)
 set (CMAKE_CXX_STANDARD 14)

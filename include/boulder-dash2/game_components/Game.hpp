@@ -7,7 +7,7 @@
 #include "boulder-dash2/game_components/Input.hpp"
 #include "boulder-dash2/game_components/Video.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Game : private Video, private Audio, private Input {
   public:
@@ -23,6 +23,6 @@ class Game : private Video, private Audio, private Input {
   private:
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

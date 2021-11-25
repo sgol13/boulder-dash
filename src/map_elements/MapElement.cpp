@@ -3,8 +3,8 @@
 
 #include "boulder-dash2/map_elements/MapElement.hpp"
 
-bool bd2::MapElement::Compare::operator()(const std::weak_ptr<MapElement> &el1,
-                                          const std::weak_ptr<MapElement> &el2) {
+bool bd::MapElement::Compare::operator()(const std::weak_ptr<MapElement> &el1,
+                                         const std::weak_ptr<MapElement> &el2) {
 
     auto p1 = el1.lock();
     auto p2 = el2.lock();
@@ -42,7 +42,7 @@ bool bd2::MapElement::Compare::operator()(const std::weak_ptr<MapElement> &el1,
     return p1.get() < p2.get();
 }
 
-const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers = {
+const std::vector<bd::MapElement::Type> bd::MapElement::Compare::type_layers = {
 
     Type::Empty,     // 0
     Type::Wall,      // 1
@@ -56,7 +56,7 @@ const std::vector<bd2::MapElement::Type> bd2::MapElement::Compare::type_layers =
     Type::Explosion, // 9
 };
 
-bd2::MapElement::MapElement(Type _type, const MapCoordinates &_map_position)
+bd::MapElement::MapElement(Type _type, const MapCoordinates &_map_position)
     : type_(_type),
       map_position_(_map_position),
       is_animating_(false),
@@ -68,7 +68,7 @@ bd2::MapElement::MapElement(Type _type, const MapCoordinates &_map_position)
     setPosition(x, y);
 }
 
-void bd2::MapElement::loadTextures(
+void bd::MapElement::loadTextures(
     const ResourceHandler<sf::Texture> &textures_handler) {
 
     switch (type_) {
@@ -102,7 +102,7 @@ void bd2::MapElement::loadTextures(
     }
 }
 
-void bd2::MapElement::simulateAnimation(sf::Time elapsed_time) {
+void bd::MapElement::simulateAnimation(sf::Time elapsed_time) {
 
     if (is_animating_ && animation_duration_ > sf::seconds(0)) {
 
@@ -132,19 +132,19 @@ void bd2::MapElement::simulateAnimation(sf::Time elapsed_time) {
     }
 }
 
-bool bd2::MapElement::isAnimating() const { return is_animating_; }
+bool bd::MapElement::isAnimating() const { return is_animating_; }
 
-bd2::MapCoordinates bd2::MapElement::getMapPosition() const { return map_position_; }
+bd::MapCoordinates bd::MapElement::getMapPosition() const { return map_position_; }
 
-std::vector<bd2::MapCoordinates> bd2::MapElement::getAllMapPositions() const {
+std::vector<bd::MapCoordinates> bd::MapElement::getAllMapPositions() const {
 
     std::vector<MapCoordinates> all_map_positions;
     all_map_positions.push_back(map_position_);
     return all_map_positions;
 }
 
-void bd2::MapElement::startAnimation(const sf::Texture &texture, sf::Time duration,
-                                     sf::Time initial_time, bool looped) {
+void bd::MapElement::startAnimation(const sf::Texture &texture, sf::Time duration,
+                                    sf::Time initial_time, bool looped) {
 
     is_animating_ = true;
     is_looped_ = looped;

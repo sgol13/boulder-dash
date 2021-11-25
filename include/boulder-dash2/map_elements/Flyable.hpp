@@ -7,7 +7,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/Moveable.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Flyable : public Moveable {
   public:
@@ -25,6 +25,6 @@ class Flyable : public Moveable {
     MapCoordinates previous_move_;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif
