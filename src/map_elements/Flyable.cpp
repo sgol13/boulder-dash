@@ -3,11 +3,10 @@
 
 #include "boulder-dash2/map_elements/Flyable.hpp"
 
-bd2::Flyable::Flyable(Type _type, const MapCoordinates &_map_position)
+bd::Flyable::Flyable(Type _type, const MapCoordinates &_map_position)
     : Moveable(_type, _map_position) {}
 
-void bd2::Flyable::loadTextures(
-    const ResourceHandler<sf::Texture> &textures_handler) {
+void bd::Flyable::loadTextures(const ResourceHandler<sf::Texture> &textures_handler) {
 
     switch (type_) {
     case Type::Butterfly:
@@ -27,8 +26,8 @@ void bd2::Flyable::loadTextures(
     startAnimation(*basic_texture_, FLYABLE_ANIMATION_DURATION);
 }
 
-void bd2::Flyable::startMove(const MapCoordinates &new_move,
-                             sf::Time new_move_duration) {
+void bd::Flyable::startMove(const MapCoordinates &new_move,
+                            sf::Time new_move_duration) {
 
     if (new_move_duration == sf::seconds(0)) {
         new_move_duration = FLYABLE_MOVE_DURATION;
@@ -36,7 +35,7 @@ void bd2::Flyable::startMove(const MapCoordinates &new_move,
     Moveable::startMove(new_move, new_move_duration);
 }
 
-bd2::MapCoordinates bd2::Flyable::getPlannedMove(const Map3x3 &map3x3) {
+bd::MapCoordinates bd::Flyable::getPlannedMove(const Map3x3 &map3x3) {
 
     MapCoordinates chosen_map_dir(1, 1);
 

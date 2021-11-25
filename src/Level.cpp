@@ -3,7 +3,7 @@
 
 #include "boulder-dash2/Level.hpp"
 
-bool bd2::Level::loadFromFile(const std::string &filename) {
+bool bd::Level::loadFromFile(const std::string &filename) {
 
     map_.clear();
 
@@ -87,17 +87,17 @@ bool bd2::Level::loadFromFile(const std::string &filename) {
     return correct;
 }
 
-bd2::MapCoordinates bd2::Level::getMapSize() const { return map_size_; }
+bd::MapCoordinates bd::Level::getMapSize() const { return map_size_; }
 
-int bd2::Level::getTimeLimit() const { return time_limit_; }
+int bd::Level::getTimeLimit() const { return time_limit_; }
 
-int bd2::Level::getRequiredDiamonds() const { return required_diamonds_; }
+int bd::Level::getRequiredDiamonds() const { return required_diamonds_; }
 
-const std::vector<std::vector<bd2::MapElement::Type>> &bd2::Level::getMap() const {
+const std::vector<std::vector<bd::MapElement::Type>> &bd::Level::getMap() const {
     return map_;
 }
 
-void bd2::Level::updateRankingInFile() {
+void bd::Level::updateRankingInFile() {
 
     std::fstream file(filename_, std::ios::in | std::ios::out);
 
@@ -120,7 +120,7 @@ void bd2::Level::updateRankingInFile() {
     }
 }
 
-bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
+bool bd::Level::interpretMap(const std::vector<std::string> &rows) {
 
     if (rows.size() < 2)
         return false;
@@ -180,6 +180,6 @@ bool bd2::Level::interpretMap(const std::vector<std::string> &rows) {
     return true;
 }
 
-bool bd2::Level::isBorderTile(MapElement::Type tile_type) {
+bool bd::Level::isBorderTile(MapElement::Type tile_type) {
     return tile_type == MapElement::Type::Wall || tile_type == MapElement::Type::Exit;
 }

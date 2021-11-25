@@ -7,7 +7,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/Moveable.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Player final : public Moveable {
   public:
@@ -59,6 +59,6 @@ class Player final : public Moveable {
     sf::Time temporary_move_duration_;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

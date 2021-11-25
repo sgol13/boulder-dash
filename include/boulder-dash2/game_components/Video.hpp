@@ -9,7 +9,7 @@
 #include "boulder-dash2/game_components/Engine.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Video : virtual public Engine {
   public:
@@ -60,6 +60,6 @@ class Video : virtual public Engine {
     float map_height_;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

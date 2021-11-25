@@ -3,15 +3,15 @@
 
 #include "boulder-dash2/game_components/Video.hpp"
 
-bd2::Video::Video(sf::RenderWindow &_window,
-                  const ResourceHandler<sf::Texture> &_textures_handler,
-                  const ResourceHandler<sf::Font> &_fonts_handler)
+bd::Video::Video(sf::RenderWindow &_window,
+                 const ResourceHandler<sf::Texture> &_textures_handler,
+                 const ResourceHandler<sf::Font> &_fonts_handler)
     : Engine(_window),
       interface_diamond_(MapElement::Type::Diamond, MapCoordinates(0, 0)),
       textures_handler_(_textures_handler),
       fonts_handler_(_fonts_handler) {}
 
-void bd2::Video::initialiseVideo() {
+void bd::Video::initialiseVideo() {
 
     // COLUMN 0 - diamonds counter
     interface_diamond_.loadTextures(textures_handler_);
@@ -92,7 +92,7 @@ void bd2::Video::initialiseVideo() {
     }
 }
 
-void bd2::Video::processVideoOperations() {
+void bd::Video::processVideoOperations() {
 
     // PROCESSING OBJECTS
     // initialise map elements which were created during the current turn
@@ -165,7 +165,7 @@ void bd2::Video::processVideoOperations() {
     window_.display();
 }
 
-void bd2::Video::fitViewAreaToMap() {
+void bd::Video::fitViewAreaToMap() {
 
     map_view_area_.left =
         std::min(map_view_area_.left, map_width_ - map_view_area_.width);
@@ -176,7 +176,7 @@ void bd2::Video::fitViewAreaToMap() {
     map_view_area_.top = std::max(map_view_area_.top, 0.0f);
 }
 
-float bd2::Video::getViewScale() {
+float bd::Video::getViewScale() {
 
     float screen_height = static_cast<float>(sf::VideoMode::getDesktopMode().height);
     float scale = (TILE_SIZE * VERTICAL_TILES_NUM) / screen_height;
@@ -184,7 +184,7 @@ float bd2::Video::getViewScale() {
     return scale;
 }
 
-sf::View bd2::Video::getMapView(float scale, sf::Vector2u window_size) {
+sf::View bd::Video::getMapView(float scale, sf::Vector2u window_size) {
 
     auto player_center = player_->getCenterPosition();
 
@@ -224,7 +224,7 @@ sf::View bd2::Video::getMapView(float scale, sf::Vector2u window_size) {
     return view;
 }
 
-sf::View bd2::Video::getInterfaceView(float scale, sf::Vector2u window_size) {
+sf::View bd::Video::getInterfaceView(float scale, sf::Vector2u window_size) {
 
     sf::FloatRect interface_view_area;
     interface_view_area.left = 0.f;
@@ -241,7 +241,7 @@ sf::View bd2::Video::getInterfaceView(float scale, sf::Vector2u window_size) {
     return view;
 }
 
-void bd2::Video::updateInterface() {
+void bd::Video::updateInterface() {
 
     // COLUMN 0 - diamonds counter
     interface_diamond_.simulateAnimation(turn_elapsed_time_);
@@ -286,8 +286,7 @@ void bd2::Video::updateInterface() {
     moveInterfaceElementToColumn(score_text_, 3);
 }
 
-void bd2::Video::moveInterfaceElementToColumn(sf::Transformable &element,
-                                              int column) {
+void bd::Video::moveInterfaceElementToColumn(sf::Transformable &element, int column) {
 
     sf::Vector2f offset;
     offset.x =
@@ -297,7 +296,7 @@ void bd2::Video::moveInterfaceElementToColumn(sf::Transformable &element,
     element.move(offset);
 }
 
-void bd2::Video::setEndGameInterface() {
+void bd::Video::setEndGameInterface() {
 
     if (win_game_) {
         game_over_text_.setString("VICTORY");
@@ -325,7 +324,7 @@ void bd2::Video::setEndGameInterface() {
     end_game_info_text_.setPosition(text_position);
 }
 
-void bd2::Video::setPauseInterface() {
+void bd::Video::setPauseInterface() {
 
     sf::Vector2f text_position;
     text_position.x = map_view_area_.left + map_view_area_.width / 2 -

@@ -8,7 +8,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Level {
   public:
@@ -43,6 +43,6 @@ class Level {
     std::string filename_;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

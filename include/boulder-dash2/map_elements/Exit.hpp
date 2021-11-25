@@ -7,7 +7,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/MapElement.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Exit final : public MapElement {
   public:
@@ -25,6 +25,6 @@ class Exit final : public MapElement {
     bool is_open;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

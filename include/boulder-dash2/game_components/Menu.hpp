@@ -7,7 +7,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/map_elements/Player.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Menu {
   public:
@@ -46,6 +46,6 @@ class Menu {
     sf::Clock clock_;
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

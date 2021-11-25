@@ -3,9 +3,9 @@
 
 #include "boulder-dash2/game_components/Input.hpp"
 
-bd2::Input::Input(sf::RenderWindow &_window) : Engine(_window) {}
+bd::Input::Input(sf::RenderWindow &_window) : Engine(_window) {}
 
-void bd2::Input::processInputOperations() {
+void bd::Input::processInputOperations() {
 
     handleEvents();
 
@@ -14,7 +14,7 @@ void bd2::Input::processInputOperations() {
     }
 }
 
-void bd2::Input::handleEvents() {
+void bd::Input::handleEvents() {
 
     sf::Event event;
     while (window_.pollEvent(event)) {
@@ -40,7 +40,7 @@ void bd2::Input::handleEvents() {
     }
 }
 
-void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
+void bd::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
 
     switch (key.code) {
     case sf::Keyboard::C: // exit the game using C
@@ -63,7 +63,7 @@ void bd2::Input::handleKeyPressed(const sf::Event::KeyEvent &key) {
     }
 }
 
-void bd2::Input::handleControl() {
+void bd::Input::handleControl() {
 
     MapCoordinates arrow_keys = {0, 0};
 

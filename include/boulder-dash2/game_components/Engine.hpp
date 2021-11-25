@@ -14,7 +14,7 @@
 #include "boulder-dash2/map_elements/Moveable.hpp"
 #include "boulder-dash2/map_elements/Player.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Engine {
   private:
@@ -172,13 +172,13 @@ class Engine {
 
 
 template <class T>
-void bd2::Engine::eraseFromVectorIf(std::vector<T> &vector,
-                                    std::function<bool(const T &)> predicate) {
+void bd::Engine::eraseFromVectorIf(std::vector<T> &vector,
+                                   std::function<bool(const T &)> predicate) {
 
     auto new_end = std::remove_if(vector.begin(), vector.end(), predicate);
     vector.erase(new_end, vector.end());
 }
 
-} // namespace bd2
+} // namespace bd
 
 #endif

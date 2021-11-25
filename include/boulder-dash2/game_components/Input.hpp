@@ -7,7 +7,7 @@
 #include "boulder-dash2/defs.hpp"
 #include "boulder-dash2/game_components/Engine.hpp"
 
-namespace bd2 {
+namespace bd {
 
 class Input : virtual public Engine {
   public:
@@ -26,6 +26,6 @@ class Input : virtual public Engine {
     void handleControl();
 };
 
-} // namespace bd2
+} // namespace bd
 
 #endif

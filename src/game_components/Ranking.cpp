@@ -3,8 +3,8 @@
 
 #include "boulder-dash2/game_components/Ranking.hpp"
 
-bd2::Ranking::Ranking(sf::RenderWindow &_window,
-                      const ResourceHandler<sf::Font> &_fonts_handler)
+bd::Ranking::Ranking(sf::RenderWindow &_window,
+                     const ResourceHandler<sf::Font> &_fonts_handler)
     : window_(_window),
       fonts_handler_(_fonts_handler),
       exit_ranking_(false),
@@ -59,7 +59,7 @@ bd2::Ranking::Ranking(sf::RenderWindow &_window,
     press_enter_info_text_.setPosition(text_position);
 }
 
-void bd2::Ranking::open(Level &level, int level_index, int score) {
+void bd::Ranking::open(Level &level, int level_index, int score) {
 
     exit_ranking_ = false;
 
@@ -113,7 +113,7 @@ void bd2::Ranking::open(Level &level, int level_index, int score) {
     finaliseLevelRanking(level);
 }
 
-void bd2::Ranking::initialiseLevelRanking(Level &level, int level_index, int score) {
+void bd::Ranking::initialiseLevelRanking(Level &level, int level_index, int score) {
 
     ranking_initial_block_clock_.restart();
     typing_nickname_ = false;
@@ -158,7 +158,7 @@ void bd2::Ranking::initialiseLevelRanking(Level &level, int level_index, int sco
     }
 }
 
-void bd2::Ranking::finaliseLevelRanking(Level &level) {
+void bd::Ranking::finaliseLevelRanking(Level &level) {
 
     if ((started_typing_ || typing_nickname_) && window_.isOpen()) {
 
@@ -167,7 +167,7 @@ void bd2::Ranking::finaliseLevelRanking(Level &level) {
     }
 }
 
-void bd2::Ranking::handleEvents() {
+void bd::Ranking::handleEvents() {
 
     sf::Event event;
     while (window_.pollEvent(event)) {
@@ -225,7 +225,7 @@ void bd2::Ranking::handleEvents() {
     }
 }
 
-sf::View bd2::Ranking::getRankingView() {
+sf::View bd::Ranking::getRankingView() {
 
     sf::View view;
     view.reset(sf::FloatRect(0, 0, RANKING_WIDTH, RANKING_HEIGHT));

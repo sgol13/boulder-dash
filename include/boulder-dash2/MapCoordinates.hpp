@@ -6,7 +6,7 @@
 
 #include "boulder-dash2/defs.hpp"
 
-namespace bd2 {
+namespace bd {
 
 /** Class representing coordinates of a tile (map element) on the game map.
  * Coordinates can be negative if they describe object's movement.
@@ -89,7 +89,7 @@ class MapCoordinates {
     // ==========================================================================
     // OSTREAM OPERATOR
     // ==========================================================================
-    friend std::ostream &operator<<(std::ostream &s, const bd2::MapCoordinates &p) {
+    friend std::ostream &operator<<(std::ostream &s, const bd::MapCoordinates &p) {
         return s << "(" << p.r << ", " << p.c << ")";
     }
     // ==========================================================================
@@ -123,7 +123,7 @@ constexpr std::array<MapCoordinates, 8> DIR_AROUND8 = {
     DIR_UP_LEFT,    DIR_UP,   DIR_UP_RIGHT,  DIR_RIGHT,
     DIR_DOWN_RIGHT, DIR_DOWN, DIR_DOWN_LEFT, DIR_LEFT};
 
-} // namespace bd2
+} // namespace bd
 
 
 #endif

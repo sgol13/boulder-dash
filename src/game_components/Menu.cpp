@@ -1,11 +1,11 @@
 #include "boulder-dash2/game_components/Menu.hpp"
 
 
-bd2::Menu::Menu(sf::RenderWindow &_window,
-                const ResourceHandler<sf::Texture> &_textures_handler,
-                const ResourceHandler<sf::Font> &_fonts_handler,
-                const ResourceHandler<sf::SoundBuffer> &_sounds_handler,
-                const int _levels_num)
+bd::Menu::Menu(sf::RenderWindow &_window,
+               const ResourceHandler<sf::Texture> &_textures_handler,
+               const ResourceHandler<sf::Font> &_fonts_handler,
+               const ResourceHandler<sf::SoundBuffer> &_sounds_handler,
+               const int _levels_num)
     : window_(_window),
       textures_handler_(_textures_handler),
       fonts_handler_(_fonts_handler),
@@ -57,7 +57,7 @@ bd2::Menu::Menu(sf::RenderWindow &_window,
     change_option_sound_.setVolume(50.f);
 }
 
-int bd2::Menu::open() {
+int bd::Menu::open() {
 
     exit_menu_ = false;
 
@@ -90,7 +90,7 @@ int bd2::Menu::open() {
     return current_menu_option_;
 }
 
-void bd2::Menu::handleEvents() {
+void bd::Menu::handleEvents() {
 
     sf::Event event;
     while (window_.pollEvent(event)) {
@@ -114,7 +114,7 @@ void bd2::Menu::handleEvents() {
     }
 }
 
-void bd2::Menu::handleKeyPressed(const sf::Event::KeyEvent &key) {
+void bd::Menu::handleKeyPressed(const sf::Event::KeyEvent &key) {
 
     switch (key.code) {
     case sf::Keyboard::C:
@@ -151,7 +151,7 @@ void bd2::Menu::handleKeyPressed(const sf::Event::KeyEvent &key) {
     }
 }
 
-void bd2::Menu::setPlayerPosition() {
+void bd::Menu::setPlayerPosition() {
 
     sf::Vector2f position;
     position.x = MENU_OPTIONS_TEXTS_POSITION_X -
@@ -166,7 +166,7 @@ void bd2::Menu::setPlayerPosition() {
 }
 
 
-sf::View bd2::Menu::getMenuView() {
+sf::View bd::Menu::getMenuView() {
 
     sf::FloatRect view_area;
     view_area.left = 0;
