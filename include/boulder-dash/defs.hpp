@@ -68,8 +68,8 @@ constexpr int INI_WINDOW_POS_X = 0;
 constexpr int INI_WINDOW_POS_Y = 0;
 
 // minimal window dimensions (rescaling below them is blocked)
-constexpr int MIN_WINDOW_WIDTH = 1152; // 800
-constexpr int MIN_WINDOW_HEIGHT = 648; // 600
+constexpr int MIN_WINDOW_WIDTH = 800;
+constexpr int MIN_WINDOW_HEIGHT = 600;
 
 // =============================================================================
 // GAME INTERFACE
