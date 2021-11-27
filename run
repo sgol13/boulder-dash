@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Szymon Golebiowski
+# Boulder Dash
+
+# This script compiles and runs the game
+
+if [[ ! -d "build" ]]; then
+    mkdir build
+fi
+
+cd build
+
+if [[ ! -f "Makefile" ]]; then
+    cmake ..
+fi
+
+make && ./game

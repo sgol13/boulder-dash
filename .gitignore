@@ -33,7 +33,6 @@
 
 # Local
 build/
-run
 .vscode/
 res/levels/
 film.mp4
