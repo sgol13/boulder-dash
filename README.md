@@ -1,5 +1,5 @@
 # Boulder Dash
-This project is my own clone of Boulder Dash which I've created for learning purposes. It's written in C++ using SFML library. The engine is fully my piece of work but all the resources come from www.bd-fans.com. 
+This project is my own clone of Boulder Dash which I've created for learning purposes. It's written in C++ using SFML. The engine is fully my piece of work but all the resources come from www.bd-fans.com. 
 
 The original game was released in 1984 and gained enermous popularity that resulted in numerous remakes. This project isn't an exact copy. I've taken what I liked the most in the original version and added some improvements like fluent movement of objects and the possibility of two objects partly covering the same field. In my opinion it makes the game more enjoyable. In the below video you can see the gameplay.
 
