@@ -16,6 +16,7 @@ Firstly, clone the repository:
 
 ```
 git clone https://github.com/sgol13/boulder-dash.git
+cd boulder-dash
 ```
 
 Then you can compile and run the game by using a prepared bash script. Just type:
