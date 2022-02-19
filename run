@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Szymon Golebiowski
-# Boulder Dash
-
 # This script compiles and runs the game
 
 if [[ ! -d "build" ]]; then
